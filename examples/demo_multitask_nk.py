@@ -11,12 +11,16 @@ Run:
 import argparse
 import itertools
 import json
+import os
+from datetime import datetime
 from pathlib import Path
 import random
 import sys
 import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+os.environ.setdefault("JAX_LOGGING_LEVEL", "ERROR")
 
 from flax import serialization
 import jax
@@ -114,6 +118,17 @@ def metric_tail_mean(metrics, name, tail=10):
     return float(np.mean(values[-tail:]))
 
 
+def default_output_dir():
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    return Path(__file__).resolve().parent / "results" / f"demo_multitask_nk_{timestamp}"
+
+
+def format_metric(value):
+    if value is None:
+        return "nan"
+    return f"{value:.2f}"
+
+
 def train_multitask(base_config, total_timesteps, train_rounds):
     """Sequential curriculum that carries the same GNN parameters across tasks."""
 
@@ -145,8 +160,10 @@ def train_multitask(base_config, total_timesteps, train_rounds):
     )
 
     for round_index in range(train_rounds):
+        round_started = time.perf_counter()
         task_order = list(TRAIN_TASKS)
         random.Random(base_config["SEED"] + round_index).shuffle(task_order)
+        round_records = []
         for n, k in task_order:
             started = time.perf_counter()
             rng, task_rng = jax.random.split(rng)
@@ -169,12 +186,32 @@ def train_multitask(base_config, total_timesteps, train_rounds):
                 ),
             }
             history.append(record)
+            round_records.append(record)
             print(
-                f"  round={record['round']} N={n} K={k} "
-                f"return={record['return_tail_mean']} "
-                f"length={record['length_tail_mean']} "
+                f"round={record['round']} N={n} K={k} "
+                f"return={format_metric(record['return_tail_mean'])} "
+                f"length={format_metric(record['length_tail_mean'])} "
                 f"time={record['seconds']:.1f}s"
             )
+        round_seconds = time.perf_counter() - round_started
+        round_returns = [
+            record["return_tail_mean"]
+            for record in round_records
+            if record["return_tail_mean"] is not None
+        ]
+        round_lengths = [
+            record["length_tail_mean"]
+            for record in round_records
+            if record["length_tail_mean"] is not None
+        ]
+        avg_return = float(np.mean(round_returns)) if round_returns else float("nan")
+        avg_length = float(np.mean(round_lengths)) if round_lengths else float("nan")
+        print(
+            f"round={round_index + 1} "
+            f"avg_return={avg_return:.2f} "
+            f"avg_length={avg_length:.2f} "
+            f"total_time={round_seconds:.1f}s"
+        )
 
     return params, history
 
@@ -298,7 +335,7 @@ def parse_args():
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("results/demo_multitask_nk"),
+        default=None,
     )
     parser.add_argument(
         "--skip-distance",
@@ -310,7 +347,10 @@ def parse_args():
         action="store_true",
         help="Build all validation tasks and run shared-parameter forward passes.",
     )
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.output_dir is None:
+        args.output_dir = default_output_dir()
+    return args
 
 
 def main():
