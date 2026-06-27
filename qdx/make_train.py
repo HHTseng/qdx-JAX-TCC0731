@@ -19,6 +19,7 @@ from flax.training.train_state import TrainState
 import distrax
 import gymnax
 from gymnax.wrappers.purerl import FlattenObservationWrapper, LogWrapper
+from qdx.gnn.model import GNNQDXActorCritic
 
 
 """
@@ -77,10 +78,32 @@ class Transition(NamedTuple):
     value: jnp.ndarray
     reward: jnp.ndarray
     log_prob: jnp.ndarray
-    obs: jnp.ndarray
-    info: jnp.ndarray
+    obs: Any
+    info: Any
 
-def make_train(config, env, network_params_init = None, env_params = None):
+
+def make_actor_critic(config, env):
+    """Construct the selected policy while keeping one PPO implementation."""
+
+    if config.get("MODEL", "MLP").upper() == "GNN":
+        if not hasattr(env, "graph_builder"):
+            raise ValueError("MODEL='GNN' requires GraphCodeDiscovery")
+        return GNNQDXActorCritic(
+            num_gate_types=env.graph_builder.num_gate_types,
+            hidden_dim=config.get("GNN_HIDDEN_DIM", config["HIDDEN_DIM"]),
+            relation_dim=config.get("GNN_RELATION_DIM", 8),
+            gate_dim=config.get("GNN_GATE_DIM", 8),
+            num_gnn_layers=config.get("GNN_NUM_LAYERS", 3),
+            activation=config["ACTIVATION"],
+        )
+    return ActorCritic(
+        env.action_space().n,
+        activation=config["ACTIVATION"],
+        hidden_dim=config["HIDDEN_DIM"],
+    )
+
+
+def make_train(config, env, network_params_init=None, env_params=None):
     config["NUM_EPOCHS"] = (
         config["TOTAL_TIMESTEPS"] // config["NUM_STEPS"] // config["NUM_ENVS"]
     )
@@ -88,8 +111,15 @@ def make_train(config, env, network_params_init = None, env_params = None):
         config["NUM_ENVS"] * config["NUM_STEPS"] // config["NUM_MINIBATCHES"]
     )
 
-    env = FlattenObservationWrapper(env)
+    use_gnn = config.get("MODEL", "MLP").upper() == "GNN"
+    base_env = env
+    if use_gnn:
+        init_x = base_env.graph_observation_template()
+    else:
+        env = FlattenObservationWrapper(env)
+        init_x = jnp.zeros(env.observation_space(env_params).shape)
     env = LogWrapper(env)
+    network = make_actor_critic(config, base_env)
 
     def linear_schedule(count):
         frac = 1.0 - (count // (config["NUM_MINIBATCHES"] * config["UPDATE_EPOCHS"])) / config["NUM_EPOCHS"]
@@ -99,16 +129,13 @@ def make_train(config, env, network_params_init = None, env_params = None):
     def train(rng, network_params_init=None):
 
         # INIT NETWORK
-        network = ActorCritic(env.action_space(env_params).n, activation=config["ACTIVATION"], hidden_dim = config["HIDDEN_DIM"])
         rng, _rng = jax.random.split(rng)
-        init_x = jnp.zeros(env.observation_space(env_params).shape)
         
         if network_params_init is None:
             network_params = network.init(_rng, init_x)
             
         else: 
-            network_params = network_params_init # typically, network_params_init = train_state.params
-            print("IN")
+            network_params = network_params_init
             
 
         if config["ANNEAL_LR"]:

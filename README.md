@@ -56,6 +56,47 @@ We include a [demo](https://github.com/jolle-ag/qdx/blob/main/notebooks/demo.ipy
 
  <a href="https://colab.research.google.com/drive/1nU9Xivfms_wXrJmv0F6uFz4_DOWoryhg?usp=sharing" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> 
 
+## GNN-QDX v1
+
+The variable-size policy is enabled with `"MODEL": "GNN"` on the
+`STANDARD` environment. `CodeFinder` then uses `GraphCodeDiscovery`,
+while PPO, KL reward calculation, and tableau transitions stay on the
+existing code path.
+
+The bucket capacity is configured independently of the current task:
+
+```python
+config.update(
+    {
+        "MODEL": "GNN",
+        "GNN_N_MAX": 7,
+        "GNN_STABILIZERS_MAX": 6,
+        "GNN_HARDWARE_EDGES_MAX": 42,
+        "GNN_HIDDEN_DIM": 64,
+        "GNN_RELATION_DIM": 8,
+        "GNN_GATE_DIM": 8,
+        "GNN_NUM_LAYERS": 3,
+    }
+)
+```
+
+Tasks in the same bucket and with the same ordered gate set share model
+parameters. The multi-task demo trains sequentially on
+`N=(6,7,8,9), K=(1,2)`, validates on `N=(5,...,10), K=(1,2)`, and
+uses `MAX_STEPS=50`. Its default 2,000,000-step budget is divided
+across all training task visits.
+
+Run the demo, its shape-only dry run, and the executable tests with:
+
+```bash
+conda run -n qdx python examples/demo_multitask_nk.py
+conda run -n qdx python examples/demo_multitask_nk.py --dry-run
+conda run -n qdx python -m unittest tests.test_gnn_qdx -v
+```
+
+Training writes the checkpoint, training history, run configuration, and
+validation results under `results/demo_multitask_nk/`.
+
  ## License
 
 The code in this repository is released under the MIT License.

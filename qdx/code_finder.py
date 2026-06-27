@@ -1,11 +1,13 @@
 from qdx.envs.code_discovery import CodeDiscovery
+from qdx.envs.graph_code_discovery import GraphCodeDiscovery
+from qdx.gnn.observation import GraphPadding
 from qdx.envs.meta_code_discovery import MetaCodeDiscovery
 from qdx.envs.delta_code_discovery import DeltaCodeDiscovery
 from qdx.envs.max_code_discovery import MaxCodeDiscovery
 from qdx.simulators.clifford_gates import CliffordGates
 import os 
 import jax
-from qdx.make_train import make_train, ActorCritic
+from qdx.make_train import make_actor_critic, make_train
 from qdx.utils import Utils
 import time 
 import json
@@ -67,7 +69,29 @@ class CodeFinder:
         ## For some reason this throws out the error: "'gates' is not defined"
         #gate_set = [eval("gates.%s" % g) for g in self.config["WHICH_GATES"]]
         
-        if self.config["ENV_TYPE"] == "STANDARD":
+        if (
+            self.config["ENV_TYPE"] == "STANDARD"
+            and self.config.get("MODEL", "MLP").upper() == "GNN"
+        ):
+            padding = GraphPadding(
+                n_max=self.config.get("GNN_N_MAX", self.config["N"]),
+                stabilizers_max=self.config.get("GNN_STABILIZERS_MAX"),
+                hardware_edges_max=self.config.get("GNN_HARDWARE_EDGES_MAX"),
+                actions_max=self.config.get("GNN_ACTIONS_MAX"),
+            )
+            self.env = GraphCodeDiscovery(
+                self.config["N"],
+                self.config["K"],
+                self.config["D"],
+                gate_set,
+                graph=self.graph,
+                max_steps=self.config["MAX_STEPS"],
+                lbda=self.config["LAMBDA"],
+                pI=self.config["P_I"],
+                softness=self.config["SOFTNESS"],
+                graph_padding=padding,
+            )
+        elif self.config["ENV_TYPE"] == "STANDARD":
             self.env = CodeDiscovery(self.config["N"], 
                                      self.config["K"], 
                                      self.config["D"],
@@ -146,15 +170,9 @@ class CodeFinder:
 
             for index in range(self.config["NUM_AGENTS"]):
 
-                ## Create a copy of parameter of the network manually
-                params_eval = {}
-                params_eval['params'] = {}
-
-                for key in self.params['params'].keys():
-                    params_eval['params'][key] = {} 
-
-                    for key2 in self.params['params'][key].keys():
-                        params_eval['params'][key][key2]= self.params['params'][key][key2][index]
+                params_eval = jax.tree_util.tree_map(
+                    lambda x: x[index], self.params
+                )
 
                 eval_env = self.env
                 env_params = None
@@ -162,7 +180,7 @@ class CodeFinder:
                 reset_rng = jax.random.PRNGKey(self.config["SEED"]+1)
                 obsv, env_state = eval_env.reset(reset_rng, None)
                 # Prepare network
-                network = ActorCritic(eval_env.action_space().n, activation=self.config["ACTIVATION"], hidden_dim = self.config["HIDDEN_DIM"])
+                network = make_actor_critic(self.config, eval_env)
                 actions = []
                 done = False
 
@@ -227,15 +245,9 @@ class CodeFinder:
 
         for index in range(self.config["NUM_AGENTS"]):
 
-            ## Create a copy of parameter of the network manually
-            params_eval = {}
-            params_eval['params'] = {}
-
-            for key in self.params['params'].keys():
-                params_eval['params'][key] = {} 
-
-                for key2 in self.params['params'][key].keys():
-                    params_eval['params'][key][key2]= self.params['params'][key][key2][index]
+            params_eval = jax.tree_util.tree_map(
+                lambda x: x[index], self.params
+            )
             
             for i,cZ in enumerate(cZ_vals):
                 eval_env = MetaCodeDiscovery(self.config["N"], 
@@ -257,7 +269,7 @@ class CodeFinder:
                 reset_rng = jax.random.PRNGKey(self.config["SEED"]+1)
                 obsv, env_state = eval_env.reset(reset_rng, None)
                 # Prepare network
-                network = ActorCritic(eval_env.action_space().n, activation=self.config["ACTIVATION"], hidden_dim = self.config["HIDDEN_DIM"])
+                network = make_actor_critic(self.config, eval_env)
                 actions = []
                 done = False
 
