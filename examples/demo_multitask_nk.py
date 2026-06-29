@@ -219,12 +219,81 @@ def train_multitask(base_config, total_timesteps, train_rounds):
 def distance_up_to_target(n, k, gates, target_distance):
     """Return the first failing Pauli weight, checking through target_distance."""
 
+    first_failure, _ = distance_error_stats_up_to_target(
+        n, k, gates, target_distance
+    )
+    return first_failure
+
+
+def distance_error_stats_up_to_target(n, k, gates, target_distance):
+    """Return the first failing Pauli weight and per-d KL error statistics."""
+
     utilities = Utils(n, k, gates, softness=n - k)
+    distance_stats = []
+    first_failure = target_distance + 1
     for weight in range(1, target_distance + 1):
-        failures = int(utilities.check_KL(utilities.error_operators(weight)))
-        if failures != 0:
-            return weight
-    return target_distance + 1
+        error_operators = utilities.error_operators(weight)
+        error_count = int(utilities.check_KL(error_operators))
+        total_count = int(error_operators.shape[0])
+        error_rate = error_count / total_count if total_count else 0.0
+        distance_stats.append(
+            {
+                "d": weight,
+                "error_count": error_count,
+                "total_count": total_count,
+                "error_count_over_total": f"{error_count}/{total_count}",
+                "error_rate": error_rate,
+            }
+        )
+        if error_count != 0 and first_failure == target_distance + 1:
+            first_failure = weight
+    return first_failure, distance_stats
+
+
+def format_distance_stats(distance_stats):
+    if not distance_stats:
+        return "distance_stats=[]"
+    formatted = "; ".join(
+        (
+            f"d={item['d']} "
+            f"error_count/total_count={item['error_count_over_total']} "
+            f"error_rate={item['error_rate']:.2%}"
+        )
+        for item in distance_stats
+    )
+    return f"distance_stats=[{formatted}]"
+
+
+def aggregate_distance_stats(results):
+    stats_by_d = {}
+    for result in results:
+        for item in result.get("distance_stats", []) or []:
+            d = item["d"]
+            summary = stats_by_d.setdefault(
+                d,
+                {
+                    "d": d,
+                    "error_count": 0,
+                    "total_count": 0,
+                },
+            )
+            summary["error_count"] += item["error_count"]
+            summary["total_count"] += item["total_count"]
+
+    aggregated = []
+    for d in sorted(stats_by_d):
+        error_count = stats_by_d[d]["error_count"]
+        total_count = stats_by_d[d]["total_count"]
+        aggregated.append(
+            {
+                "d": d,
+                "error_count": error_count,
+                "total_count": total_count,
+                "error_count_over_total": f"{error_count}/{total_count}",
+                "error_rate": error_count / total_count if total_count else 0.0,
+            }
+        )
+    return aggregated
 
 
 def validate(params, base_config, compute_distance=True):
@@ -255,11 +324,15 @@ def validate(params, base_config, compute_distance=True):
             if bool(done):
                 break
 
-        distance = (
-            distance_up_to_target(n, k, gates, base_config["D"])
-            if compute_distance
-            else None
-        )
+        distance_stats = None
+        if compute_distance:
+            distance, distance_stats = distance_error_stats_up_to_target(
+                n, k, gates, base_config["D"]
+            )
+            distance_stats_text = format_distance_stats(distance_stats)
+        else:
+            distance = None
+            distance_stats_text = "distance_stats=skipped"
         target_met = (
             distance >= base_config["D"]
             if distance is not None
@@ -270,6 +343,7 @@ def validate(params, base_config, compute_distance=True):
             "k": k,
             "target_distance": base_config["D"],
             "distance": distance,
+            "distance_stats": distance_stats,
             "target_met": target_met,
             "steps": len(gates),
             "total_reward": total_reward,
@@ -280,10 +354,25 @@ def validate(params, base_config, compute_distance=True):
         results.append(result)
         print(
             f"  N={n} K={k}: distance={distance} "
-            f"target_met={target_met} steps={len(gates)}"
+            f"target_met={target_met} steps={len(gates)} "
+            f"{distance_stats_text}"
         )
-    return results
-
+    distance_summary = aggregate_distance_stats(results) if compute_distance else None
+    if distance_summary:
+        print("Distance summary across validation tasks:")
+        for item in distance_summary:
+            print(
+                "  "
+                f"d={item['d']} "
+                f"error_count/total_count={item['error_count_over_total']} "
+                f"error_rate={item['error_rate']:.2%}"
+            )
+    return {
+        "target_distance": base_config["D"],
+        "compute_distance": compute_distance,
+        "tasks": results,
+        "distance_summary": distance_summary,
+    }
 
 def dry_run(base_config):
     """Check that every requested task shares graph/action tensor shapes."""
