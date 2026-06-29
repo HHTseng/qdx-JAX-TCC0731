@@ -38,9 +38,9 @@ from qdx.simulators.clifford_gates import CliffordGates
 from qdx.utils import Utils
 
 
-TRAIN_N = (7, 8, 9, 10, 11)
-VALIDATION_N = (6, 7, 8, 9, 10, 11, 12, 13)
-K_VALUES = (1, 2)
+TRAIN_N = (9, 10, 11, 12, 13)
+VALIDATION_N = (7, 8, 9, 10, 11, 12, 13, 14, 15, 16)
+K_VALUES = (1, 2, 3)
 TRAIN_TASKS = tuple(itertools.product(TRAIN_N, K_VALUES))
 VALIDATION_TASKS = tuple(itertools.product(VALIDATION_N, K_VALUES))
 
@@ -79,10 +79,10 @@ BASE_CONFIG = {
 
 # N=10 is the largest validation task. K=1 gives at most nine stabilizers.
 PADDING = GraphPadding(
-    n_max=13,
-    stabilizers_max=12,
-    hardware_edges_max=13 * 12,
-    actions_max=13 * 12 + 13,  # all directed CX edges + all H actions
+    n_max=16,
+    stabilizers_max=15,
+    hardware_edges_max=16 * 15,
+    actions_max=16 * 15 + 16,  # all directed CX edges + all H actions
 )
 
 
@@ -159,16 +159,33 @@ def completed_episode_mean(info, name):
     return float(np.mean(values))
 
 
+def rollout_success_stats(traj_batch, atol=1.0e-6):
+    done = np.asarray(traj_batch.done).astype(bool).reshape(-1)
+    reward = np.asarray(traj_batch.reward).reshape(-1)
+    episode_count = int(np.sum(done))
+    success_count = int(np.sum(done & np.isclose(reward, 0.0, atol=atol)))
+    timeout_count = episode_count - success_count
+    success_rate = success_count / episode_count if episode_count else None
+    return {
+        "episode_count": episode_count,
+        "success_count": success_count,
+        "timeout_count": timeout_count,
+        "success_rate": success_rate,
+    }
+
+
 def summarize_task_rollout(task, traj_batch):
     n, k = task
     info = traj_batch.info
     reward_mean = float(np.mean(np.asarray(traj_batch.reward)))
     done_rate = float(np.mean(np.asarray(traj_batch.done)))
+    stats = rollout_success_stats(traj_batch)
     return {
         "n": n,
         "k": k,
         "reward_mean": reward_mean,
         "done_rate": done_rate,
+        **stats,
         "episode_return_mean": completed_episode_mean(
             info, "returned_episode_returns"
         ),
@@ -476,6 +493,12 @@ def train_joint_multitask(base_config, total_timesteps):
             np.mean([record["reward_mean"] for record in task_records])
         )
         done_rate = float(np.mean([record["done_rate"] for record in task_records]))
+        episode_count = int(sum(record["episode_count"] for record in task_records))
+        success_count = int(sum(record["success_count"] for record in task_records))
+        timeout_count = int(sum(record["timeout_count"] for record in task_records))
+        success_rate = (
+            success_count / episode_count if episode_count else None
+        )
         episode_return_mean = mean_or_none(
             [record["episode_return_mean"] for record in task_records]
         )
@@ -489,6 +512,10 @@ def train_joint_multitask(base_config, total_timesteps):
             "seconds": time.perf_counter() - started,
             "reward_mean": reward_mean,
             "done_rate": done_rate,
+            "episode_count": episode_count,
+            "success_count": success_count,
+            "timeout_count": timeout_count,
+            "success_rate": success_rate,
             "episode_return_mean": episode_return_mean,
             "episode_length_mean": episode_length_mean,
             "loss": loss_summary,
@@ -498,6 +525,8 @@ def train_joint_multitask(base_config, total_timesteps):
         print(
             f"update={record['update']} "
             f"reward={record['reward_mean']:.2f} "
+            f"success={format_metric(record['success_rate'])} "
+            f"episodes={record['episode_count']} "
             f"return={format_metric(record['episode_return_mean'])} "
             f"length={format_metric(record['episode_length_mean'])} "
             f"loss={record['loss']['total_loss']:.4f} "
