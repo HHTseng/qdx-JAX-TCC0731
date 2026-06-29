@@ -1,0 +1,149 @@
+{
+  "MODEL": "GNN",
+  "ENV_TYPE": "STANDARD",
+  "D": 3,
+  "MAX_STEPS": 50,
+  "WHICH_GATES": [
+    "cx",
+    "h"
+  ],
+  "GRAPH": "All-to-All",
+  "SOFTNESS": 1,
+  "P_I": 0.9,
+  "LAMBDA": 10,
+  "SEED": 42,
+  "LR": 0.001,
+  "NUM_ENVS_PER_TASK": 64,
+  "NUM_STEPS": 50,
+  "TOTAL_TIMESTEPS": 2000000,
+  "UPDATE_EPOCHS": 3,
+  "NUM_MINIBATCHES": 4,
+  "GAMMA": 0.99,
+  "GAE_LAMBDA": 0.95,
+  "CLIP_EPS": 0.2,
+  "ENT_COEF": 0.02,
+  "VF_COEF": 0.5,
+  "MAX_GRAD_NORM": 0.25,
+  "ACTIVATION": "relu",
+  "HIDDEN_DIM": 32,
+  "ANNEAL_LR": true,
+  "COMPUTE_METRICS": true,
+  "GNN_HIDDEN_DIM": 64,
+  "GNN_RELATION_DIM": 8,
+  "GNN_GATE_DIM": 8,
+  "GNN_NUM_LAYERS": 3,
+  "train_tasks": [
+    [
+      7,
+      1
+    ],
+    [
+      7,
+      2
+    ],
+    [
+      8,
+      1
+    ],
+    [
+      8,
+      2
+    ],
+    [
+      9,
+      1
+    ],
+    [
+      9,
+      2
+    ],
+    [
+      10,
+      1
+    ],
+    [
+      10,
+      2
+    ],
+    [
+      11,
+      1
+    ],
+    [
+      11,
+      2
+    ]
+  ],
+  "validation_tasks": [
+    [
+      6,
+      1
+    ],
+    [
+      6,
+      2
+    ],
+    [
+      7,
+      1
+    ],
+    [
+      7,
+      2
+    ],
+    [
+      8,
+      1
+    ],
+    [
+      8,
+      2
+    ],
+    [
+      9,
+      1
+    ],
+    [
+      9,
+      2
+    ],
+    [
+      10,
+      1
+    ],
+    [
+      10,
+      2
+    ],
+    [
+      11,
+      1
+    ],
+    [
+      11,
+      2
+    ],
+    [
+      12,
+      1
+    ],
+    [
+      12,
+      2
+    ],
+    [
+      13,
+      1
+    ],
+    [
+      13,
+      2
+    ]
+  ],
+  "requested_total_timesteps": 100000000,
+  "num_updates": 3125,
+  "rollout_per_task": 3200,
+  "rollout_per_update": 32000,
+  "actual_total_timesteps": 100000000,
+  "minibatch_size": 8000
+}
