@@ -178,6 +178,7 @@ def train_multitask(base_config, total_timesteps, train_rounds):
                 "k": k,
                 "timesteps": timesteps_per_visit,
                 "seconds": time.perf_counter() - started,
+                "success_rate": metric_tail_mean(metrics, "success_rate"),
                 "return_tail_mean": metric_tail_mean(
                     metrics, "returned_episode_returns"
                 ),
@@ -189,11 +190,17 @@ def train_multitask(base_config, total_timesteps, train_rounds):
             round_records.append(record)
             print(
                 f"round={record['round']} N={n} K={k} "
+                f"success={format_metric(record['success_rate'])} "
                 f"return={format_metric(record['return_tail_mean'])} "
                 f"length={format_metric(record['length_tail_mean'])} "
                 f"time={record['seconds']:.1f}s"
             )
         round_seconds = time.perf_counter() - round_started
+        round_success_rates = [
+            record["success_rate"]
+            for record in round_records
+            if record["success_rate"] is not None
+        ]
         round_returns = [
             record["return_tail_mean"]
             for record in round_records
@@ -204,10 +211,14 @@ def train_multitask(base_config, total_timesteps, train_rounds):
             for record in round_records
             if record["length_tail_mean"] is not None
         ]
+        avg_success = (
+            float(np.mean(round_success_rates)) if round_success_rates else float("nan")
+        )
         avg_return = float(np.mean(round_returns)) if round_returns else float("nan")
         avg_length = float(np.mean(round_lengths)) if round_lengths else float("nan")
         print(
             f"round={round_index + 1} "
+            f"avg_success={avg_success:.2f} "
             f"avg_return={avg_return:.2f} "
             f"avg_length={avg_length:.2f} "
             f"total_time={round_seconds:.1f}s"

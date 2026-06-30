@@ -309,11 +309,31 @@ def make_train(config, env, network_params_init=None, env_params=None):
         # return {"runner_state": runner_state, "metrics": metric}
         if config["COMPUTE_METRICS"]:
             # metric has shape (num_updates, num_steps, num_envs)
-            # Average over environments, reshape and return samples
-            metric["returned_episode_returns"] = jnp.mean(metric["returned_episode_returns"], axis=-1).reshape(-1)[config["MAX_STEPS"]::config["MAX_STEPS"]]
-            
-            metric["returned_episode_lengths"] = jnp.mean(metric["returned_episode_lengths"], axis=-1).reshape(-1)[config["MAX_STEPS"]::config["MAX_STEPS"]]
-            
+            done = metric["returned_episode"].astype(bool)
+            episode_lengths = metric["returned_episode_lengths"]
+            success = done & (episode_lengths < config["MAX_STEPS"])
+            episode_count = jnp.sum(done, axis=(1, 2))
+            success_count = jnp.sum(success, axis=(1, 2))
+            timeout_count = episode_count - success_count
+            success_rate = jnp.where(
+                episode_count > 0,
+                success_count / episode_count,
+                jnp.nan,
+            )
+
+            metric["episode_count"] = episode_count
+            metric["success_count"] = success_count
+            metric["timeout_count"] = timeout_count
+            metric["success_rate"] = success_rate
+
+            # Average over environments, reshape and return sampled tails.
+            metric["returned_episode_returns"] = jnp.mean(
+                metric["returned_episode_returns"], axis=-1
+            ).reshape(-1)[config["MAX_STEPS"]::config["MAX_STEPS"]]
+            metric["returned_episode_lengths"] = jnp.mean(
+                metric["returned_episode_lengths"], axis=-1
+            ).reshape(-1)[config["MAX_STEPS"]::config["MAX_STEPS"]]
+
             return {"params": runner_state[0].params, "metrics": metric}
         else:
             return {"params": runner_state[0].params, "metrics": None}

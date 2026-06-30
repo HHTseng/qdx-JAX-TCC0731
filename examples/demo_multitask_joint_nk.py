@@ -159,11 +159,29 @@ def completed_episode_mean(info, name):
     return float(np.mean(values))
 
 
-def rollout_success_stats(traj_batch, atol=1.0e-6):
+def completed_episode_values(info, name):
+    if info is None or name not in info:
+        return None
+    values = np.asarray(info[name]).reshape(-1)
+    returned_episode = info.get("returned_episode")
+    if returned_episode is not None:
+        mask = np.asarray(returned_episode).astype(bool).reshape(-1)
+        values = values[mask]
+    return values
+
+
+def rollout_success_stats(traj_batch, max_steps):
     done = np.asarray(traj_batch.done).astype(bool).reshape(-1)
-    reward = np.asarray(traj_batch.reward).reshape(-1)
     episode_count = int(np.sum(done))
-    success_count = int(np.sum(done & np.isclose(reward, 0.0, atol=atol)))
+    episode_lengths = completed_episode_values(
+        traj_batch.info, "returned_episode_lengths"
+    )
+    if episode_lengths is None:
+        success_count = 0
+    else:
+        episode_count = int(episode_lengths.size)
+        # Count only episodes that terminated before the timeout horizon.
+        success_count = int(np.sum(episode_lengths < max_steps))
     timeout_count = episode_count - success_count
     success_rate = success_count / episode_count if episode_count else None
     return {
@@ -174,12 +192,12 @@ def rollout_success_stats(traj_batch, atol=1.0e-6):
     }
 
 
-def summarize_task_rollout(task, traj_batch):
+def summarize_task_rollout(task, traj_batch, max_steps):
     n, k = task
     info = traj_batch.info
     reward_mean = float(np.mean(np.asarray(traj_batch.reward)))
     done_rate = float(np.mean(np.asarray(traj_batch.done)))
-    stats = rollout_success_stats(traj_batch)
+    stats = rollout_success_stats(traj_batch, max_steps=max_steps)
     return {
         "n": n,
         "k": k,
@@ -480,7 +498,11 @@ def train_joint_multitask(base_config, total_timesteps):
                     targets=targets,
                 )
             )
-            task_records.append(summarize_task_rollout(context["task"], traj_batch))
+            task_records.append(
+                summarize_task_rollout(
+                    context["task"], traj_batch, max_steps=base_config["MAX_STEPS"]
+                )
+            )
 
         combined_batch = merge_task_batches(task_batches)
         update_rng, step_rng = jax.random.split(update_rng)
