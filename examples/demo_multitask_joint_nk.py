@@ -82,7 +82,7 @@ PADDING = GraphPadding(
     n_max=16,
     stabilizers_max=15,
     hardware_edges_max=16 * 15,
-    actions_max=16 * 15 + 16,  # all directed CX edges + all H actions
+    actions_max=3 * (16 * 15 + 16),  # all directed CX edges + all H actions
 )
 
 

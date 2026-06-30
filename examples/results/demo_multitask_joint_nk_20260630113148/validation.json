@@ -1,0 +1,2296 @@
+{
+  "target_distance": 3,
+  "compute_distance": true,
+  "tasks": [
+    {
+      "n": 7,
+      "k": 1,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 21,
+          "error_count_over_total": "0/21",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 189,
+          "error_count_over_total": "0/189",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 15,
+          "total_count": 945,
+          "error_count_over_total": "15/945",
+          "error_rate": 0.015873015873015872
+        }
+      ],
+      "target_met": true,
+      "steps": 37,
+      "total_reward": -1.7977429586462677,
+      "final_reward": -8.940696716308594e-07,
+      "final_value": -0.1650606095790863,
+      "gates": [
+        ".cx(0, 1)",
+        ".sqrt_xx(0, 2)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(4, 0)",
+        ".cx(1, 5)",
+        ".sqrt_xx(6, 3)",
+        ".sqrt_xx(5, 2)",
+        ".cx(5, 6)",
+        ".sqrt_xx(3, 2)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(5, 3)",
+        ".sqrt_xx(4, 3)",
+        ".sqrt_xx(6, 0)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(4, 1)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(3, 6)",
+        ".sqrt_xx(4, 6)"
+      ]
+    },
+    {
+      "n": 7,
+      "k": 2,
+      "target_distance": 3,
+      "distance": 2,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 21,
+          "error_count_over_total": "0/21",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 5,
+          "total_count": 189,
+          "error_count_over_total": "5/189",
+          "error_rate": 0.026455026455026454
+        },
+        {
+          "d": 3,
+          "error_count": 24,
+          "total_count": 945,
+          "error_count_over_total": "24/945",
+          "error_rate": 0.025396825396825397
+        }
+      ],
+      "target_met": false,
+      "steps": 50,
+      "total_reward": -6.147697228938341,
+      "final_reward": -0.03280609846115112,
+      "final_value": -0.13793888688087463,
+      "gates": [
+        ".cx(0, 2)",
+        ".cx(1, 0)",
+        ".sqrt_xx(3, 0)",
+        ".sqrt_xx(1, 4)",
+        ".sqrt_xx(2, 5)",
+        ".sqrt_xx(6, 3)",
+        ".cx(0, 4)",
+        ".cx(1, 5)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(2, 5)",
+        ".sqrt_xx(5, 2)",
+        ".sqrt_xx(2, 5)",
+        ".sqrt_xx(5, 2)",
+        ".sqrt_xx(5, 2)",
+        ".sqrt_xx(5, 2)",
+        ".sqrt_xx(6, 5)",
+        ".cx(6, 2)",
+        ".sqrt_xx(2, 5)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(1, 4)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(5, 1)",
+        ".cz(4, 1)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(2, 5)",
+        ".cz(2, 5)",
+        ".cz(2, 3)",
+        ".cz(4, 6)",
+        ".cz(1, 0)",
+        ".h(1)",
+        ".cz(2, 0)",
+        ".cz(2, 4)",
+        ".cz(4, 0)",
+        ".cz(2, 4)",
+        ".cz(2, 4)"
+      ]
+    },
+    {
+      "n": 7,
+      "k": 3,
+      "target_distance": 3,
+      "distance": 2,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 21,
+          "error_count_over_total": "0/21",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 11,
+          "total_count": 189,
+          "error_count_over_total": "11/189",
+          "error_rate": 0.0582010582010582
+        },
+        {
+          "d": 3,
+          "error_count": 65,
+          "total_count": 945,
+          "error_count_over_total": "65/945",
+          "error_rate": 0.06878306878306878
+        }
+      ],
+      "target_met": false,
+      "steps": 50,
+      "total_reward": -9.828417971730232,
+      "final_reward": -0.07217198610305786,
+      "final_value": -0.22913289070129395,
+      "gates": [
+        ".cx(0, 3)",
+        ".cx(1, 0)",
+        ".cx(2, 4)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(1, 4)",
+        ".sqrt_xx(3, 5)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(5, 0)",
+        ".cx(1, 5)",
+        ".sqrt_xx(5, 6)",
+        ".cz(5, 3)",
+        ".cz(5, 4)",
+        ".sqrt_x(4)",
+        ".sqrt_xx(6, 1)",
+        ".sqrt_xx(6, 1)",
+        ".sqrt_xx(6, 1)",
+        ".sqrt_xx(6, 1)",
+        ".cx(4, 6)",
+        ".sqrt_x(4)",
+        ".s(4)",
+        ".sqrt_x(4)",
+        ".sqrt_x(6)",
+        ".sqrt_xx(3, 6)",
+        ".sqrt_x(4)",
+        ".s(4)",
+        ".h(6)",
+        ".sqrt_x(3)",
+        ".s(3)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".s(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(3)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(0)"
+      ]
+    },
+    {
+      "n": 7,
+      "k": 4,
+      "target_distance": 3,
+      "distance": 2,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 21,
+          "error_count_over_total": "0/21",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 25,
+          "total_count": 189,
+          "error_count_over_total": "25/189",
+          "error_rate": 0.13227513227513227
+        },
+        {
+          "d": 3,
+          "error_count": 120,
+          "total_count": 945,
+          "error_count_over_total": "120/945",
+          "error_rate": 0.12698412698412698
+        }
+      ],
+      "target_met": false,
+      "steps": 50,
+      "total_reward": -21.185502290725708,
+      "final_reward": -0.16402572393417358,
+      "final_value": -0.47161945700645447,
+      "gates": [
+        ".sqrt_xx(0, 4)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(3, 4)",
+        ".sqrt_xx(4, 5)",
+        ".cx(0, 6)",
+        ".cx(3, 0)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(2, 0)",
+        ".cx(2, 0)",
+        ".cx(1, 0)",
+        ".sqrt_xx(2, 5)",
+        ".cz(5, 0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".sqrt_x(0)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(0)",
+        ".s(0)",
+        ".s(0)"
+      ]
+    },
+    {
+      "n": 8,
+      "k": 1,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 24,
+          "error_count_over_total": "0/24",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 252,
+          "error_count_over_total": "0/252",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 28,
+          "total_count": 1512,
+          "error_count_over_total": "28/1512",
+          "error_rate": 0.018518518518518517
+        }
+      ],
+      "target_met": true,
+      "steps": 7,
+      "total_reward": -0.9447874035686255,
+      "final_reward": -1.126900315284729e-06,
+      "final_value": -0.016919098794460297,
+      "gates": [
+        ".cx(0, 1)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(3, 1)",
+        ".cx(0, 4)",
+        ".sqrt_xx(5, 2)",
+        ".sqrt_xx(6, 1)",
+        ".cx(3, 7)"
+      ]
+    },
+    {
+      "n": 8,
+      "k": 2,
+      "target_distance": 3,
+      "distance": 2,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 24,
+          "error_count_over_total": "0/24",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 1,
+          "total_count": 252,
+          "error_count_over_total": "1/252",
+          "error_rate": 0.003968253968253968
+        },
+        {
+          "d": 3,
+          "error_count": 25,
+          "total_count": 1512,
+          "error_count_over_total": "25/1512",
+          "error_rate": 0.016534391534391533
+        }
+      ],
+      "target_met": false,
+      "steps": 50,
+      "total_reward": -3.442592239007354,
+      "final_reward": -0.005905628204345703,
+      "final_value": -0.17194071412086487,
+      "gates": [
+        ".cx(0, 2)",
+        ".cx(1, 0)",
+        ".sqrt_xx(3, 0)",
+        ".sqrt_xx(4, 1)",
+        ".sqrt_xx(5, 2)",
+        ".sqrt_xx(6, 3)",
+        ".cx(0, 7)",
+        ".cx(1, 0)",
+        ".sqrt_xx(6, 7)",
+        ".cx(7, 2)",
+        ".cx(7, 5)",
+        ".sqrt_xx(5, 6)",
+        ".cx(7, 5)",
+        ".cx(7, 5)",
+        ".cx(7, 5)",
+        ".cx(7, 5)",
+        ".cx(7, 5)",
+        ".cx(7, 5)",
+        ".cx(7, 5)",
+        ".cx(7, 5)",
+        ".sqrt_xx(6, 5)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(6, 5)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(4, 5)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(6, 5)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(6, 5)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(6, 5)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(6, 5)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(6, 5)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(6, 5)",
+        ".sqrt_xx(5, 6)",
+        ".cz(6, 5)",
+        ".cz(5, 6)",
+        ".cz(6, 5)",
+        ".cz(2, 6)",
+        ".cz(6, 1)",
+        ".cz(6, 4)",
+        ".cz(0, 5)",
+        ".cz(5, 0)",
+        ".cz(0, 5)",
+        ".cz(4, 5)",
+        ".cz(4, 7)",
+        ".cz(3, 7)"
+      ]
+    },
+    {
+      "n": 8,
+      "k": 3,
+      "target_distance": 3,
+      "distance": 2,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 24,
+          "error_count_over_total": "0/24",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 4,
+          "total_count": 252,
+          "error_count_over_total": "4/252",
+          "error_rate": 0.015873015873015872
+        },
+        {
+          "d": 3,
+          "error_count": 52,
+          "total_count": 1512,
+          "error_count_over_total": "52/1512",
+          "error_rate": 0.03439153439153439
+        }
+      ],
+      "target_met": false,
+      "steps": 50,
+      "total_reward": -6.513128384947777,
+      "final_reward": -0.023620128631591797,
+      "final_value": -0.14301466941833496,
+      "gates": [
+        ".cx(0, 3)",
+        ".cx(1, 0)",
+        ".cx(2, 4)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(4, 1)",
+        ".sqrt_xx(3, 5)",
+        ".sqrt_xx(6, 2)",
+        ".cx(0, 7)",
+        ".cx(3, 0)",
+        ".sqrt_xx(6, 7)",
+        ".cz(7, 1)",
+        ".cx(7, 5)",
+        ".cz(5, 4)",
+        ".cx(7, 4)",
+        ".cx(7, 4)",
+        ".h(4)",
+        ".cx(7, 6)",
+        ".h(5)",
+        ".s(1)",
+        ".s(7)",
+        ".sqrt_xx(7, 6)",
+        ".sqrt_x(5)",
+        ".sqrt_x(5)",
+        ".sqrt_x(5)",
+        ".s(0)",
+        ".s(5)",
+        ".h(6)",
+        ".s(5)",
+        ".s(5)",
+        ".s(5)",
+        ".s(5)",
+        ".s(5)",
+        ".s(5)",
+        ".s(5)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)",
+        ".h(4)"
+      ]
+    },
+    {
+      "n": 8,
+      "k": 4,
+      "target_distance": 3,
+      "distance": 2,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 24,
+          "error_count_over_total": "0/24",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 16,
+          "total_count": 252,
+          "error_count_over_total": "16/252",
+          "error_rate": 0.06349206349206349
+        },
+        {
+          "d": 3,
+          "error_count": 88,
+          "total_count": 1512,
+          "error_count_over_total": "88/1512",
+          "error_rate": 0.0582010582010582
+        }
+      ],
+      "target_met": false,
+      "steps": 50,
+      "total_reward": -13.510436460375786,
+      "final_reward": -0.09447872638702393,
+      "final_value": -0.13918337225914001,
+      "gates": [
+        ".cx(0, 4)",
+        ".cx(1, 0)",
+        ".cx(2, 0)",
+        ".cx(3, 5)",
+        ".sqrt_xx(3, 0)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(4, 7)",
+        ".sqrt_xx(3, 5)",
+        ".sqrt_xx(3, 6)",
+        ".sqrt_xx(7, 5)",
+        ".sqrt_xx(6, 0)",
+        ".sqrt_xx(7, 1)",
+        ".cz(3, 2)",
+        ".cx(4, 2)",
+        ".s(6)",
+        ".sqrt_xx(2, 7)",
+        ".sqrt_xx(7, 2)",
+        ".s(2)",
+        ".s(2)",
+        ".sqrt_x(2)",
+        ".s(6)",
+        ".s(5)",
+        ".sqrt_x(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(3)",
+        ".s(5)",
+        ".s(7)",
+        ".s(7)",
+        ".s(7)",
+        ".s(7)",
+        ".s(7)",
+        ".s(7)",
+        ".h(7)",
+        ".s(7)",
+        ".s(7)",
+        ".s(7)",
+        ".s(7)",
+        ".s(7)",
+        ".h(2)"
+      ]
+    },
+    {
+      "n": 9,
+      "k": 1,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 27,
+          "error_count_over_total": "0/27",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 324,
+          "error_count_over_total": "0/324",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 28,
+          "total_count": 2268,
+          "error_count_over_total": "28/2268",
+          "error_rate": 0.012345679012345678
+        }
+      ],
+      "target_met": true,
+      "steps": 7,
+      "total_reward": -0.9778548777103424,
+      "final_reward": -5.587935447692871e-07,
+      "final_value": -0.002178981900215149,
+      "gates": [
+        ".cx(0, 1)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(3, 1)",
+        ".cx(0, 4)",
+        ".sqrt_xx(5, 2)",
+        ".sqrt_xx(6, 1)",
+        ".cx(3, 7)"
+      ]
+    },
+    {
+      "n": 9,
+      "k": 2,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 27,
+          "error_count_over_total": "0/27",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 324,
+          "error_count_over_total": "0/324",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 28,
+          "total_count": 2268,
+          "error_count_over_total": "28/2268",
+          "error_rate": 0.012345679012345678
+        }
+      ],
+      "target_met": true,
+      "steps": 12,
+      "total_reward": -2.7528687746962532,
+      "final_reward": 5.878973752260208e-08,
+      "final_value": -0.010498590767383575,
+      "gates": [
+        ".cx(0, 2)",
+        ".cx(1, 0)",
+        ".sqrt_xx(3, 0)",
+        ".sqrt_xx(4, 1)",
+        ".sqrt_xx(5, 2)",
+        ".cx(0, 6)",
+        ".sqrt_xx(7, 3)",
+        ".sqrt_xx(8, 4)",
+        ".cx(1, 0)",
+        ".sqrt_xx(1, 7)",
+        ".cx(1, 2)",
+        ".cx(1, 8)"
+      ]
+    },
+    {
+      "n": 9,
+      "k": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 27,
+          "error_count_over_total": "0/27",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 324,
+          "error_count_over_total": "0/324",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 57,
+          "total_count": 2268,
+          "error_count_over_total": "57/2268",
+          "error_rate": 0.02513227513227513
+        }
+      ],
+      "target_met": true,
+      "steps": 13,
+      "total_reward": -5.29315559589304,
+      "final_reward": 5.9371814131736755e-08,
+      "final_value": -0.0040644630789756775,
+      "gates": [
+        ".cx(0, 3)",
+        ".cx(1, 0)",
+        ".cx(2, 4)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(4, 1)",
+        ".sqrt_xx(3, 5)",
+        ".sqrt_xx(6, 2)",
+        ".cx(0, 7)",
+        ".sqrt_xx(8, 1)",
+        ".cx(3, 0)",
+        ".sqrt_xx(7, 6)",
+        ".cx(7, 5)",
+        ".cz(5, 4)"
+      ]
+    },
+    {
+      "n": 9,
+      "k": 4,
+      "target_distance": 3,
+      "distance": 2,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 27,
+          "error_count_over_total": "0/27",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 4,
+          "total_count": 324,
+          "error_count_over_total": "4/324",
+          "error_rate": 0.012345679012345678
+        },
+        {
+          "d": 3,
+          "error_count": 80,
+          "total_count": 2268,
+          "error_count_over_total": "80/2268",
+          "error_rate": 0.03527336860670194
+        }
+      ],
+      "target_met": false,
+      "steps": 50,
+      "total_reward": -9.767901226878166,
+      "final_reward": -0.021257996559143066,
+      "final_value": -0.023421771824359894,
+      "gates": [
+        ".cx(0, 4)",
+        ".cx(1, 0)",
+        ".cx(2, 0)",
+        ".cx(3, 5)",
+        ".sqrt_xx(3, 0)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(4, 7)",
+        ".sqrt_xx(3, 8)",
+        ".cx(2, 5)",
+        ".cx(5, 7)",
+        ".cz(7, 0)",
+        ".sqrt_xx(8, 6)",
+        ".sqrt_xx(1, 8)",
+        ".cx(3, 0)",
+        ".cx(1, 5)",
+        ".s(7)",
+        ".s(4)",
+        ".sqrt_x(4)",
+        ".s(4)",
+        ".sqrt_x(4)",
+        ".sqrt_x(4)",
+        ".s(4)",
+        ".s(4)",
+        ".sqrt_x(4)",
+        ".sqrt_x(4)",
+        ".sqrt_x(2)",
+        ".sqrt_x(4)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".s(2)",
+        ".s(2)",
+        ".s(2)",
+        ".s(2)",
+        ".s(5)",
+        ".s(2)",
+        ".s(2)",
+        ".s(2)",
+        ".s(2)",
+        ".s(2)",
+        ".s(2)",
+        ".s(3)",
+        ".s(2)",
+        ".s(2)",
+        ".s(2)",
+        ".s(2)",
+        ".s(2)",
+        ".s(2)",
+        ".s(2)"
+      ]
+    },
+    {
+      "n": 10,
+      "k": 1,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 30,
+          "error_count_over_total": "0/30",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 405,
+          "error_count_over_total": "0/405",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 26,
+          "total_count": 3240,
+          "error_count_over_total": "26/3240",
+          "error_rate": 0.008024691358024692
+        }
+      ],
+      "target_met": true,
+      "steps": 8,
+      "total_reward": -1.0283302143216133,
+      "final_reward": 1.30385160446167e-06,
+      "final_value": 0.009098432958126068,
+      "gates": [
+        ".cx(0, 1)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(3, 1)",
+        ".cx(0, 4)",
+        ".sqrt_xx(2, 5)",
+        ".sqrt_xx(6, 1)",
+        ".cx(3, 7)",
+        ".sqrt_xx(8, 3)"
+      ]
+    },
+    {
+      "n": 10,
+      "k": 2,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 30,
+          "error_count_over_total": "0/30",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 405,
+          "error_count_over_total": "0/405",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 39,
+          "total_count": 3240,
+          "error_count_over_total": "39/3240",
+          "error_rate": 0.012037037037037037
+        }
+      ],
+      "target_met": true,
+      "steps": 11,
+      "total_reward": -2.649754357524216,
+      "final_reward": 8.754432201385498e-07,
+      "final_value": -0.0015770643949508667,
+      "gates": [
+        ".cx(0, 2)",
+        ".cx(1, 0)",
+        ".sqrt_xx(3, 0)",
+        ".sqrt_xx(4, 1)",
+        ".sqrt_xx(5, 2)",
+        ".cx(0, 6)",
+        ".sqrt_xx(7, 3)",
+        ".cx(1, 8)",
+        ".sqrt_xx(4, 9)",
+        ".sqrt_xx(7, 2)",
+        ".sqrt_xx(9, 7)"
+      ]
+    },
+    {
+      "n": 10,
+      "k": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 30,
+          "error_count_over_total": "0/30",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 405,
+          "error_count_over_total": "0/405",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 80,
+          "total_count": 3240,
+          "error_count_over_total": "80/3240",
+          "error_rate": 0.024691358024691357
+        }
+      ],
+      "target_met": true,
+      "steps": 12,
+      "total_reward": -4.974275869550183,
+      "final_reward": 1.4703255146741867e-06,
+      "final_value": -0.009704358875751495,
+      "gates": [
+        ".cx(0, 3)",
+        ".cx(1, 0)",
+        ".cx(2, 4)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(4, 1)",
+        ".sqrt_xx(3, 5)",
+        ".sqrt_xx(6, 2)",
+        ".cx(0, 7)",
+        ".sqrt_xx(1, 8)",
+        ".cx(4, 9)",
+        ".cx(3, 4)",
+        ".sqrt_xx(9, 5)"
+      ]
+    },
+    {
+      "n": 10,
+      "k": 4,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 30,
+          "error_count_over_total": "0/30",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 405,
+          "error_count_over_total": "0/405",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 60,
+          "total_count": 3240,
+          "error_count_over_total": "60/3240",
+          "error_rate": 0.018518518518518517
+        }
+      ],
+      "target_met": true,
+      "steps": 17,
+      "total_reward": -8.489753425121307,
+      "final_reward": 1.1920928955078125e-06,
+      "final_value": 0.0034828856587409973,
+      "gates": [
+        ".cx(0, 4)",
+        ".cx(1, 0)",
+        ".cx(2, 0)",
+        ".cx(3, 5)",
+        ".sqrt_xx(0, 3)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(4, 7)",
+        ".cx(0, 8)",
+        ".sqrt_xx(3, 9)",
+        ".cx(2, 0)",
+        ".sqrt_xx(9, 8)",
+        ".cx(8, 7)",
+        ".cz(7, 1)",
+        ".sqrt_xx(6, 8)",
+        ".cz(8, 5)",
+        ".cx(4, 5)"
+      ]
+    },
+    {
+      "n": 11,
+      "k": 1,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 33,
+          "error_count_over_total": "0/33",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 495,
+          "error_count_over_total": "0/495",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 18,
+          "total_count": 4455,
+          "error_count_over_total": "18/4455",
+          "error_rate": 0.00404040404040404
+        }
+      ],
+      "target_met": true,
+      "steps": 9,
+      "total_reward": -1.0847718007862568,
+      "final_reward": 7.35744833946228e-07,
+      "final_value": 0.011841259896755219,
+      "gates": [
+        ".cx(0, 1)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(4, 5)",
+        ".cx(0, 6)",
+        ".sqrt_xx(2, 7)",
+        ".sqrt_xx(8, 1)",
+        ".cx(3, 9)",
+        ".cx(7, 4)"
+      ]
+    },
+    {
+      "n": 11,
+      "k": 2,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 33,
+          "error_count_over_total": "0/33",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 495,
+          "error_count_over_total": "0/495",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 32,
+          "total_count": 4455,
+          "error_count_over_total": "32/4455",
+          "error_rate": 0.00718294051627385
+        }
+      ],
+      "target_met": true,
+      "steps": 12,
+      "total_reward": -2.578491712221876,
+      "final_reward": 6.670597940683365e-07,
+      "final_value": 0.0013965293765068054,
+      "gates": [
+        ".cx(0, 2)",
+        ".cx(1, 0)",
+        ".sqrt_xx(3, 0)",
+        ".sqrt_xx(4, 1)",
+        ".sqrt_xx(5, 2)",
+        ".cx(0, 6)",
+        ".sqrt_xx(7, 3)",
+        ".cx(1, 8)",
+        ".sqrt_xx(9, 4)",
+        ".sqrt_xx(10, 2)",
+        ".sqrt_xx(6, 5)",
+        ".sqrt_xx(5, 8)"
+      ]
+    },
+    {
+      "n": 11,
+      "k": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 33,
+          "error_count_over_total": "0/33",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 495,
+          "error_count_over_total": "0/495",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 48,
+          "total_count": 4455,
+          "error_count_over_total": "48/4455",
+          "error_rate": 0.010774410774410775
+        }
+      ],
+      "target_met": true,
+      "steps": 14,
+      "total_reward": -4.760959350736812,
+      "final_reward": 6.437767297029495e-07,
+      "final_value": -0.0010980144143104553,
+      "gates": [
+        ".cx(0, 3)",
+        ".cx(1, 0)",
+        ".cx(2, 4)",
+        ".sqrt_xx(0, 2)",
+        ".sqrt_xx(4, 1)",
+        ".sqrt_xx(3, 5)",
+        ".cx(0, 6)",
+        ".sqrt_xx(2, 7)",
+        ".sqrt_xx(1, 8)",
+        ".cx(4, 9)",
+        ".sqrt_xx(10, 5)",
+        ".cx(3, 0)",
+        ".sqrt_xx(6, 10)",
+        ".cx(6, 7)"
+      ]
+    },
+    {
+      "n": 11,
+      "k": 4,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 33,
+          "error_count_over_total": "0/33",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 495,
+          "error_count_over_total": "0/495",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 62,
+          "total_count": 4455,
+          "error_count_over_total": "62/4455",
+          "error_rate": 0.013916947250280583
+        }
+      ],
+      "target_met": true,
+      "steps": 16,
+      "total_reward": -7.963633518724237,
+      "final_reward": 6.202026270329952e-07,
+      "final_value": 0.0027115866541862488,
+      "gates": [
+        ".cx(0, 4)",
+        ".cx(1, 0)",
+        ".cx(2, 0)",
+        ".cx(3, 5)",
+        ".sqrt_xx(0, 3)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(4, 7)",
+        ".cx(0, 8)",
+        ".sqrt_xx(3, 9)",
+        ".cx(1, 10)",
+        ".cx(2, 0)",
+        ".sqrt_xx(9, 8)",
+        ".cx(8, 7)",
+        ".cz(7, 5)",
+        ".sqrt_xx(6, 5)"
+      ]
+    },
+    {
+      "n": 12,
+      "k": 1,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 36,
+          "error_count_over_total": "0/36",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 594,
+          "error_count_over_total": "0/594",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 18,
+          "total_count": 5940,
+          "error_count_over_total": "18/5940",
+          "error_rate": 0.0030303030303030303
+        }
+      ],
+      "target_met": true,
+      "steps": 10,
+      "total_reward": -1.1428855806589127,
+      "final_reward": 5.401670932769775e-07,
+      "final_value": 0.0046857669949531555,
+      "gates": [
+        ".cx(0, 1)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(4, 5)",
+        ".cx(0, 6)",
+        ".sqrt_xx(2, 7)",
+        ".sqrt_xx(8, 1)",
+        ".cx(3, 9)",
+        ".sqrt_xx(10, 7)",
+        ".sqrt_xx(4, 10)"
+      ]
+    },
+    {
+      "n": 12,
+      "k": 2,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 36,
+          "error_count_over_total": "0/36",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 594,
+          "error_count_over_total": "0/594",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 52,
+          "total_count": 5940,
+          "error_count_over_total": "52/5940",
+          "error_rate": 0.008754208754208754
+        }
+      ],
+      "target_met": true,
+      "steps": 11,
+      "total_reward": -2.5298504941165447,
+      "final_reward": 6.05359673500061e-07,
+      "final_value": -0.005644388496875763,
+      "gates": [
+        ".cx(0, 2)",
+        ".cx(1, 0)",
+        ".sqrt_xx(3, 0)",
+        ".sqrt_xx(4, 1)",
+        ".sqrt_xx(5, 2)",
+        ".sqrt_xx(3, 6)",
+        ".cx(0, 7)",
+        ".sqrt_xx(8, 4)",
+        ".cx(1, 9)",
+        ".sqrt_xx(10, 2)",
+        ".sqrt_xx(11, 5)"
+      ]
+    },
+    {
+      "n": 12,
+      "k": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 36,
+          "error_count_over_total": "0/36",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 594,
+          "error_count_over_total": "0/594",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 44,
+          "total_count": 5940,
+          "error_count_over_total": "44/5940",
+          "error_rate": 0.007407407407407408
+        }
+      ],
+      "target_met": true,
+      "steps": 15,
+      "total_reward": -4.567679790314287,
+      "final_reward": 3.0384398996829987e-07,
+      "final_value": 0.01573529839515686,
+      "gates": [
+        ".cx(0, 3)",
+        ".cx(1, 0)",
+        ".cx(2, 4)",
+        ".sqrt_xx(0, 2)",
+        ".sqrt_xx(1, 4)",
+        ".sqrt_xx(5, 3)",
+        ".cx(0, 6)",
+        ".sqrt_xx(7, 2)",
+        ".sqrt_xx(1, 8)",
+        ".sqrt_xx(4, 9)",
+        ".sqrt_xx(10, 5)",
+        ".cx(3, 11)",
+        ".sqrt_xx(11, 7)",
+        ".cx(11, 9)",
+        ".cz(9, 2)"
+      ]
+    },
+    {
+      "n": 12,
+      "k": 4,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 36,
+          "error_count_over_total": "0/36",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 594,
+          "error_count_over_total": "0/594",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 52,
+          "total_count": 5940,
+          "error_count_over_total": "52/5940",
+          "error_rate": 0.008754208754208754
+        }
+      ],
+      "target_met": true,
+      "steps": 17,
+      "total_reward": -7.500451293657534,
+      "final_reward": 4.0105078369379044e-07,
+      "final_value": 0.0019373148679733276,
+      "gates": [
+        ".cx(0, 4)",
+        ".cx(1, 0)",
+        ".cx(2, 0)",
+        ".cx(3, 5)",
+        ".sqrt_xx(0, 3)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(4, 7)",
+        ".cx(0, 8)",
+        ".sqrt_xx(3, 9)",
+        ".sqrt_xx(5, 10)",
+        ".cx(1, 11)",
+        ".cx(2, 0)",
+        ".sqrt_xx(9, 8)",
+        ".cx(8, 7)",
+        ".cx(7, 6)",
+        ".cz(6, 3)"
+      ]
+    },
+    {
+      "n": 13,
+      "k": 1,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 39,
+          "error_count_over_total": "0/39",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 702,
+          "error_count_over_total": "0/702",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 18,
+          "total_count": 7722,
+          "error_count_over_total": "18/7722",
+          "error_rate": 0.002331002331002331
+        }
+      ],
+      "target_met": true,
+      "steps": 11,
+      "total_reward": -1.2029267512261868,
+      "final_reward": 1.434236764907837e-06,
+      "final_value": 0.0002518296241760254,
+      "gates": [
+        ".cx(0, 1)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(4, 5)",
+        ".sqrt_xx(6, 7)",
+        ".cx(0, 8)",
+        ".sqrt_xx(9, 2)",
+        ".sqrt_xx(10, 1)",
+        ".cx(3, 11)",
+        ".sqrt_xx(4, 9)",
+        ".sqrt_xx(6, 5)"
+      ]
+    },
+    {
+      "n": 13,
+      "k": 2,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 39,
+          "error_count_over_total": "0/39",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 702,
+          "error_count_over_total": "0/702",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 52,
+          "total_count": 7722,
+          "error_count_over_total": "52/7722",
+          "error_rate": 0.006734006734006734
+        }
+      ],
+      "target_met": true,
+      "steps": 11,
+      "total_reward": -2.503498310223222,
+      "final_reward": 1.257285475730896e-06,
+      "final_value": -0.012827306985855103,
+      "gates": [
+        ".cx(0, 2)",
+        ".cx(1, 0)",
+        ".sqrt_xx(3, 0)",
+        ".sqrt_xx(1, 4)",
+        ".sqrt_xx(5, 2)",
+        ".sqrt_xx(3, 6)",
+        ".cx(0, 7)",
+        ".sqrt_xx(8, 4)",
+        ".cx(1, 9)",
+        ".sqrt_xx(10, 2)",
+        ".sqrt_xx(11, 5)"
+      ]
+    },
+    {
+      "n": 13,
+      "k": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 39,
+          "error_count_over_total": "0/39",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 702,
+          "error_count_over_total": "0/702",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 64,
+          "total_count": 7722,
+          "error_count_over_total": "64/7722",
+          "error_rate": 0.008288008288008289
+        }
+      ],
+      "target_met": true,
+      "steps": 14,
+      "total_reward": -4.389845678349957,
+      "final_reward": 1.3469252735376358e-06,
+      "final_value": 0.009506955742835999,
+      "gates": [
+        ".cx(0, 3)",
+        ".cx(1, 0)",
+        ".cx(2, 4)",
+        ".sqrt_xx(0, 2)",
+        ".sqrt_xx(1, 4)",
+        ".sqrt_xx(5, 3)",
+        ".sqrt_xx(6, 2)",
+        ".cx(0, 7)",
+        ".sqrt_xx(4, 8)",
+        ".sqrt_xx(1, 9)",
+        ".sqrt_xx(10, 5)",
+        ".cx(3, 11)",
+        ".sqrt_xx(11, 6)",
+        ".cx(2, 12)"
+      ]
+    },
+    {
+      "n": 13,
+      "k": 4,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 39,
+          "error_count_over_total": "0/39",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 702,
+          "error_count_over_total": "0/702",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 69,
+          "total_count": 7722,
+          "error_count_over_total": "69/7722",
+          "error_rate": 0.008935508935508936
+        }
+      ],
+      "target_met": true,
+      "steps": 17,
+      "total_reward": -7.092099575791508,
+      "final_reward": 1.525040715932846e-06,
+      "final_value": -0.0004661083221435547,
+      "gates": [
+        ".cx(0, 4)",
+        ".cx(1, 0)",
+        ".cx(2, 0)",
+        ".cx(3, 5)",
+        ".sqrt_xx(0, 3)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(4, 7)",
+        ".cx(0, 8)",
+        ".sqrt_xx(3, 9)",
+        ".sqrt_xx(5, 10)",
+        ".cx(1, 11)",
+        ".sqrt_xx(12, 6)",
+        ".cx(2, 0)",
+        ".sqrt_xx(9, 8)",
+        ".cx(8, 7)",
+        ".cz(7, 3)"
+      ]
+    },
+    {
+      "n": 14,
+      "k": 1,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 42,
+          "error_count_over_total": "0/42",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 819,
+          "error_count_over_total": "0/819",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 7,
+          "total_count": 9828,
+          "error_count_over_total": "7/9828",
+          "error_rate": 0.0007122507122507123
+        }
+      ],
+      "target_met": true,
+      "steps": 12,
+      "total_reward": -1.2615262661129236,
+      "final_reward": -7.729977369308472e-07,
+      "final_value": -0.0081869438290596,
+      "gates": [
+        ".cx(0, 1)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(4, 5)",
+        ".sqrt_xx(6, 7)",
+        ".cx(0, 8)",
+        ".sqrt_xx(9, 2)",
+        ".sqrt_xx(10, 1)",
+        ".cx(3, 11)",
+        ".cx(10, 12)",
+        ".sqrt_xx(4, 8)",
+        ".sqrt_xx(6, 0)"
+      ]
+    },
+    {
+      "n": 14,
+      "k": 2,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 42,
+          "error_count_over_total": "0/42",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 819,
+          "error_count_over_total": "0/819",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 36,
+          "total_count": 9828,
+          "error_count_over_total": "36/9828",
+          "error_rate": 0.003663003663003663
+        }
+      ],
+      "target_met": true,
+      "steps": 12,
+      "total_reward": -2.4916626270860434,
+      "final_reward": -8.475035429000854e-07,
+      "final_value": -0.0057579949498176575,
+      "gates": [
+        ".cx(0, 2)",
+        ".cx(1, 0)",
+        ".sqrt_xx(0, 3)",
+        ".sqrt_xx(1, 4)",
+        ".sqrt_xx(5, 2)",
+        ".sqrt_xx(3, 6)",
+        ".cx(0, 7)",
+        ".sqrt_xx(8, 4)",
+        ".cx(1, 9)",
+        ".sqrt_xx(10, 2)",
+        ".sqrt_xx(11, 5)",
+        ".sqrt_xx(10, 12)"
+      ]
+    },
+    {
+      "n": 14,
+      "k": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 42,
+          "error_count_over_total": "0/42",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 819,
+          "error_count_over_total": "0/819",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 64,
+          "total_count": 9828,
+          "error_count_over_total": "64/9828",
+          "error_rate": 0.006512006512006512
+        }
+      ],
+      "target_met": true,
+      "steps": 14,
+      "total_reward": -4.245862940326333,
+      "final_reward": -7.729977369308472e-07,
+      "final_value": 0.01660386472940445,
+      "gates": [
+        ".cx(0, 3)",
+        ".cx(1, 0)",
+        ".cx(2, 4)",
+        ".sqrt_xx(0, 2)",
+        ".sqrt_xx(1, 4)",
+        ".sqrt_xx(5, 3)",
+        ".cx(0, 6)",
+        ".sqrt_xx(7, 2)",
+        ".sqrt_xx(4, 8)",
+        ".sqrt_xx(1, 9)",
+        ".sqrt_xx(10, 5)",
+        ".cx(3, 11)",
+        ".sqrt_xx(3, 7)",
+        ".cx(2, 12)"
+      ]
+    },
+    {
+      "n": 14,
+      "k": 4,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 42,
+          "error_count_over_total": "0/42",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 819,
+          "error_count_over_total": "0/819",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 21,
+          "total_count": 9828,
+          "error_count_over_total": "21/9828",
+          "error_rate": 0.002136752136752137
+        }
+      ],
+      "target_met": true,
+      "steps": 25,
+      "total_reward": -6.809701919555664,
+      "final_reward": -1.1920928955078125e-06,
+      "final_value": -0.17818906903266907,
+      "gates": [
+        ".cx(0, 4)",
+        ".cx(1, 0)",
+        ".cx(2, 0)",
+        ".cx(3, 5)",
+        ".sqrt_xx(0, 3)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(4, 7)",
+        ".cx(0, 8)",
+        ".sqrt_xx(3, 9)",
+        ".sqrt_xx(5, 10)",
+        ".cx(1, 11)",
+        ".sqrt_xx(12, 6)",
+        ".cx(2, 13)",
+        ".sqrt_xx(13, 9)",
+        ".cx(13, 7)",
+        ".cz(7, 3)",
+        ".sqrt_xx(3, 10)",
+        ".cz(10, 4)",
+        ".cx(3, 8)",
+        ".cx(7, 0)",
+        ".sqrt_xx(2, 7)",
+        ".cx(4, 1)",
+        ".cx(13, 11)",
+        ".cx(3, 12)"
+      ]
+    },
+    {
+      "n": 15,
+      "k": 1,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 45,
+          "error_count_over_total": "0/45",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 945,
+          "error_count_over_total": "0/945",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 18,
+          "total_count": 12285,
+          "error_count_over_total": "18/12285",
+          "error_rate": 0.0014652014652014652
+        }
+      ],
+      "target_met": true,
+      "steps": 13,
+      "total_reward": -1.3189545180648565,
+      "final_reward": -1.3969838619232178e-07,
+      "final_value": 0.00397907942533493,
+      "gates": [
+        ".cx(0, 1)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(4, 5)",
+        ".sqrt_xx(6, 7)",
+        ".sqrt_xx(8, 9)",
+        ".cx(0, 10)",
+        ".sqrt_xx(11, 2)",
+        ".sqrt_xx(12, 1)",
+        ".sqrt_xx(3, 4)",
+        ".sqrt_xx(6, 5)",
+        ".sqrt_xx(8, 7)",
+        ".sqrt_xx(12, 13)"
+      ]
+    },
+    {
+      "n": 15,
+      "k": 2,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 45,
+          "error_count_over_total": "0/45",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 945,
+          "error_count_over_total": "0/945",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 24,
+          "total_count": 12285,
+          "error_count_over_total": "24/12285",
+          "error_rate": 0.0019536019536019536
+        }
+      ],
+      "target_met": true,
+      "steps": 13,
+      "total_reward": -2.4938597064465284,
+      "final_reward": -6.612390279769897e-07,
+      "final_value": -0.007173098623752594,
+      "gates": [
+        ".cx(0, 2)",
+        ".cx(1, 0)",
+        ".sqrt_xx(0, 3)",
+        ".sqrt_xx(1, 4)",
+        ".sqrt_xx(2, 5)",
+        ".cx(0, 6)",
+        ".sqrt_xx(3, 7)",
+        ".sqrt_xx(8, 4)",
+        ".cx(1, 9)",
+        ".sqrt_xx(10, 5)",
+        ".sqrt_xx(2, 11)",
+        ".sqrt_xx(12, 11)",
+        ".cx(2, 13)"
+      ]
+    },
+    {
+      "n": 15,
+      "k": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 45,
+          "error_count_over_total": "0/45",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 945,
+          "error_count_over_total": "0/945",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 53,
+          "total_count": 12285,
+          "error_count_over_total": "53/12285",
+          "error_rate": 0.004314204314204314
+        }
+      ],
+      "target_met": true,
+      "steps": 15,
+      "total_reward": -4.12065483443439,
+      "final_reward": -1.1082738637924194e-06,
+      "final_value": -0.011913411319255829,
+      "gates": [
+        ".cx(0, 3)",
+        ".cx(1, 0)",
+        ".cx(2, 4)",
+        ".sqrt_xx(0, 2)",
+        ".sqrt_xx(1, 4)",
+        ".sqrt_xx(3, 5)",
+        ".cx(0, 6)",
+        ".sqrt_xx(2, 7)",
+        ".sqrt_xx(4, 8)",
+        ".sqrt_xx(1, 9)",
+        ".sqrt_xx(10, 5)",
+        ".cx(3, 11)",
+        ".sqrt_xx(12, 7)",
+        ".cx(2, 3)",
+        ".sqrt_xx(13, 8)"
+      ]
+    },
+    {
+      "n": 15,
+      "k": 4,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 45,
+          "error_count_over_total": "0/45",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 945,
+          "error_count_over_total": "0/945",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 25,
+          "total_count": 12285,
+          "error_count_over_total": "25/12285",
+          "error_rate": 0.002035002035002035
+        }
+      ],
+      "target_met": true,
+      "steps": 22,
+      "total_reward": -6.473297981545329,
+      "final_reward": -5.122274160385132e-07,
+      "final_value": -0.05182179808616638,
+      "gates": [
+        ".cx(0, 4)",
+        ".cx(1, 0)",
+        ".cx(2, 0)",
+        ".cx(3, 5)",
+        ".sqrt_xx(0, 3)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(4, 7)",
+        ".cx(0, 8)",
+        ".sqrt_xx(3, 9)",
+        ".cx(1, 10)",
+        ".sqrt_xx(5, 11)",
+        ".sqrt_xx(12, 6)",
+        ".cx(2, 13)",
+        ".sqrt_xx(14, 7)",
+        ".sqrt_xx(13, 9)",
+        ".cx(13, 11)",
+        ".cz(11, 4)",
+        ".cx(11, 4)",
+        ".cx(4, 8)",
+        ".cz(8, 3)",
+        ".cx(11, 0)"
+      ]
+    },
+    {
+      "n": 16,
+      "k": 1,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 48,
+          "error_count_over_total": "0/48",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 1080,
+          "error_count_over_total": "0/1080",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 18,
+          "total_count": 15120,
+          "error_count_over_total": "18/15120",
+          "error_rate": 0.0011904761904761906
+        }
+      ],
+      "target_met": true,
+      "steps": 14,
+      "total_reward": -1.3726099450141191,
+      "final_reward": -1.30385160446167e-07,
+      "final_value": 0.005611404776573181,
+      "gates": [
+        ".cx(0, 1)",
+        ".sqrt_xx(2, 0)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(4, 5)",
+        ".sqrt_xx(6, 7)",
+        ".sqrt_xx(8, 9)",
+        ".sqrt_xx(10, 2)",
+        ".cx(0, 11)",
+        ".sqrt_xx(1, 12)",
+        ".sqrt_xx(13, 3)",
+        ".sqrt_xx(4, 12)",
+        ".sqrt_xx(6, 5)",
+        ".sqrt_xx(8, 7)",
+        ".sqrt_xx(9, 14)"
+      ]
+    },
+    {
+      "n": 16,
+      "k": 2,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 48,
+          "error_count_over_total": "0/48",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 1080,
+          "error_count_over_total": "0/1080",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 16,
+          "total_count": 15120,
+          "error_count_over_total": "16/15120",
+          "error_rate": 0.0010582010582010583
+        }
+      ],
+      "target_met": true,
+      "steps": 14,
+      "total_reward": -2.5011979416012764,
+      "final_reward": -3.5390257835388184e-07,
+      "final_value": 0.0005465075373649597,
+      "gates": [
+        ".cx(0, 2)",
+        ".cx(1, 0)",
+        ".sqrt_xx(0, 3)",
+        ".sqrt_xx(1, 4)",
+        ".sqrt_xx(2, 5)",
+        ".cx(0, 6)",
+        ".sqrt_xx(3, 7)",
+        ".sqrt_xx(4, 8)",
+        ".cx(1, 9)",
+        ".sqrt_xx(10, 5)",
+        ".cx(2, 11)",
+        ".sqrt_xx(12, 7)",
+        ".cx(3, 13)",
+        ".sqrt_xx(14, 13)"
+      ]
+    },
+    {
+      "n": 16,
+      "k": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 48,
+          "error_count_over_total": "0/48",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 1080,
+          "error_count_over_total": "0/1080",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 35,
+          "total_count": 15120,
+          "error_count_over_total": "35/15120",
+          "error_rate": 0.0023148148148148147
+        }
+      ],
+      "target_met": true,
+      "steps": 17,
+      "total_reward": -4.135619210079312,
+      "final_reward": -1.30385160446167e-07,
+      "final_value": 0.007508620619773865,
+      "gates": [
+        ".cx(0, 3)",
+        ".cx(1, 0)",
+        ".cx(2, 0)",
+        ".sqrt_xx(0, 4)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(3, 7)",
+        ".cx(0, 8)",
+        ".sqrt_xx(9, 4)",
+        ".sqrt_xx(10, 5)",
+        ".cx(1, 11)",
+        ".sqrt_xx(12, 6)",
+        ".sqrt_xx(13, 7)",
+        ".cx(2, 14)",
+        ".sqrt_xx(3, 8)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(2, 8)"
+      ]
+    },
+    {
+      "n": 16,
+      "k": 4,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 48,
+          "error_count_over_total": "0/48",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 1080,
+          "error_count_over_total": "0/1080",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 14,
+          "total_count": 15120,
+          "error_count_over_total": "14/15120",
+          "error_rate": 0.000925925925925926
+        }
+      ],
+      "target_met": true,
+      "steps": 25,
+      "total_reward": -6.191990312072448,
+      "final_reward": -2.2293534129858017e-07,
+      "final_value": -0.020657099783420563,
+      "gates": [
+        ".cx(0, 4)",
+        ".cx(1, 0)",
+        ".cx(2, 0)",
+        ".cx(3, 5)",
+        ".sqrt_xx(0, 3)",
+        ".sqrt_xx(5, 1)",
+        ".sqrt_xx(2, 6)",
+        ".sqrt_xx(4, 7)",
+        ".cx(0, 8)",
+        ".sqrt_xx(3, 9)",
+        ".cx(1, 10)",
+        ".sqrt_xx(5, 11)",
+        ".sqrt_xx(12, 6)",
+        ".cx(2, 13)",
+        ".sqrt_xx(14, 7)",
+        ".sqrt_xx(2, 9)",
+        ".cx(4, 15)",
+        ".sqrt_xx(15, 11)",
+        ".cz(15, 5)",
+        ".cx(15, 13)",
+        ".cz(13, 3)",
+        ".sqrt_xx(3, 5)",
+        ".sqrt_xx(3, 4)",
+        ".cx(3, 8)",
+        ".cx(15, 0)"
+      ]
+    }
+  ],
+  "distance_summary": [
+    {
+      "d": 1,
+      "error_count": 0,
+      "total_count": 1380,
+      "error_count_over_total": "0/1380",
+      "error_rate": 0.0
+    },
+    {
+      "d": 2,
+      "error_count": 66,
+      "total_count": 23220,
+      "error_count_over_total": "66/23220",
+      "error_rate": 0.002842377260981912
+    },
+    {
+      "d": 3,
+      "error_count": 1675,
+      "total_count": 253260,
+      "error_count_over_total": "1675/253260",
+      "error_rate": 0.006613756613756613
+    }
+  ]
+}
