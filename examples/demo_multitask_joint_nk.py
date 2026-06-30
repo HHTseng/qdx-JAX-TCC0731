@@ -40,7 +40,7 @@ from qdx.utils import Utils
 
 TRAIN_N = (9, 10, 11, 12, 13)
 VALIDATION_N = (7, 8, 9, 10, 11, 12, 13, 14, 15, 16)
-K_VALUES = (1, 2, 3)
+K_VALUES = (1, 2, 3, 4)
 TRAIN_TASKS = tuple(itertools.product(TRAIN_N, K_VALUES))
 VALIDATION_TASKS = tuple(itertools.product(VALIDATION_N, K_VALUES))
 
@@ -49,7 +49,7 @@ BASE_CONFIG = {
     "ENV_TYPE": "STANDARD",
     "D": 3,
     "MAX_STEPS": 50,
-    "WHICH_GATES": ("cx", "h"),
+    "WHICH_GATES": ("cx", "h", "s", "sqrt_x", "cz", "sqrt_xx"),
     "GRAPH": "All-to-All",
     "SOFTNESS": 1,
     "P_I": 0.9,
