@@ -1,0 +1,228 @@
+{
+  "MODEL": "GNN",
+  "ENV_TYPE": "STANDARD",
+  "D": 3,
+  "MAX_STEPS": 50,
+  "WHICH_GATES": [
+    "cx",
+    "h",
+    "s",
+    "sqrt_x",
+    "cz",
+    "sqrt_xx"
+  ],
+  "GRAPH": "All-to-All",
+  "SOFTNESS": 1,
+  "P_I": 0.9,
+  "LAMBDA": 10,
+  "SEED": 42,
+  "LR": 0.001,
+  "NUM_ENVS_PER_TASK": 64,
+  "NUM_STEPS": 50,
+  "TOTAL_TIMESTEPS": 2000000,
+  "UPDATE_EPOCHS": 3,
+  "NUM_MINIBATCHES": 4,
+  "GAMMA": 0.99,
+  "GAE_LAMBDA": 0.95,
+  "CLIP_EPS": 0.2,
+  "ENT_COEF": 0.02,
+  "VF_COEF": 0.5,
+  "MAX_GRAD_NORM": 0.25,
+  "ACTIVATION": "relu",
+  "HIDDEN_DIM": 32,
+  "ANNEAL_LR": true,
+  "COMPUTE_METRICS": true,
+  "GNN_HIDDEN_DIM": 64,
+  "GNN_RELATION_DIM": 8,
+  "GNN_GATE_DIM": 8,
+  "GNN_NUM_LAYERS": 3,
+  "graphs": [
+    "All-to-All",
+    "NN-1",
+    "NN-2"
+  ],
+  "train_tasks": [
+    {
+      "n": 5,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 5,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-1"
+    },
+    {
+      "n": 5,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-2"
+    },
+    {
+      "n": 6,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 6,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-1"
+    },
+    {
+      "n": 6,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-2"
+    },
+    {
+      "n": 7,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 7,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-1"
+    },
+    {
+      "n": 7,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-2"
+    }
+  ],
+  "validation_tasks": [
+    {
+      "n": 5,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 5,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-1"
+    },
+    {
+      "n": 5,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-2"
+    },
+    {
+      "n": 6,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 6,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-1"
+    },
+    {
+      "n": 6,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-2"
+    },
+    {
+      "n": 7,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 7,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-1"
+    },
+    {
+      "n": 7,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-2"
+    },
+    {
+      "n": 8,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 8,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-1"
+    },
+    {
+      "n": 8,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-2"
+    },
+    {
+      "n": 8,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 8,
+      "k": 2,
+      "d": 3,
+      "graph": "NN-1"
+    },
+    {
+      "n": 8,
+      "k": 2,
+      "d": 3,
+      "graph": "NN-2"
+    },
+    {
+      "n": 8,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 8,
+      "k": 3,
+      "d": 3,
+      "graph": "NN-1"
+    },
+    {
+      "n": 8,
+      "k": 3,
+      "d": 3,
+      "graph": "NN-2"
+    }
+  ],
+  "train_graph_padding": {
+    "n_max": 7,
+    "stabilizers_max": 6,
+    "hardware_edges_max": 42,
+    "actions_max": null
+  },
+  "validation_graph_padding": {
+    "n_max": 8,
+    "stabilizers_max": 7,
+    "hardware_edges_max": 56,
+    "actions_max": null
+  },
+  "requested_total_timesteps": 10000000,
+  "num_updates": 347,
+  "rollout_per_task": 3200,
+  "rollout_per_update": 28800,
+  "actual_total_timesteps": 9993600,
+  "minibatch_size": 7200
+}

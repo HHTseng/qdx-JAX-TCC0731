@@ -1,0 +1,1161 @@
+{
+  "target_distance": 3,
+  "target_distances": [
+    3
+  ],
+  "compute_distance": true,
+  "tasks": [
+    {
+      "graph": "All-to-All",
+      "n": 5,
+      "k": 1,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 15,
+          "error_count_over_total": "0/15",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 90,
+          "error_count_over_total": "0/90",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 30,
+          "total_count": 270,
+          "error_count_over_total": "30/270",
+          "error_rate": 0.1111111111111111
+        }
+      ],
+      "target_met": true,
+      "steps": 6,
+      "total_reward": -0.9801010675728321,
+      "final_reward": -2.980232238769531e-07,
+      "final_value": -0.003757547354325652,
+      "gates": [
+        ".sqrt_xx(0, 1)",
+        ".cx(0, 2)",
+        ".cx(1, 3)",
+        ".sqrt_xx(0, 4)",
+        ".cx(0, 1)",
+        ".sqrt_xx(4, 3)"
+      ]
+    },
+    {
+      "graph": "NN-1",
+      "n": 5,
+      "k": 1,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 15,
+          "error_count_over_total": "0/15",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 90,
+          "error_count_over_total": "0/90",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 30,
+          "total_count": 270,
+          "error_count_over_total": "30/270",
+          "error_rate": 0.1111111111111111
+        }
+      ],
+      "target_met": true,
+      "steps": 10,
+      "total_reward": -1.7739027291536331,
+      "final_reward": -2.980232238769531e-07,
+      "final_value": -0.02241041138768196,
+      "gates": [
+        ".sqrt_xx(1, 0)",
+        ".cx(1, 2)",
+        ".cx(0, 1)",
+        ".sqrt_xx(2, 3)",
+        ".cx(3, 4)",
+        ".cx(2, 1)",
+        ".sqrt_xx(2, 3)",
+        ".sqrt_xx(1, 2)",
+        ".s(2)",
+        ".cx(1, 2)"
+      ]
+    },
+    {
+      "graph": "NN-2",
+      "n": 5,
+      "k": 1,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 15,
+          "error_count_over_total": "0/15",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 90,
+          "error_count_over_total": "0/90",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 30,
+          "total_count": 270,
+          "error_count_over_total": "30/270",
+          "error_rate": 0.1111111111111111
+        }
+      ],
+      "target_met": true,
+      "steps": 6,
+      "total_reward": -0.980100754648447,
+      "final_reward": -2.980232238769531e-07,
+      "final_value": 0.014903945848345757,
+      "gates": [
+        ".sqrt_xx(2, 0)",
+        ".cx(2, 4)",
+        ".cx(0, 1)",
+        ".sqrt_xx(1, 3)",
+        ".cx(1, 2)",
+        ".sqrt_xx(3, 4)"
+      ]
+    },
+    {
+      "graph": "All-to-All",
+      "n": 6,
+      "k": 1,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 18,
+          "error_count_over_total": "0/18",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 135,
+          "error_count_over_total": "0/135",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 24,
+          "total_count": 540,
+          "error_count_over_total": "24/540",
+          "error_rate": 0.044444444444444446
+        }
+      ],
+      "target_met": true,
+      "steps": 7,
+      "total_reward": -0.9841470089741051,
+      "final_reward": 6.495974957942963e-07,
+      "final_value": 0.007993023842573166,
+      "gates": [
+        ".sqrt_xx(0, 1)",
+        ".cx(0, 2)",
+        ".cx(1, 3)",
+        ".sqrt_xx(0, 4)",
+        ".cx(0, 5)",
+        ".cx(5, 1)",
+        ".sqrt_xx(4, 3)"
+      ]
+    },
+    {
+      "graph": "NN-1",
+      "n": 6,
+      "k": 1,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 2,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 18,
+          "error_count_over_total": "0/18",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 1,
+          "total_count": 135,
+          "error_count_over_total": "1/135",
+          "error_rate": 0.007407407407407408
+        },
+        {
+          "d": 3,
+          "error_count": 18,
+          "total_count": 540,
+          "error_count_over_total": "18/540",
+          "error_rate": 0.03333333333333333
+        }
+      ],
+      "target_met": false,
+      "steps": 50,
+      "total_reward": -1.9974416997283697,
+      "final_reward": -0.0072896480560302734,
+      "final_value": -0.015284363180398941,
+      "gates": [
+        ".sqrt_xx(1, 0)",
+        ".cx(1, 2)",
+        ".cx(0, 1)",
+        ".sqrt_xx(2, 3)",
+        ".cx(3, 4)",
+        ".cx(2, 1)",
+        ".sqrt_xx(4, 5)",
+        ".cx(4, 3)",
+        ".sqrt_xx(3, 2)",
+        ".cz(1, 2)",
+        ".cx(3, 2)",
+        ".s(3)",
+        ".s(3)",
+        ".s(0)",
+        ".h(3)",
+        ".sqrt_x(3)",
+        ".s(3)",
+        ".s(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)"
+      ]
+    },
+    {
+      "graph": "NN-2",
+      "n": 6,
+      "k": 1,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 18,
+          "error_count_over_total": "0/18",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 135,
+          "error_count_over_total": "0/135",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 24,
+          "total_count": 540,
+          "error_count_over_total": "24/540",
+          "error_rate": 0.044444444444444446
+        }
+      ],
+      "target_met": true,
+      "steps": 7,
+      "total_reward": -0.9695674148388207,
+      "final_reward": 6.495974957942963e-07,
+      "final_value": 0.007036268711090088,
+      "gates": [
+        ".sqrt_xx(2, 0)",
+        ".cx(2, 4)",
+        ".cx(0, 1)",
+        ".sqrt_xx(4, 3)",
+        ".cx(4, 5)",
+        ".sqrt_xx(3, 1)",
+        ".cx(1, 2)"
+      ]
+    },
+    {
+      "graph": "All-to-All",
+      "n": 7,
+      "k": 1,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 21,
+          "error_count_over_total": "0/21",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 189,
+          "error_count_over_total": "0/189",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 19,
+          "total_count": 945,
+          "error_count_over_total": "19/945",
+          "error_rate": 0.020105820105820106
+        }
+      ],
+      "target_met": true,
+      "steps": 8,
+      "total_reward": -0.9841552190482616,
+      "final_reward": -8.568167686462402e-07,
+      "final_value": 0.004369806498289108,
+      "gates": [
+        ".sqrt_xx(0, 1)",
+        ".cx(0, 2)",
+        ".cx(1, 3)",
+        ".sqrt_xx(0, 4)",
+        ".cx(0, 5)",
+        ".sqrt_xx(4, 6)",
+        ".cx(5, 1)",
+        ".sqrt_xx(4, 3)"
+      ]
+    },
+    {
+      "graph": "NN-1",
+      "n": 7,
+      "k": 1,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 21,
+          "error_count_over_total": "0/21",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 189,
+          "error_count_over_total": "0/189",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 16,
+          "total_count": 945,
+          "error_count_over_total": "16/945",
+          "error_rate": 0.016931216931216932
+        }
+      ],
+      "target_met": true,
+      "steps": 12,
+      "total_reward": -1.6861848533153534,
+      "final_reward": -8.754432201385498e-07,
+      "final_value": -0.016960125416517258,
+      "gates": [
+        ".sqrt_xx(1, 0)",
+        ".cx(1, 2)",
+        ".cx(0, 1)",
+        ".sqrt_xx(2, 3)",
+        ".cx(3, 4)",
+        ".cx(2, 1)",
+        ".sqrt_xx(4, 5)",
+        ".sqrt_xx(5, 6)",
+        ".cx(4, 3)",
+        ".sqrt_xx(3, 2)",
+        ".cz(1, 2)",
+        ".cx(1, 2)"
+      ]
+    },
+    {
+      "graph": "NN-2",
+      "n": 7,
+      "k": 1,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 21,
+          "error_count_over_total": "0/21",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 189,
+          "error_count_over_total": "0/189",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 18,
+          "total_count": 945,
+          "error_count_over_total": "18/945",
+          "error_rate": 0.01904761904761905
+        }
+      ],
+      "target_met": true,
+      "steps": 8,
+      "total_reward": -0.9907159581780434,
+      "final_reward": -8.754432201385498e-07,
+      "final_value": -0.004823913797736168,
+      "gates": [
+        ".sqrt_xx(2, 0)",
+        ".cx(2, 4)",
+        ".cx(0, 1)",
+        ".sqrt_xx(4, 3)",
+        ".cx(4, 5)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(3, 1)",
+        ".cx(1, 2)"
+      ]
+    },
+    {
+      "graph": "All-to-All",
+      "n": 8,
+      "k": 1,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 24,
+          "error_count_over_total": "0/24",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 252,
+          "error_count_over_total": "0/252",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 14,
+          "total_count": 1512,
+          "error_count_over_total": "14/1512",
+          "error_rate": 0.009259259259259259
+        }
+      ],
+      "target_met": true,
+      "steps": 9,
+      "total_reward": -1.0156479065772146,
+      "final_reward": -8.603092283010483e-07,
+      "final_value": -0.039278801530599594,
+      "gates": [
+        ".sqrt_xx(0, 1)",
+        ".cx(0, 2)",
+        ".cx(1, 3)",
+        ".sqrt_xx(0, 4)",
+        ".cx(0, 5)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(6, 7)",
+        ".cx(5, 1)",
+        ".sqrt_xx(4, 3)"
+      ]
+    },
+    {
+      "graph": "NN-1",
+      "n": 8,
+      "k": 1,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 24,
+          "error_count_over_total": "0/24",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 252,
+          "error_count_over_total": "0/252",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 16,
+          "total_count": 1512,
+          "error_count_over_total": "16/1512",
+          "error_rate": 0.010582010582010581
+        }
+      ],
+      "target_met": true,
+      "steps": 13,
+      "total_reward": -1.7006179372547194,
+      "final_reward": -1.3213139027357101e-07,
+      "final_value": 0.13543471693992615,
+      "gates": [
+        ".sqrt_xx(1, 0)",
+        ".cx(1, 2)",
+        ".cx(0, 1)",
+        ".sqrt_xx(2, 3)",
+        ".cx(3, 4)",
+        ".cx(2, 1)",
+        ".sqrt_xx(4, 5)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(6, 7)",
+        ".cx(4, 3)",
+        ".sqrt_xx(3, 2)",
+        ".cz(1, 2)",
+        ".cx(1, 2)"
+      ]
+    },
+    {
+      "graph": "NN-2",
+      "n": 8,
+      "k": 1,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 3,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 24,
+          "error_count_over_total": "0/24",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 0,
+          "total_count": 252,
+          "error_count_over_total": "0/252",
+          "error_rate": 0.0
+        },
+        {
+          "d": 3,
+          "error_count": 18,
+          "total_count": 1512,
+          "error_count_over_total": "18/1512",
+          "error_rate": 0.011904761904761904
+        }
+      ],
+      "target_met": true,
+      "steps": 9,
+      "total_reward": -1.0274573084898293,
+      "final_reward": -7.287599146366119e-07,
+      "final_value": 0.005990685895085335,
+      "gates": [
+        ".sqrt_xx(2, 0)",
+        ".cx(2, 4)",
+        ".cx(0, 1)",
+        ".sqrt_xx(4, 3)",
+        ".cx(4, 5)",
+        ".sqrt_xx(5, 6)",
+        ".cx(5, 7)",
+        ".sqrt_xx(3, 1)",
+        ".cx(1, 2)"
+      ]
+    },
+    {
+      "graph": "All-to-All",
+      "n": 8,
+      "k": 2,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 2,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 24,
+          "error_count_over_total": "0/24",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 4,
+          "total_count": 252,
+          "error_count_over_total": "4/252",
+          "error_rate": 0.015873015873015872
+        },
+        {
+          "d": 3,
+          "error_count": 19,
+          "total_count": 1512,
+          "error_count_over_total": "19/1512",
+          "error_rate": 0.012566137566137565
+        }
+      ],
+      "target_met": false,
+      "steps": 50,
+      "total_reward": -19.3326666764915,
+      "final_reward": -0.023620128631591797,
+      "final_value": -0.09484785795211792,
+      "gates": [
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(2, 0)",
+        ".cx(0, 1)",
+        ".cx(0, 3)",
+        ".cx(1, 4)",
+        ".sqrt_xx(2, 5)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(6, 7)",
+        ".sqrt_xx(7, 0)",
+        ".cx(0, 1)",
+        ".sqrt_xx(5, 4)",
+        ".cx(5, 0)",
+        ".sqrt_xx(6, 4)",
+        ".cz(6, 0)",
+        ".cx(4, 0)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(4)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(2)",
+        ".sqrt_x(6)",
+        ".sqrt_x(6)",
+        ".sqrt_x(3)",
+        ".sqrt_x(6)"
+      ]
+    },
+    {
+      "graph": "NN-1",
+      "n": 8,
+      "k": 2,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 1,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 1,
+          "total_count": 24,
+          "error_count_over_total": "1/24",
+          "error_rate": 0.041666666666666664
+        },
+        {
+          "d": 2,
+          "error_count": 8,
+          "total_count": 252,
+          "error_count_over_total": "8/252",
+          "error_rate": 0.031746031746031744
+        },
+        {
+          "d": 3,
+          "error_count": 21,
+          "total_count": 1512,
+          "error_count_over_total": "21/1512",
+          "error_rate": 0.013888888888888888
+        }
+      ],
+      "target_met": false,
+      "steps": 50,
+      "total_reward": -12.660133063793182,
+      "final_reward": -0.2066720873117447,
+      "final_value": -0.2013034224510193,
+      "gates": [
+        ".sqrt_xx(2, 1)",
+        ".cx(1, 0)",
+        ".cx(2, 3)",
+        ".cx(1, 2)",
+        ".sqrt_xx(3, 4)",
+        ".cx(4, 5)",
+        ".cx(3, 2)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(6, 7)",
+        ".cx(0, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)",
+        ".sqrt_xx(2, 1)"
+      ]
+    },
+    {
+      "graph": "NN-2",
+      "n": 8,
+      "k": 2,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 1,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 1,
+          "total_count": 24,
+          "error_count_over_total": "1/24",
+          "error_rate": 0.041666666666666664
+        },
+        {
+          "d": 2,
+          "error_count": 3,
+          "total_count": 252,
+          "error_count_over_total": "3/252",
+          "error_rate": 0.011904761904761904
+        },
+        {
+          "d": 3,
+          "error_count": 19,
+          "total_count": 1512,
+          "error_count_over_total": "19/1512",
+          "error_rate": 0.012566137566137565
+        }
+      ],
+      "target_met": false,
+      "steps": 50,
+      "total_reward": -11.018579974770546,
+      "final_reward": -0.1771479845046997,
+      "final_value": -0.06903791427612305,
+      "gates": [
+        ".sqrt_xx(3, 1)",
+        ".cx(3, 5)",
+        ".cx(1, 0)",
+        ".cx(1, 2)",
+        ".sqrt_xx(5, 4)",
+        ".cx(5, 6)",
+        ".sqrt_xx(5, 7)",
+        ".sqrt_xx(4, 2)",
+        ".cx(2, 3)",
+        ".sqrt_xx(2, 4)",
+        ".sqrt_xx(4, 2)",
+        ".sqrt_xx(2, 4)",
+        ".sqrt_xx(4, 2)",
+        ".cz(5, 4)",
+        ".cz(4, 2)",
+        ".sqrt_xx(4, 2)",
+        ".cz(3, 2)",
+        ".cz(6, 5)",
+        ".sqrt_x(6)",
+        ".sqrt_x(3)",
+        ".cx(2, 3)",
+        ".sqrt_x(5)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(5)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)",
+        ".sqrt_x(2)"
+      ]
+    },
+    {
+      "graph": "All-to-All",
+      "n": 8,
+      "k": 3,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 2,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 24,
+          "error_count_over_total": "0/24",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 10,
+          "total_count": 252,
+          "error_count_over_total": "10/252",
+          "error_rate": 0.03968253968253968
+        },
+        {
+          "d": 3,
+          "error_count": 47,
+          "total_count": 1512,
+          "error_count_over_total": "47/1512",
+          "error_rate": 0.031084656084656083
+        }
+      ],
+      "target_met": false,
+      "steps": 50,
+      "total_reward": -31.231025971472263,
+      "final_reward": -0.05904972553253174,
+      "final_value": -0.1968277394771576,
+      "gates": [
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(0, 1)",
+        ".sqrt_xx(3, 0)",
+        ".cx(0, 1)",
+        ".cx(0, 2)",
+        ".cx(0, 4)",
+        ".cx(1, 5)",
+        ".cx(2, 6)",
+        ".sqrt_xx(3, 7)",
+        ".sqrt_xx(7, 0)",
+        ".cx(0, 1)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(1, 5)",
+        ".sqrt_xx(1, 7)",
+        ".cx(7, 1)",
+        ".cz(0, 7)",
+        ".sqrt_xx(7, 0)",
+        ".cx(1, 7)",
+        ".sqrt_xx(7, 4)",
+        ".sqrt_xx(2, 4)",
+        ".sqrt_x(7)",
+        ".sqrt_x(7)",
+        ".sqrt_x(7)",
+        ".sqrt_x(7)",
+        ".sqrt_x(7)",
+        ".sqrt_x(7)",
+        ".sqrt_x(7)",
+        ".sqrt_x(7)"
+      ]
+    },
+    {
+      "graph": "NN-1",
+      "n": 8,
+      "k": 3,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 1,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 3,
+          "total_count": 24,
+          "error_count_over_total": "3/24",
+          "error_rate": 0.125
+        },
+        {
+          "d": 2,
+          "error_count": 14,
+          "total_count": 252,
+          "error_count_over_total": "14/252",
+          "error_rate": 0.05555555555555555
+        },
+        {
+          "d": 3,
+          "error_count": 55,
+          "total_count": 1512,
+          "error_count_over_total": "55/1512",
+          "error_rate": 0.036375661375661374
+        }
+      ],
+      "target_met": false,
+      "steps": 50,
+      "total_reward": -32.37659287452698,
+      "final_reward": -0.5609662532806396,
+      "final_value": -0.5238794684410095,
+      "gates": [
+        ".sqrt_xx(3, 2)",
+        ".cx(2, 1)",
+        ".cx(1, 0)",
+        ".cx(3, 4)",
+        ".cx(2, 3)",
+        ".cx(1, 2)",
+        ".sqrt_xx(4, 3)",
+        ".sqrt_xx(3, 4)",
+        ".sqrt_xx(4, 3)",
+        ".sqrt_xx(3, 4)",
+        ".sqrt_xx(4, 3)",
+        ".sqrt_xx(3, 4)",
+        ".sqrt_xx(4, 3)",
+        ".sqrt_xx(3, 4)",
+        ".sqrt_xx(4, 3)",
+        ".sqrt_xx(3, 4)",
+        ".sqrt_xx(4, 3)",
+        ".sqrt_xx(3, 4)",
+        ".sqrt_xx(4, 3)",
+        ".sqrt_xx(3, 4)",
+        ".sqrt_xx(4, 5)",
+        ".sqrt_xx(5, 6)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(6, 7)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)",
+        ".sqrt_xx(1, 2)"
+      ]
+    },
+    {
+      "graph": "NN-2",
+      "n": 8,
+      "k": 3,
+      "d": 3,
+      "target_distance": 3,
+      "distance": 2,
+      "distance_stats": [
+        {
+          "d": 1,
+          "error_count": 0,
+          "total_count": 24,
+          "error_count_over_total": "0/24",
+          "error_rate": 0.0
+        },
+        {
+          "d": 2,
+          "error_count": 12,
+          "total_count": 252,
+          "error_count_over_total": "12/252",
+          "error_rate": 0.047619047619047616
+        },
+        {
+          "d": 3,
+          "error_count": 46,
+          "total_count": 1512,
+          "error_count_over_total": "46/1512",
+          "error_rate": 0.03042328042328042
+        }
+      ],
+      "target_met": false,
+      "steps": 50,
+      "total_reward": -11.815732195973396,
+      "final_reward": -0.07085919380187988,
+      "final_value": -0.12508195638656616,
+      "gates": [
+        ".sqrt_xx(3, 2)",
+        ".cx(3, 5)",
+        ".cx(2, 1)",
+        ".cx(2, 4)",
+        ".cx(1, 0)",
+        ".cx(1, 3)",
+        ".sqrt_xx(4, 3)",
+        ".sqrt_xx(4, 6)",
+        ".sqrt_xx(6, 7)",
+        ".cx(0, 1)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(3, 1)",
+        ".sqrt_xx(2, 1)",
+        ".cx(4, 3)",
+        ".cx(2, 1)",
+        ".cx(4, 2)",
+        ".cx(4, 5)",
+        ".cx(6, 4)",
+        ".cx(6, 5)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)",
+        ".sqrt_x(1)"
+      ]
+    }
+  ],
+  "distance_summary": [
+    {
+      "d": 1,
+      "error_count": 5,
+      "total_count": 378,
+      "error_count_over_total": "5/378",
+      "error_rate": 0.013227513227513227
+    },
+    {
+      "d": 2,
+      "error_count": 52,
+      "total_count": 3510,
+      "error_count_over_total": "52/3510",
+      "error_rate": 0.014814814814814815
+    },
+    {
+      "d": 3,
+      "error_count": 464,
+      "total_count": 18873,
+      "error_count_over_total": "464/18873",
+      "error_rate": 0.024585386531023153
+    }
+  ]
+}
