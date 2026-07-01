@@ -37,6 +37,7 @@ from qdx.envs.graph_code_discovery import GraphCodeDiscovery
 from qdx.gnn import GraphPadding
 from qdx.make_train import make_actor_critic
 from qdx.simulators.clifford_gates import CliffordGates
+from qdx.utils import Utils
 
 
 BASE_CONFIG = {
@@ -50,7 +51,7 @@ BASE_CONFIG = {
     "P_I": 0.9,
     "LAMBDA": 10,
     "SEED": 42,
-    "LR": 2.0e-4,
+    "LR": 1.0e-3,
     "NUM_ENVS_PER_TASK": 16,
     "NUM_STEPS": 50,
     "TOTAL_TIMESTEPS": 2_000_000,
@@ -76,9 +77,6 @@ DEFAULT_TRAIN_TASKS = (
     (5, 1, 3),
     (6, 1, 3),
     (7, 1, 3),
-    (8, 1, 3),
-    (8, 2, 3),
-    (8, 3, 3),
 )
 DEFAULT_VALIDATION_TASKS = (
     (5, 1, 3),
@@ -87,15 +85,6 @@ DEFAULT_VALIDATION_TASKS = (
     (8, 1, 3),
     (8, 2, 3),
     (8, 3, 3),
-    (9, 1, 3),
-    (9, 2, 3),
-    (9, 3, 3),
-    (9, 4, 3),
-    (10, 1, 3),
-    (10, 2, 3),
-    (10, 3, 3),
-    (10, 4, 3),
-    (10, 5, 3),
 )
 
 
@@ -513,7 +502,7 @@ def default_output_dir():
     return (
         Path(__file__).resolve().parent
         / "results"
-        / f"demo_multitask_513_nkd_{timestamp}"
+        / f"demo_multitask_nkd_{timestamp}"
     )
 
 
