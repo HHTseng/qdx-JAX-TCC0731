@@ -1,17 +1,11 @@
 """Train and validate one shared GNN-QDX policy on custom (N, K, D) tasks.
 
-Instead of hard-coding all training and validation tasks, you can pass them
-one-by-one with repeated ``--train-task`` and ``--validation-task`` flags.
-Each task is specified as ``N K D`` and is expanded across one or more hardware
-graphs (``All-to-All``, ``NN-1``, ``NN-2``).
+Training hyperparameters, task lists, graph choices, and runtime toggles are
+loaded from a YAML file in ``configs/``.
 
 Run:
-    conda run -n qdx python examples/demo_multitask_nkdg.py
-    conda run -n qdx python examples/demo_multitask_nkdg.py \
-        --train-task 5 1 3 --train-task 6 1 3 \
-        --validation-task 7 1 3 --validation-task 8 1 3
-    conda run -n qdx python examples/demo_multitask_nkdg.py \
-        --graphs All-to-All NN-1 NN-2 --dry-run
+    conda run -n qdx python main.py
+    conda run -n qdx python main.py --config configs/main.yaml
 """
 
 import argparse
@@ -26,6 +20,11 @@ from typing import Any, NamedTuple
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 os.environ.setdefault("JAX_LOGGING_LEVEL", "ERROR")
+
+try:
+    import yaml
+except ModuleNotFoundError:  # pragma: no cover - depends on the runtime env
+    yaml = None
 
 from flax import serialization
 from flax.training.train_state import TrainState
@@ -75,140 +74,10 @@ BASE_CONFIG = {
     "GNN_NUM_LAYERS": 3,
 }
 
-DEFAULT_TRAIN_TASKS = (
-    (5, 1, 3),
-    (6, 1, 3),
-    (7, 1, 3),
-    (8, 1, 3),
-    (8, 2, 3),
-    (8, 3, 3),
-    (9, 1, 3),
-    (9, 2, 3),
-    (9, 3, 3),
-    (10, 1, 3),
-    (10, 2, 3),
-    (10, 3, 3),
-    (10, 4, 3),
-    (11, 1, 4),
-    (11, 2, 4),
-    (11, 3, 3),
-    (11, 4, 3),
-    (11, 5, 3),
-    (12, 1, 5),
-    (12, 2, 4),
-    (12, 3, 3),
-    (12, 4, 3),
-    (12, 5, 3),
-    (12, 6, 3),
-    (13, 1, 5),
-    (13, 2, 4),
-    (13, 3, 4),
-    (13, 4, 4),
-    (13, 5, 3),
-    (13, 6, 3),
-    (13, 7, 3),
-)
-DEFAULT_VALIDATION_TASKS = (
-        (5, 1, 3),
-    (6, 1, 3),
-    (7, 1, 3),
-    (8, 1, 3),
-    (8, 2, 3),
-    (8, 3, 3),
-    (9, 1, 3),
-    (9, 2, 3),
-    (9, 3, 3),
-    (10, 1, 3),
-    (10, 2, 3),
-    (10, 3, 3),
-    (10, 4, 3),
-    (11, 1, 4),
-    (11, 2, 4),
-    (11, 3, 3),
-    (11, 4, 3),
-    (11, 5, 3),
-    (12, 1, 5),
-    (12, 2, 4),
-    (12, 3, 3),
-    (12, 4, 3),
-    (12, 5, 3),
-    (12, 6, 3),
-    (13, 1, 5),
-    (13, 2, 4),
-    (13, 3, 4),
-    (13, 4, 4),
-    (13, 5, 3),
-    (13, 6, 3),
-    (13, 7, 3),
-    (14, 1, 5),
-    (14, 2, 4),
-    (14, 3, 4),
-    (14, 4, 4),
-    (14, 5, 3),
-    (14, 6, 3),
-    (14, 7, 3),
-    (14, 8, 3),
-    (15, 1, 5),
-    (15, 2, 5),
-    (15, 3, 4),
-    (15, 4, 4),
-    (15, 5, 4),
-    (15, 6, 4),
-    (15, 7, 3),
-    (15, 8, 3),
-    (15, 9, 3),
-    (16, 1, 5),
-    (16, 2, 5),
-    (16, 3, 4),
-    (16, 4, 4),
-    (16, 5, 4),
-    (16, 6, 4),
-    (16, 7, 3),
-    (16, 8, 3),
-    (16, 9, 3),
-    (16, 10, 3),
-    (17, 1, 5),
-    (17, 2, 5),
-    (17, 3, 4),
-    (17, 4, 4),
-    (17, 5, 4),
-    (17, 6, 4),
-    (17, 7, 3),
-    (17, 8, 3),
-    (17, 9, 3),
-    (17, 10, 3),
-    (18, 1, 5),
-    (18, 2, 5),
-    (18, 3, 4),
-    (18, 4, 4),
-    (18, 5, 4),
-    (18, 6, 4),
-    (18, 7, 3),
-    (18, 8, 3),
-    (18, 9, 3),
-    (18, 10, 3),
-    (19, 1, 5),
-    (19, 2, 5),
-    (19, 3, 4),
-    (19, 4, 4),
-    (19, 5, 4),
-    (19, 6, 4),
-    (19, 7, 3),
-    (19, 8, 3),
-    (19, 9, 3),
-    (19, 10, 3),
-    (20, 1, 5),
-    (20, 2, 5),
-    (20, 3, 4),
-    (20, 4, 4),
-    (20, 5, 4),
-    (20, 6, 4),
-    (20, 7, 3),
-    (20, 8, 3),
-    (20, 9, 3),
-    (20, 10, 3),
-)
+DEFAULT_TRAIN_TASKS = ((5, 1, 3),)
+DEFAULT_VALIDATION_TASKS = ((5, 1, 3), (6, 1, 3))
 DEFAULT_GRAPHS = ("All-to-All", "NN-1", "NN-2")
+DEFAULT_CONFIG_PATH = Path(__file__).resolve().parent / "configs" / "main.yaml"
 
 
 def all_to_all_graph(n):
@@ -733,9 +602,65 @@ def default_output_dir():
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
     return (
         Path(__file__).resolve().parent
-        / "results"
+        / "outputs"
         / f"demo_multitask_nkdg_{timestamp}"
     )
+
+
+def load_yaml_config(config_path):
+    if yaml is None:
+        raise ModuleNotFoundError(
+            "PyYAML is required to load YAML configs. "
+            "Install it in the active environment, for example with "
+            "`conda run -n qdx pip install PyYAML`."
+        )
+
+    config_path = Path(config_path).expanduser()
+    with config_path.open("r", encoding="utf-8") as file:
+        return yaml.safe_load(file) or {}
+
+
+def load_run_settings(config_path):
+    raw_config = load_yaml_config(config_path)
+    config = {
+        key: raw_config.get(key.lower(), raw_config.get(key, value))
+        for key, value in BASE_CONFIG.items()
+    }
+
+    graph_names = raw_config.get("graphs", DEFAULT_GRAPHS)
+    graph_names = [graph_names] if isinstance(graph_names, str) else graph_names
+    graphs = tuple(
+        dict.fromkeys(normalize_graph_name(graph_name) for graph_name in graph_names)
+    )
+    train_tasks = normalize_task_specs(
+        raw_config.get("train_tasks"), DEFAULT_TRAIN_TASKS, graphs
+    )
+    skip_validation = raw_config.get("skip_validation", False)
+    validation_tasks = (
+        []
+        if skip_validation
+        else normalize_task_specs(
+            raw_config.get("validation_tasks"), DEFAULT_VALIDATION_TASKS, graphs
+        )
+    )
+    output_dir_value = raw_config.get("output_dir")
+    output_dir = (
+        default_output_dir()
+        if output_dir_value in (None, "")
+        else Path(output_dir_value).expanduser()
+    )
+
+    return {
+        "config": config,
+        "config_path": str(Path(config_path).expanduser()),
+        "graphs": graphs,
+        "train_tasks": train_tasks,
+        "validation_tasks": validation_tasks,
+        "skip_validation": skip_validation,
+        "skip_distance": raw_config.get("skip_distance", False),
+        "dry_run": raw_config.get("dry_run", False),
+        "output_dir": output_dir,
+    }
 
 
 def format_task(task):
@@ -778,8 +703,8 @@ def compute_training_layout(base_config, total_timesteps, train_tasks):
     rollout_per_update = rollout_per_task * len(train_tasks)
     if total_timesteps < rollout_per_update:
         raise ValueError(
-            "--total-timesteps must cover at least one full joint PPO update "
-            f"({rollout_per_update:,} timesteps)."
+            "TOTAL_TIMESTEPS/total_timesteps in the YAML config must cover at "
+            f"least one full joint PPO update ({rollout_per_update:,} timesteps)."
         )
     num_updates = total_timesteps // rollout_per_update
     actual_total_timesteps = num_updates * rollout_per_update
@@ -1098,97 +1023,22 @@ def save_results(output_dir, params, history, validation, run_config):
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--total-timesteps",
-        type=int,
-        default=BASE_CONFIG["TOTAL_TIMESTEPS"],
-        help="Total joint-training timesteps across all tasks.",
-    )
-    parser.add_argument(
-        "--num-envs-per-task",
-        "--num-envs",
-        dest="num_envs_per_task",
-        type=int,
-        default=BASE_CONFIG["NUM_ENVS_PER_TASK"],
-        help="Parallel environments assigned to each training task per PPO update.",
-    )
-    parser.add_argument(
-        "--train-task",
-        dest="train_tasks",
-        action="append",
-        nargs=3,
-        type=int,
-        metavar=("N", "K", "D"),
-        help="Add one training task; repeat the flag for multiple tasks.",
-    )
-    parser.add_argument(
-        "--graphs",
-        nargs="+",
-        default=list(DEFAULT_GRAPHS),
-        type=normalize_graph_name,
-        metavar="GRAPH",
-        help=(
-            "Graphs to expand each task across. "
-            "Supported names: All-to-All, NN-1, NN-2."
-        ),
-    )
-    parser.add_argument(
-        "--validation-task",
-        dest="validation_tasks",
-        action="append",
-        nargs=3,
-        type=int,
-        metavar=("N", "K", "D"),
-        help="Add one validation task; repeat the flag for multiple tasks.",
-    )
-    parser.add_argument("--seed", type=int, default=BASE_CONFIG["SEED"])
-    parser.add_argument(
-        "--output-dir",
+        "--config",
         type=Path,
-        default=None,
+        default=DEFAULT_CONFIG_PATH,
+        help="Path to the YAML config file.",
     )
-    parser.add_argument(
-        "--skip-distance",
-        action="store_true",
-        help="Skip the more expensive post-rollout distance calculation.",
-    )
-    parser.add_argument(
-        "--skip-validation",
-        action="store_true",
-        help="Skip the validation pass entirely.",
-    )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Build the requested tasks and run shared-parameter forward passes.",
-    )
-    args = parser.parse_args()
-    if args.output_dir is None:
-        args.output_dir = default_output_dir()
-    return args
+    return parser.parse_args()
 
 
 def main():
     run_started = time.perf_counter()
     args = parse_args()
-    config = dict(BASE_CONFIG)
-    config.update(
-        {
-            "NUM_ENVS_PER_TASK": args.num_envs_per_task,
-            "SEED": args.seed,
-        }
-    )
-
-    graphs = tuple(dict.fromkeys(args.graphs))
-    train_tasks = normalize_task_specs(
-        args.train_tasks, DEFAULT_TRAIN_TASKS, graphs
-    )
-    validation_tasks = (
-        []
-        if args.skip_validation
-        else normalize_task_specs(
-            args.validation_tasks, DEFAULT_VALIDATION_TASKS, graphs
-        )
-    )
+    run_settings = load_run_settings(args.config)
+    config = run_settings["config"]
+    graphs = run_settings["graphs"]
+    train_tasks = run_settings["train_tasks"]
+    validation_tasks = run_settings["validation_tasks"]
     train_graph_padding = build_graph_padding(train_tasks)
     validation_graph_padding = (
         build_graph_padding(validation_tasks)
@@ -1196,7 +1046,9 @@ def main():
         else train_graph_padding
     )
 
-    if args.dry_run:
+    print(f"Loaded configuration from {run_settings['config_path']}")
+
+    if run_settings["dry_run"]:
         dry_run(
             config,
             train_tasks,
@@ -1208,7 +1060,7 @@ def main():
 
     params, history, layout = train_joint_multitask(
         config,
-        total_timesteps=args.total_timesteps,
+        total_timesteps=config["TOTAL_TIMESTEPS"],
         train_tasks=train_tasks,
         train_graph_padding=train_graph_padding,
     )
@@ -1217,10 +1069,15 @@ def main():
         config,
         validation_tasks,
         validation_graph_padding=validation_graph_padding,
-        compute_distance=not args.skip_distance,
+        compute_distance=not run_settings["skip_distance"],
     )
     run_config = {
         **config,
+        "config_path": run_settings["config_path"],
+        "output_dir": str(run_settings["output_dir"]),
+        "skip_distance": run_settings["skip_distance"],
+        "skip_validation": run_settings["skip_validation"],
+        "dry_run": run_settings["dry_run"],
         "graphs": list(graphs),
         "WHICH_GATES": list(config["WHICH_GATES"]),
         "train_tasks": train_tasks,
@@ -1231,10 +1088,10 @@ def main():
             if not validation_tasks
             else graph_padding_to_dict(validation_graph_padding)
         ),
-        "requested_total_timesteps": args.total_timesteps,
+        "requested_total_timesteps": config["TOTAL_TIMESTEPS"],
         **layout,
     }
-    save_results(args.output_dir, params, history, validation, run_config)
+    save_results(run_settings["output_dir"], params, history, validation, run_config)
     total_runtime = time.perf_counter() - run_started
     print(
         f"Total runtime: {format_duration(total_runtime)} "
