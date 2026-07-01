@@ -150,6 +150,19 @@ def build_graph_padding(task_specs):
     )
 
 
+def graph_padding_to_dict(graph_padding):
+    return {
+        "n_max": int(graph_padding.n_max),
+        "stabilizers_max": int(graph_padding.resolved_stabilizers_max),
+        "hardware_edges_max": int(graph_padding.resolved_hardware_edges_max),
+        "actions_max": (
+            None
+            if graph_padding.actions_max is None
+            else int(graph_padding.actions_max)
+        ),
+    }
+
+
 class Transition(NamedTuple):
     done: jnp.ndarray
     action: jnp.ndarray
@@ -173,6 +186,15 @@ def format_metric(value):
     if value is None:
         return "nan"
     return f"{value:.2f}"
+
+
+def format_duration(seconds):
+    total_seconds = max(int(seconds), 0)
+    hours, remainder = divmod(total_seconds, 3600)
+    minutes, secs = divmod(remainder, 60)
+    if hours:
+        return f"{hours:d}:{minutes:02d}:{secs:02d}"
+    return f"{minutes:02d}:{secs:02d}"
 
 
 def mean_or_none(values):
@@ -563,7 +585,9 @@ def compute_training_layout(base_config, total_timesteps, train_tasks):
     }
 
 
-def train_joint_multitask(base_config, total_timesteps, train_tasks, graph_padding):
+def train_joint_multitask(
+    base_config, total_timesteps, train_tasks, train_graph_padding
+):
     layout = compute_training_layout(base_config, total_timesteps, train_tasks)
     first_task = train_tasks[0]
     first_env = make_env(
@@ -571,7 +595,7 @@ def train_joint_multitask(base_config, total_timesteps, train_tasks, graph_paddi
         first_task["k"],
         first_task["d"],
         base_config,
-        graph_padding,
+        train_graph_padding,
     )
     network = make_actor_critic(base_config, first_env)
 
@@ -591,7 +615,7 @@ def train_joint_multitask(base_config, total_timesteps, train_tasks, graph_paddi
                 task["k"],
                 task["d"],
                 base_config,
-                graph_padding,
+                train_graph_padding,
             )
         )
         task_rng = jax.random.fold_in(rng, task_index)
@@ -616,6 +640,7 @@ def train_joint_multitask(base_config, total_timesteps, train_tasks, graph_paddi
     )
 
     history = []
+    training_started = time.perf_counter()
     print(
         f"Training {len(train_tasks)} tasks jointly for "
         f"{layout['num_updates']} PPO updates; "
@@ -677,10 +702,12 @@ def train_joint_multitask(base_config, total_timesteps, train_tasks, graph_paddi
             [record["episode_length_mean"] for record in task_records]
         )
 
+        finished = time.perf_counter()
         record = {
             "update": update_index + 1,
             "timesteps": (update_index + 1) * layout["rollout_per_update"],
-            "seconds": time.perf_counter() - started,
+            "seconds": finished - started,
+            "elapsed_seconds": finished - training_started,
             "reward_mean": reward_mean,
             "done_rate": done_rate,
             "episode_count": episode_count,
@@ -701,13 +728,20 @@ def train_joint_multitask(base_config, total_timesteps, train_tasks, graph_paddi
             f"return={format_metric(record['episode_return_mean'])} "
             f"length={format_metric(record['episode_length_mean'])} "
             f"loss={record['loss']['total_loss']:.4f} "
-            f"time={record['seconds']:.1f}s"
+            f"time={record['seconds']:.1f}s "
+            f"elapsed={format_duration(record['elapsed_seconds'])}"
         )
 
     return train_state.params, history, layout
 
 
-def validate(params, base_config, validation_tasks, graph_padding, compute_distance=True):
+def validate(
+    params,
+    base_config,
+    validation_tasks,
+    validation_graph_padding,
+    compute_distance=True,
+):
     if not validation_tasks:
         print("Validation skipped: no validation tasks were provided.")
         return {
@@ -725,7 +759,11 @@ def validate(params, base_config, validation_tasks, graph_padding, compute_dista
         task_config = dict(base_config)
         task_config["D"] = task["d"]
         env = make_env(
-            task["n"], task["k"], task["d"], task_config, graph_padding
+            task["n"],
+            task["k"],
+            task["d"],
+            task_config,
+            validation_graph_padding,
         )
         network = make_actor_critic(task_config, env)
         rng = jax.random.PRNGKey(task_config["SEED"] + 10_000 + task_index)
@@ -806,44 +844,68 @@ def validate(params, base_config, validation_tasks, graph_padding, compute_dista
     }
 
 
-def dry_run(base_config, train_tasks, validation_tasks, graph_padding):
-    """Check that every requested task shares graph/action tensor shapes."""
+def dry_run(
+    base_config,
+    train_tasks,
+    validation_tasks,
+    train_graph_padding,
+    validation_graph_padding,
+):
+    """Check split-specific shapes and train-parameter reuse across paddings."""
 
-    check_tasks = train_tasks + validation_tasks
-    if not check_tasks:
-        raise ValueError("at least one task is required for a dry run")
+    if not train_tasks:
+        raise ValueError("at least one training task is required for a dry run")
 
-    first_task = check_tasks[0]
+    first_task = train_tasks[0]
     first_env = make_env(
         first_task["n"],
         first_task["k"],
         first_task["d"],
         base_config,
-        graph_padding,
+        train_graph_padding,
     )
     network = make_actor_critic(base_config, first_env)
     params = network.init(
         jax.random.PRNGKey(1), first_env.graph_observation_template()
     )
-    expected_shapes = jax.tree_util.tree_map(
-        lambda x: x.shape,
-        first_env.graph_observation_template(),
-    )
 
-    for task_index, task in enumerate(check_tasks):
-        env = make_env(
-            task["n"], task["k"], task["d"], base_config, graph_padding
+    def check_tasks(label, tasks, graph_padding):
+        if not tasks:
+            return
+
+        reference_task = tasks[0]
+        reference_env = make_env(
+            reference_task["n"],
+            reference_task["k"],
+            reference_task["d"],
+            base_config,
+            graph_padding,
         )
-        observation, _ = env.reset(jax.random.PRNGKey(task_index + 2), None)
-        shapes = jax.tree_util.tree_map(lambda x: x.shape, observation)
-        if shapes != expected_shapes:
-            raise ValueError(f"Task {task} has incompatible graph shapes")
-        policy, value = network.apply(params, observation)
-        print(
-            f"{format_task(task)}: nodes={int(observation.node_mask.sum())}, "
-            f"actions={int(observation.action_mask.sum())}, "
-            f"logits={policy.logits.shape}, value_shape={value.shape}"
+        expected_shapes = jax.tree_util.tree_map(
+            lambda x: x.shape,
+            reference_env.graph_observation_template(),
         )
+
+        for task_index, task in enumerate(tasks):
+            env = make_env(
+                task["n"], task["k"], task["d"], base_config, graph_padding
+            )
+            observation, _ = env.reset(jax.random.PRNGKey(task_index + 2), None)
+            shapes = jax.tree_util.tree_map(lambda x: x.shape, observation)
+            if shapes != expected_shapes:
+                raise ValueError(
+                    f"{label} task {task} has incompatible graph shapes"
+                )
+            policy, value = network.apply(params, observation)
+            print(
+                f"{label} {format_task(task)}: "
+                f"nodes={int(observation.node_mask.sum())}, "
+                f"actions={int(observation.action_mask.sum())}, "
+                f"logits={policy.logits.shape}, value_shape={value.shape}"
+            )
+
+    check_tasks("train", train_tasks, train_graph_padding)
+    check_tasks("validation", validation_tasks, validation_graph_padding)
 
 
 def save_results(output_dir, params, history, validation, run_config):
@@ -921,6 +983,7 @@ def parse_args():
 
 
 def main():
+    run_started = time.perf_counter()
     args = parse_args()
     config = dict(BASE_CONFIG)
     config.update(
@@ -936,23 +999,34 @@ def main():
         if args.skip_validation
         else normalize_task_specs(args.validation_tasks, DEFAULT_VALIDATION_TASKS)
     )
-    graph_padding = build_graph_padding(train_tasks + validation_tasks)
+    train_graph_padding = build_graph_padding(train_tasks)
+    validation_graph_padding = (
+        build_graph_padding(validation_tasks)
+        if validation_tasks
+        else train_graph_padding
+    )
 
     if args.dry_run:
-        dry_run(config, train_tasks, validation_tasks, graph_padding)
+        dry_run(
+            config,
+            train_tasks,
+            validation_tasks,
+            train_graph_padding,
+            validation_graph_padding,
+        )
         return
 
     params, history, layout = train_joint_multitask(
         config,
         total_timesteps=args.total_timesteps,
         train_tasks=train_tasks,
-        graph_padding=graph_padding,
+        train_graph_padding=train_graph_padding,
     )
     validation = validate(
         params,
         config,
         validation_tasks,
-        graph_padding=graph_padding,
+        validation_graph_padding=validation_graph_padding,
         compute_distance=not args.skip_distance,
     )
     run_config = {
@@ -960,10 +1034,21 @@ def main():
         "WHICH_GATES": list(config["WHICH_GATES"]),
         "train_tasks": train_tasks,
         "validation_tasks": validation_tasks,
+        "train_graph_padding": graph_padding_to_dict(train_graph_padding),
+        "validation_graph_padding": (
+            None
+            if not validation_tasks
+            else graph_padding_to_dict(validation_graph_padding)
+        ),
         "requested_total_timesteps": args.total_timesteps,
         **layout,
     }
     save_results(args.output_dir, params, history, validation, run_config)
+    total_runtime = time.perf_counter() - run_started
+    print(
+        f"Total runtime: {format_duration(total_runtime)} "
+        f"({total_runtime:.1f}s)"
+    )
 
 
 if __name__ == "__main__":
