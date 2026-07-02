@@ -50,6 +50,7 @@ BASE_CONFIG = {
     "WHICH_GATES": ("cx", "h", "s", "sqrt_x", "cz", "sqrt_xx"),
     "GRAPH": "All-to-All",
     "SOFTNESS": 1,
+    "VALIDATION_SOFTNESS": 3,
     "P_I": 0.9,
     "LAMBDA": 10,
     "SEED": 42,
@@ -658,10 +659,21 @@ def summarize_loss_metrics(loss_metrics):
     }
 
 
-def distance_error_stats_up_to_target(n, k, gates, target_distance):
+def distance_error_stats_up_to_target(
+    n, k, gates, target_distance, softness=None
+):
     """Return the first failing Pauli weight and per-d KL error statistics."""
 
-    utilities = Utils(n, k, gates, softness=n - k)
+    max_softness = n - k
+    if max_softness < 1:
+        raise ValueError("distance checks require n > k")
+    resolved_softness = (
+        max_softness
+        if softness is None
+        else max(1, min(int(softness), max_softness))
+    )
+
+    utilities = Utils(n, k, gates, softness=resolved_softness)
     distance_stats = []
     first_failure = target_distance + 1
     for weight in range(1, target_distance + 1):
@@ -978,7 +990,11 @@ def validate(
         distance_stats = None
         if compute_distance:
             distance, distance_stats = distance_error_stats_up_to_target(
-                task["n"], task["k"], gates, task["d"]
+                task["n"],
+                task["k"],
+                gates,
+                task["d"],
+                softness=base_config.get("VALIDATION_SOFTNESS"),
             )
             distance_stats_text = format_distance_stats(distance_stats)
         else:

@@ -79,7 +79,11 @@ def run_validation(
         distance_stats = None
         if compute_distance:
             distance, distance_stats = distance_error_stats_up_to_target(
-                task["n"], task["k"], gates, task["d"]
+                task["n"],
+                task["k"],
+                gates,
+                task["d"],
+                softness=base_config.get("VALIDATION_SOFTNESS"),
             )
             distance_stats_text = format_distance_stats(distance_stats)
         else:
