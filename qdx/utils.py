@@ -32,7 +32,7 @@ BASE_CONFIG = {
     "WHICH_GATES": ("cx", "h", "s", "sqrt_x", "cz", "sqrt_xx"),
     "GRAPH": "All-to-All",
     "SOFTNESS": 1,
-    "VALIDATION_SOFTNESS": 3,
+    "VALIDATION_SOFTNESS": None,
     "P_I": 0.9,
     "LAMBDA": 10,
     "SEED": 42,
