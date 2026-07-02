@@ -27,6 +27,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 os.environ.setdefault("JAX_LOGGING_LEVEL", "ERROR")
 
+from qdx.runtime_cache import configure_jax_persistent_cache
+
+RUNTIME_CACHE_DIRS = configure_jax_persistent_cache()
+
 from flax import serialization
 from flax.training.train_state import TrainState
 from gymnax.wrappers.purerl import LogWrapper

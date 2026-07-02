@@ -8,6 +8,11 @@ from inspect import signature
 from typing import Tuple, Optional
 from itertools import combinations, product
 from math import comb
+from qdx.runtime_cache import (
+    build_error_operators_upto,
+    build_s_structure,
+    load_or_build_array_bundle,
+)
 from qdx.simulators import TableauSimulator
 import numpy as np
 from jax import lax
@@ -48,6 +53,8 @@ class CodeDiscovery(environment.Environment):
         pI (float, optional): Probability of no error in the noise channel. Default: 0.9
         softness (int, optional): Parameter that controls the size of the stabilizer subgroup to be generated. Default: 1
     """
+    _ACTION_MATRIX_MEMORY_CACHE = {}
+
     def __init__(self,
             n_qubits_physical,
             n_qubits_logical,
@@ -106,7 +113,7 @@ class CodeDiscovery(environment.Environment):
     
     def generate_S_structure(self, softness):
         # Generate the structure of the stabilizer group (S) based on the softness parameter.
-    
+
         num = self.n_qubits_physical - self.n_qubits_logical
         self.S_struct = self._cached_s_structure(num, int(softness))
 
@@ -121,57 +128,44 @@ class CodeDiscovery(environment.Environment):
     @staticmethod
     @lru_cache(maxsize=None)
     def _cached_s_structure(num_stabilizers, softness):
-        max_softness = min(int(softness), int(num_stabilizers))
-        soft_elements = sum(
-            comb(num_stabilizers, weight)
-            for weight in range(1, max_softness + 1)
+        arrays = load_or_build_array_bundle(
+            "code_discovery_s_structure",
+            {
+                "num_stabilizers": int(num_stabilizers),
+                "softness": int(softness),
+            },
+            lambda: {
+                "s_struct": build_s_structure(num_stabilizers, softness),
+            },
         )
-        s_struct = np.zeros((soft_elements, num_stabilizers), dtype=np.uint8)
-
-        start_idx = 0
-        for weight in range(1, max_softness + 1):
-            for row_offset, indices in enumerate(
-                combinations(range(num_stabilizers), weight)
-            ):
-                s_struct[start_idx + row_offset, indices] = 1
-            start_idx += comb(num_stabilizers, weight)
-
-        assert np.prod(np.any(s_struct, axis=1)), "There is a row with all zeroes"
-        return jnp.asarray(s_struct)
+        return jnp.asarray(arrays["s_struct"])
 
     @staticmethod
     @lru_cache(maxsize=None)
     def _cached_error_operators(n_qubits_physical, code_distance, p_identity):
-        max_weight = min(int(code_distance) - 1, int(n_qubits_physical))
-        total_errors = sum(
-            comb(n_qubits_physical, weight) * (3 ** weight)
-            for weight in range(1, max_weight + 1)
-        )
-        error_ops = np.zeros(
-            (total_errors, 2 * n_qubits_physical), dtype=np.uint8
-        )
-        probabilities = np.empty((total_errors,), dtype=np.float32)
-
-        p_single = np.float32((1.0 - p_identity) / 3.0)
-        p_identity = np.float32(p_identity)
-        row = 0
-        for weight in range(1, max_weight + 1):
-            weight_probability = np.float32(
-                (p_single ** weight) * (p_identity ** (n_qubits_physical - weight))
+        def build():
+            error_ops, probabilities = build_error_operators_upto(
+                n_qubits_physical, code_distance, p_identity
             )
-            for positions in combinations(range(n_qubits_physical), weight):
-                for pauli_types in product((1, 2, 3), repeat=weight):
-                    row_values = error_ops[row]
-                    for position, pauli_type in zip(positions, pauli_types):
-                        if pauli_type != 3:
-                            row_values[position] = 1
-                        if pauli_type != 1:
-                            row_values[n_qubits_physical + position] = 1
-                    probabilities[row] = weight_probability
-                    row += 1
+            return {
+                "error_ops": error_ops,
+                "probabilities": probabilities,
+            }
 
-        return jnp.asarray(error_ops), jnp.asarray(probabilities)
-    
+        arrays = load_or_build_array_bundle(
+            "code_discovery_error_operators",
+            {
+                "n_qubits_physical": int(n_qubits_physical),
+                "code_distance": int(code_distance),
+                "p_identity": float(p_identity),
+            },
+            build,
+        )
+        return (
+            jnp.asarray(arrays["error_ops"]),
+            jnp.asarray(arrays["probabilities"]),
+        )
+
     def stabilizer_elements(self, tableau):
         # Generate the S matrix by multiplying the S structure with the tableau
         return (self.S_struct @ tableau) % 2
@@ -179,30 +173,67 @@ class CodeDiscovery(environment.Environment):
     
     def action_matrix(self,
                       params: Optional[EnvParams] = EnvParams) -> chex.Array:
-        
-        action_matrix = []
-        self.action_string = []
-        self.action_string_stim = []
+        gate_names = tuple(
+            f"{gate.__module__}.{gate.__qualname__}" for gate in self.gates
+        )
+        graph_edges = tuple((int(src), int(dst)) for src, dst in self.graph)
+        memory_key = (int(self.n_qubits_physical), gate_names, graph_edges)
+        cached = self._ACTION_MATRIX_MEMORY_CACHE.get(memory_key)
+        if cached is None:
+            def build():
+                action_matrix = []
+                action_string = []
+                action_string_stim = []
 
-        for gate in self.gates:
-            ## One qubit gate
-            if len(signature(gate).parameters) == 1:
-                for n_qubit in range(self.n_qubits_physical):                    
-                    action_matrix.append(gate(n_qubit))
-                    self.action_string.append('%s-%d' % (gate.__name__, n_qubit))
-                    self.action_string_stim.append('.%s(%d)' % (gate.__name__.lower(), n_qubit))
-                    
+                for gate in self.gates:
+                    if len(signature(gate).parameters) == 1:
+                        for n_qubit in range(self.n_qubits_physical):
+                            action_matrix.append(gate(n_qubit))
+                            action_string.append('%s-%d' % (gate.__name__, n_qubit))
+                            action_string_stim.append(
+                                '.%s(%d)' % (gate.__name__.lower(), n_qubit)
+                            )
+                    elif len(signature(gate).parameters) == 2:
+                        for edge in self.graph:
+                            action_matrix.append(gate(edge[0], edge[1]))
+                            action_string.append(
+                                '%s-%d-%d' % (gate.__name__, edge[0], edge[1])
+                            )
+                            action_string_stim.append(
+                                '.%s(%d, %d)'
+                                % (gate.__name__.lower(), edge[0], edge[1])
+                            )
 
-            ## Two qubit gates
-            elif len(signature(gate).parameters) == 2:
-                for edge in self.graph:
-                    action_matrix.append(gate(edge[0], edge[1]))                    
-                    self.action_string.append('%s-%d-%d' % (gate.__name__, edge[0], edge[1]))
-                    self.action_string_stim.append('.%s(%d, %d)' % (gate.__name__.lower(), edge[0], edge[1]))
+                return {
+                    "actions": np.asarray(action_matrix, dtype=np.uint8),
+                    "action_string": np.asarray(action_string),
+                    "action_string_stim": np.asarray(action_string_stim),
+                }
 
-                    
-        return jnp.array(action_matrix, dtype=jnp.uint8)
-    
+            arrays = load_or_build_array_bundle(
+                "code_discovery_action_matrix",
+                {
+                    "n_qubits_physical": int(self.n_qubits_physical),
+                    "gate_names": gate_names,
+                    "graph_edges": graph_edges,
+                },
+                build,
+            )
+            cached = (
+                jnp.asarray(arrays["actions"]),
+                tuple(str(value) for value in arrays["action_string"].tolist()),
+                tuple(
+                    str(value)
+                    for value in arrays["action_string_stim"].tolist()
+                ),
+            )
+            self._ACTION_MATRIX_MEMORY_CACHE[memory_key] = cached
+
+        actions, action_string, action_string_stim = cached
+        self.action_string = list(action_string)
+        self.action_string_stim = list(action_string_stim)
+        return actions
+
     def get_observation(self, tableau):
         '''
         Extract the check matrix for the observation

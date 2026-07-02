@@ -1,6 +1,5 @@
 from datetime import datetime
-import itertools
-from itertools import combinations
+from functools import lru_cache
 from pathlib import Path
 
 import chex
@@ -8,9 +7,6 @@ from flax import serialization
 import jax
 import jax.numpy as jnp
 import numpy as np
-from more_itertools import distinct_permutations
-import scipy.special as ss
-import stim
 
 try:
     import yaml
@@ -18,6 +14,11 @@ except ModuleNotFoundError:  # pragma: no cover - depends on the runtime env
     yaml = None
 
 from qdx.envs.graph_code_discovery import GraphCodeDiscovery
+from qdx.runtime_cache import (
+    build_exact_weight_error_operators,
+    build_s_structure,
+    load_or_build_array_bundle,
+)
 from qdx.gnn import GraphPadding
 from qdx.make_train import make_actor_critic
 from qdx.simulators import TableauSimulator
@@ -79,45 +80,57 @@ class Utils:
         self.S = self.generate_S(
             self.tableau[self.n_qubits_physical + self.n_qubits_logical :]
         )
-        self.Omega = jnp.kron(
+        self.Omega = self._cached_omega(self.n_qubits_physical)
+
+    @staticmethod
+    @lru_cache(maxsize=None)
+    def _cached_omega(n_qubits_physical):
+        return jnp.kron(
             jnp.array([[0, 1], [1, 0]], dtype=jnp.uint8),
-            jnp.eye(self.n_qubits_physical, dtype=jnp.uint8),
+            jnp.eye(n_qubits_physical, dtype=jnp.uint8),
         )
 
+    @staticmethod
+    @lru_cache(maxsize=None)
+    def _cached_s_structure(num_stabilizers, softness):
+        arrays = load_or_build_array_bundle(
+            "utils_s_structure",
+            {
+                "num_stabilizers": int(num_stabilizers),
+                "softness": int(softness),
+            },
+            lambda: {
+                "s_struct": build_s_structure(num_stabilizers, softness),
+            },
+        )
+        return jnp.asarray(arrays["s_struct"])
+
+    @staticmethod
+    @lru_cache(maxsize=None)
+    def _cached_exact_weight_error_operators(n_qubits_physical, eval_weight):
+        arrays = load_or_build_array_bundle(
+            "utils_exact_weight_error_operators",
+            {
+                "n_qubits_physical": int(n_qubits_physical),
+                "eval_weight": int(eval_weight),
+            },
+            lambda: {
+                "error_ops": build_exact_weight_error_operators(
+                    n_qubits_physical, eval_weight
+                ),
+            },
+        )
+        return jnp.asarray(arrays["error_ops"])
+
     def error_operators(self, eval_weight) -> chex.Array:
-        error_list = [1, 2, 3]
-        prod = list(
-            list(tup)
-            for tup in itertools.combinations_with_replacement(error_list, eval_weight)
-        )
-        prod = [pr + [0] * (self.n_qubits_physical - eval_weight) for pr in prod]
-        result = list(
-            list(distinct_permutations(pr, self.n_qubits_physical)) for pr in prod
-        )
-        error_structure = list(itertools.chain(*result))
-        return jnp.array(
-            [
-                jnp.array(stim.PauliString(pauli).to_numpy()).flatten()
-                for pauli in error_structure
-            ],
-            dtype=jnp.uint8,
+        return self._cached_exact_weight_error_operators(
+            self.n_qubits_physical,
+            eval_weight,
         )
 
     def generate_S_structure(self, softness):
         num = self.n_qubits_physical - self.n_qubits_logical
-        soft_elements = int(sum(ss.binom(num, i) for i in range(1, softness + 1)))
-        s_struct = np.zeros((soft_elements, num), dtype=int)
-
-        start_idx = 0
-        for weight in range(1, softness + 1):
-            comb = list(combinations(range(num), weight))
-            indices = np.array(comb)
-            for offset, idx in enumerate(indices):
-                s_struct[start_idx + offset, idx] = 1
-            start_idx += offset + 1
-
-        assert np.prod(np.any(s_struct, axis=1)), "There is a row with all zeroes"
-        self.S_struct = jnp.array(s_struct, dtype=jnp.uint8)
+        self.S_struct = self._cached_s_structure(num, int(softness))
 
     def generate_S(self, tableau):
         return (self.S_struct @ tableau) % 2
