@@ -7,7 +7,7 @@ which_gates:
   - h
 graph: All-to-All
 softness: 1
-validation_softness: 3
+validation_softness: null
 p_i: 0.9
 lambda: 10
 seed: 42
