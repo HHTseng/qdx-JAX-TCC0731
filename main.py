@@ -21,11 +21,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 os.environ.setdefault("JAX_LOGGING_LEVEL", "ERROR")
 
-try:
-    import yaml
-except ModuleNotFoundError:  # pragma: no cover - depends on the runtime env
-    yaml = None
-
 from flax import serialization
 from flax.training.train_state import TrainState
 from gymnax.wrappers.purerl import LogWrapper
@@ -34,216 +29,16 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
-from qdx.envs.graph_code_discovery import GraphCodeDiscovery
-from qdx.gnn import GraphPadding
 from qdx.make_train import make_actor_critic
-from qdx.simulators.clifford_gates import CliffordGates
-from qdx.utils import Utils
-
-
-BASE_CONFIG = {
-    "MODEL": "GNN",
-    "ENV_TYPE": "STANDARD",
-    "D": 3,
-    "MAX_STEPS": 50,
-    "WHICH_GATES": ("cx", "h", "s", "sqrt_x", "cz", "sqrt_xx"),
-    "GRAPH": "All-to-All",
-    "SOFTNESS": 1,
-    "P_I": 0.9,
-    "LAMBDA": 10,
-    "SEED": 42,
-    "LR": 1.0e-3,
-    "NUM_ENVS_PER_TASK": 16,
-    "NUM_STEPS": 50,
-    "TOTAL_TIMESTEPS": 2_000_000,
-    "UPDATE_EPOCHS": 3,
-    "NUM_MINIBATCHES": 4,
-    "GAMMA": 0.99,
-    "GAE_LAMBDA": 0.95,
-    "CLIP_EPS": 0.2,
-    "ENT_COEF": 0.02,
-    "VF_COEF": 0.5,
-    "MAX_GRAD_NORM": 0.25,
-    "ACTIVATION": "relu",
-    "HIDDEN_DIM": 32,
-    "ANNEAL_LR": True,
-    "COMPUTE_METRICS": True,
-    "GNN_HIDDEN_DIM": 64,
-    "GNN_RELATION_DIM": 8,
-    "GNN_GATE_DIM": 8,
-    "GNN_NUM_LAYERS": 3,
-}
-
-DEFAULT_TRAIN_TASKS = ((5, 1, 3),)
-DEFAULT_VALIDATION_TASKS = ((5, 1, 3), (6, 1, 3))
-DEFAULT_GRAPHS = ("All-to-All", "NN-1", "NN-2")
-DEFAULT_CONFIG_PATH = Path(__file__).resolve().parent / "configs" / "main.yaml"
-
-
-def all_to_all_graph(n):
-    return [(i, j) for i in range(n) for j in range(n) if i != j]
-
-
-def nn_1_graph(n):
-    graph = []
-    for i in range(n - 1):
-        graph.append((i, i + 1))
-        graph.append((i + 1, i))
-    return graph
-
-
-def nn_2_graph(n):
-    graph = nn_1_graph(n)
-    for i in range(n - 2):
-        graph.append((i, i + 2))
-        graph.append((i + 2, i))
-    return graph
-
-
-def normalize_graph_name(graph_name):
-    graph_name = str(graph_name).strip()
-    if graph_name not in DEFAULT_GRAPHS:
-        supported = ", ".join(DEFAULT_GRAPHS)
-        raise ValueError(
-            f"unsupported graph {graph_name!r}; choose from {supported}"
-        )
-    return graph_name
-
-
-def build_hardware_graph(n, graph_name):
-    graph_name = normalize_graph_name(graph_name)
-    if graph_name == "All-to-All":
-        return all_to_all_graph(n)
-    if graph_name == "NN-1":
-        return nn_1_graph(n)
-    if graph_name == "NN-2":
-        return nn_2_graph(n)
-    raise ValueError(f"unsupported graph {graph_name!r}")
-
-
-def make_env(n, k, d, config, graph_padding, graph_name=None):
-    graph_name = normalize_graph_name(
-        config["GRAPH"] if graph_name is None else graph_name
-    )
-    gates = CliffordGates(n)
-    gate_set = [getattr(gates, gate_name) for gate_name in config["WHICH_GATES"]]
-    return GraphCodeDiscovery(
-        n,
-        k,
-        d,
-        gate_set,
-        graph=build_hardware_graph(n, graph_name),
-        max_steps=config["MAX_STEPS"],
-        lbda=config["LAMBDA"],
-        pI=config["P_I"],
-        softness=config["SOFTNESS"],
-        graph_padding=graph_padding,
-    )
-
-
-def build_task_config(base_config, task):
-    task_config = dict(base_config)
-    task_config["D"] = task["d"]
-    task_config["GRAPH"] = task["graph"]
-    return task_config
-
-
-def make_task_env(task, config, graph_padding):
-    return make_env(
-        task["n"],
-        task["k"],
-        task["d"],
-        config,
-        graph_padding,
-        graph_name=task["graph"],
-    )
-
-
-def normalize_task_specs(task_specs, default_task_specs, graphs):
-    raw_specs = default_task_specs if task_specs is None else task_specs
-    default_graphs = tuple(
-        dict.fromkeys(normalize_graph_name(graph_name) for graph_name in graphs)
-    )
-    if not default_graphs:
-        raise ValueError("at least one graph is required")
-    normalized = []
-    for task in raw_specs:
-        task_graph = None
-        task_graphs = None
-        if isinstance(task, dict):
-            n = task["n"]
-            k = task["k"]
-            d = task.get("d", task.get("target_distance", BASE_CONFIG["D"]))
-            task_graph = task.get("graph")
-            task_graphs = task.get("graphs")
-        else:
-            if len(task) not in (3, 4):
-                raise ValueError(
-                    "task specs must be 3-tuples (n, k, d) or "
-                    "4-tuples (n, k, d, graph)"
-                )
-            n, k, d = task[:3]
-            if len(task) == 4:
-                task_graph = task[3]
-
-        n = int(n)
-        k = int(k)
-        d = int(d)
-        if n <= 0 or k <= 0 or d <= 0:
-            raise ValueError("task values must be positive integers")
-        if k >= n:
-            raise ValueError(f"task {(n, k, d)} must satisfy k < n")
-
-        if task_graphs is not None:
-            graph_inputs = [task_graphs] if isinstance(task_graphs, str) else task_graphs
-            task_graph_names = tuple(
-                dict.fromkeys(
-                    normalize_graph_name(graph_name) for graph_name in graph_inputs
-                )
-            )
-            if not task_graph_names:
-                raise ValueError("at least one graph is required")
-        elif task_graph is not None:
-            task_graph_names = (normalize_graph_name(task_graph),)
-        else:
-            task_graph_names = default_graphs
-
-        for graph_name in task_graph_names:
-            normalized.append(
-                {"n": n, "k": k, "d": d, "graph": graph_name}
-            )
-
-    if not normalized:
-        raise ValueError("at least one task is required")
-    return normalized
-
-
-def build_graph_padding(task_specs):
-    if not task_specs:
-        raise ValueError("at least one task is required to build graph padding")
-    max_n = max(task["n"] for task in task_specs)
-    max_stabilizers = max(task["n"] - task["k"] for task in task_specs)
-    max_hardware_edges = max(
-        len(build_hardware_graph(task["n"], task["graph"])) for task in task_specs
-    )
-    return GraphPadding(
-        n_max=max_n,
-        stabilizers_max=max_stabilizers,
-        hardware_edges_max=max_hardware_edges,
-    )
-
-
-def graph_padding_to_dict(graph_padding):
-    return {
-        "n_max": int(graph_padding.n_max),
-        "stabilizers_max": int(graph_padding.resolved_stabilizers_max),
-        "hardware_edges_max": int(graph_padding.resolved_hardware_edges_max),
-        "actions_max": (
-            None
-            if graph_padding.actions_max is None
-            else int(graph_padding.actions_max)
-        ),
-    }
+from qdx.utils import (
+    DEFAULT_CONFIG_PATH,
+    build_graph_padding,
+    format_task,
+    graph_padding_to_dict,
+    load_run_settings,
+    make_task_env,
+)
+from validation import run_validation
 
 
 class Transition(NamedTuple):
@@ -527,149 +322,6 @@ def summarize_loss_metrics(loss_metrics):
     }
 
 
-def distance_error_stats_up_to_target(n, k, gates, target_distance):
-    """Return the first failing Pauli weight and per-d KL error statistics."""
-
-    utilities = Utils(n, k, gates, softness=n - k)
-    distance_stats = []
-    first_failure = target_distance + 1
-    for weight in range(1, target_distance + 1):
-        error_operators = utilities.error_operators(weight)
-        error_count = int(utilities.check_KL(error_operators))
-        total_count = int(error_operators.shape[0])
-        error_rate = error_count / total_count if total_count else 0.0
-        distance_stats.append(
-            {
-                "d": weight,
-                "error_count": error_count,
-                "total_count": total_count,
-                "error_count_over_total": f"{error_count}/{total_count}",
-                "error_rate": error_rate,
-            }
-        )
-        if error_count != 0 and first_failure == target_distance + 1:
-            first_failure = weight
-    return first_failure, distance_stats
-
-
-def format_distance_stats(distance_stats):
-    if not distance_stats:
-        return "distance_stats=[]"
-    formatted = "; ".join(
-        (
-            f"d={item['d']} "
-            f"error_count/total_count={item['error_count_over_total']} "
-            f"error_rate={item['error_rate']:.2%}"
-        )
-        for item in distance_stats
-    )
-    return f"distance_stats=[{formatted}]"
-
-
-def aggregate_distance_stats(results):
-    stats_by_d = {}
-    for result in results:
-        for item in result.get("distance_stats", []) or []:
-            d = item["d"]
-            summary = stats_by_d.setdefault(
-                d,
-                {
-                    "d": d,
-                    "error_count": 0,
-                    "total_count": 0,
-                },
-            )
-            summary["error_count"] += item["error_count"]
-            summary["total_count"] += item["total_count"]
-
-    aggregated = []
-    for d in sorted(stats_by_d):
-        error_count = stats_by_d[d]["error_count"]
-        total_count = stats_by_d[d]["total_count"]
-        aggregated.append(
-            {
-                "d": d,
-                "error_count": error_count,
-                "total_count": total_count,
-                "error_count_over_total": f"{error_count}/{total_count}",
-                "error_rate": error_count / total_count if total_count else 0.0,
-            }
-        )
-    return aggregated
-
-
-def default_output_dir():
-    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    return (
-        Path(__file__).resolve().parent
-        / "outputs"
-        / f"demo_multitask_nkdg_{timestamp}"
-    )
-
-
-def load_yaml_config(config_path):
-    if yaml is None:
-        raise ModuleNotFoundError(
-            "PyYAML is required to load YAML configs. "
-            "Install it in the active environment, for example with "
-            "`conda run -n qdx pip install PyYAML`."
-        )
-
-    config_path = Path(config_path).expanduser()
-    with config_path.open("r", encoding="utf-8") as file:
-        return yaml.safe_load(file) or {}
-
-
-def load_run_settings(config_path):
-    raw_config = load_yaml_config(config_path)
-    config = {
-        key: raw_config.get(key.lower(), raw_config.get(key, value))
-        for key, value in BASE_CONFIG.items()
-    }
-
-    graph_names = raw_config.get("graphs", DEFAULT_GRAPHS)
-    graph_names = [graph_names] if isinstance(graph_names, str) else graph_names
-    graphs = tuple(
-        dict.fromkeys(normalize_graph_name(graph_name) for graph_name in graph_names)
-    )
-    train_tasks = normalize_task_specs(
-        raw_config.get("train_tasks"), DEFAULT_TRAIN_TASKS, graphs
-    )
-    skip_validation = raw_config.get("skip_validation", False)
-    validation_tasks = (
-        []
-        if skip_validation
-        else normalize_task_specs(
-            raw_config.get("validation_tasks"), DEFAULT_VALIDATION_TASKS, graphs
-        )
-    )
-    output_dir_value = raw_config.get("output_dir")
-    output_dir = (
-        default_output_dir()
-        if output_dir_value in (None, "")
-        else Path(output_dir_value).expanduser()
-    )
-
-    return {
-        "config": config,
-        "config_path": str(Path(config_path).expanduser()),
-        "graphs": graphs,
-        "train_tasks": train_tasks,
-        "validation_tasks": validation_tasks,
-        "skip_validation": skip_validation,
-        "skip_distance": raw_config.get("skip_distance", False),
-        "dry_run": raw_config.get("dry_run", False),
-        "output_dir": output_dir,
-    }
-
-
-def format_task(task):
-    return (
-        f"GRAPH={task['graph']} "
-        f"N={task['n']} K={task['k']} D={task['d']}"
-    )
-
-
 def summarize_task_rollout(task, traj_batch, max_steps):
     info = traj_batch.info
     reward_mean = float(np.mean(np.asarray(traj_batch.reward)))
@@ -854,109 +506,6 @@ def train_joint_multitask(
     return train_state.params, history, layout
 
 
-def validate(
-    params,
-    base_config,
-    validation_tasks,
-    validation_graph_padding,
-    compute_distance=True,
-):
-    if not validation_tasks:
-        print("Validation skipped: no validation tasks were provided.")
-        return {
-            "target_distance": None,
-            "target_distances": [],
-            "compute_distance": compute_distance,
-            "tasks": [],
-            "distance_summary": [],
-        }
-
-    results = []
-    target_distances = sorted({task["d"] for task in validation_tasks})
-    print(f"Validating on {len(validation_tasks)} tasks...")
-    for task_index, task in enumerate(validation_tasks):
-        task_config = build_task_config(base_config, task)
-        env = make_task_env(task, task_config, validation_graph_padding)
-        network = make_actor_critic(task_config, env)
-        rng = jax.random.PRNGKey(task_config["SEED"] + 10_000 + task_index)
-        observation, state = env.reset(rng, None)
-
-        gates = []
-        total_reward = 0.0
-        final_reward = float("nan")
-        final_value = float("nan")
-        done = False
-        for _ in range(task_config["MAX_STEPS"]):
-            policy, value = network.apply(params, observation)
-            action = int(policy.mode())
-            gates.append(env.action_string_stim[action])
-            rng, step_rng = jax.random.split(rng)
-            observation, state, reward, done, _ = env.step(
-                step_rng, state, action, None
-            )
-            final_reward = float(reward)
-            final_value = float(value)
-            total_reward += final_reward
-            if bool(done):
-                break
-
-        distance_stats = None
-        if compute_distance:
-            distance, distance_stats = distance_error_stats_up_to_target(
-                task["n"], task["k"], gates, task["d"]
-            )
-            distance_stats_text = format_distance_stats(distance_stats)
-        else:
-            distance = None
-            distance_stats_text = "distance_stats=skipped"
-        target_met = (
-            distance >= task["d"]
-            if distance is not None
-            else bool(jnp.isclose(final_reward, 0.0, atol=1.0e-6))
-        )
-        result = {
-            "graph": task["graph"],
-            "n": task["n"],
-            "k": task["k"],
-            "d": task["d"],
-            "target_distance": task["d"],
-            "distance": distance,
-            "distance_stats": distance_stats,
-            "target_met": target_met,
-            "steps": len(gates),
-            "total_reward": total_reward,
-            "final_reward": final_reward,
-            "final_value": final_value,
-            "gates": gates,
-        }
-        results.append(result)
-        print(
-            f"  {format_task(task)}: distance={distance} "
-            f"target_met={target_met} steps={len(gates)} "
-            f"{distance_stats_text}"
-        )
-
-    distance_summary = (
-        aggregate_distance_stats(results) if compute_distance else None
-    )
-    if distance_summary:
-        print("Distance summary across validation tasks:")
-        for item in distance_summary:
-            print(
-                "  "
-                f"d={item['d']} "
-                f"error_count/total_count={item['error_count_over_total']} "
-                f"error_rate={item['error_rate']:.2%}"
-            )
-    return {
-        "target_distance": target_distances[0] if len(target_distances) == 1 else None,
-        "target_distances": target_distances,
-        "compute_distance": compute_distance,
-        "tasks": results,
-        "distance_summary": distance_summary,
-    }
-
-
 def dry_run(
     base_config,
     train_tasks,
@@ -1038,7 +587,10 @@ def main():
     config = run_settings["config"]
     graphs = run_settings["graphs"]
     train_tasks = run_settings["train_tasks"]
-    validation_tasks = run_settings["validation_tasks"]
+    configured_validation_tasks = run_settings["validation_tasks"]
+    validation_tasks = (
+        [] if run_settings["skip_validation"] else configured_validation_tasks
+    )
     train_graph_padding = build_graph_padding(train_tasks)
     validation_graph_padding = (
         build_graph_padding(validation_tasks)
@@ -1064,7 +616,7 @@ def main():
         train_tasks=train_tasks,
         train_graph_padding=train_graph_padding,
     )
-    validation = validate(
+    validation = run_validation(
         params,
         config,
         validation_tasks,
@@ -1081,7 +633,7 @@ def main():
         "graphs": list(graphs),
         "WHICH_GATES": list(config["WHICH_GATES"]),
         "train_tasks": train_tasks,
-        "validation_tasks": validation_tasks,
+        "validation_tasks": configured_validation_tasks,
         "train_graph_padding": graph_padding_to_dict(train_graph_padding),
         "validation_graph_padding": (
             None
