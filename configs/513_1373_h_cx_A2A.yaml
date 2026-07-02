@@ -34,8 +34,6 @@ gnn_num_layers: 3
 
 graphs:
   - All-to-All
-  - NN-1
-  - NN-2
 
 train_tasks:
   - [5, 1, 3]
