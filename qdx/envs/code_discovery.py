@@ -1,3 +1,4 @@
+from functools import lru_cache
 from gymnax.environments import environment, spaces
 import jax
 import jax.numpy as jnp
@@ -5,12 +6,9 @@ from flax import struct
 import chex
 from inspect import signature
 from typing import Tuple, Optional
-import itertools
+from itertools import combinations, product
+from math import comb
 from qdx.simulators import TableauSimulator
-import stim
-from more_itertools import distinct_permutations
-from itertools import combinations
-import scipy.special as ss
 import numpy as np
 from jax import lax
 
@@ -89,7 +87,7 @@ class CodeDiscovery(environment.Environment):
         self.actions = self.action_matrix()
         
         # Symplectic metric Omega
-        self.Omega = jnp.kron(jnp.array([[0,1],[1,0]], dtype=jnp.uint8), jnp.eye(n_qubits_physical, dtype=jnp.uint8))
+        self.Omega = self._cached_omega(self.n_qubits_physical)
         
         # Initialize error operators and probabilities
         self.E_mu, self.p_mu = self.error_operators()
@@ -110,36 +108,69 @@ class CodeDiscovery(environment.Environment):
         # Generate the structure of the stabilizer group (S) based on the softness parameter.
     
         num = self.n_qubits_physical - self.n_qubits_logical
-        
-        # Calculate the number of stabilizer elements
-        soft_elements = int(sum([ss.binom(num,i) for i in range(1,softness+1)]))
+        self.S_struct = self._cached_s_structure(num, int(softness))
 
-        # Create an array of zeros
-        S_struct = np.zeros((soft_elements, num), dtype=int)
+    @staticmethod
+    @lru_cache(maxsize=None)
+    def _cached_omega(n_qubits_physical):
+        return jnp.kron(
+            jnp.array([[0, 1], [1, 0]], dtype=jnp.uint8),
+            jnp.eye(n_qubits_physical, dtype=jnp.uint8),
+        )
 
-        # Book-keeping
+    @staticmethod
+    @lru_cache(maxsize=None)
+    def _cached_s_structure(num_stabilizers, softness):
+        max_softness = min(int(softness), int(num_stabilizers))
+        soft_elements = sum(
+            comb(num_stabilizers, weight)
+            for weight in range(1, max_softness + 1)
+        )
+        s_struct = np.zeros((soft_elements, num_stabilizers), dtype=np.uint8)
+
         start_idx = 0
+        for weight in range(1, max_softness + 1):
+            for row_offset, indices in enumerate(
+                combinations(range(num_stabilizers), weight)
+            ):
+                s_struct[start_idx + row_offset, indices] = 1
+            start_idx += comb(num_stabilizers, weight)
 
-        for m in range(1,softness+1):
+        assert np.prod(np.any(s_struct, axis=1)), "There is a row with all zeroes"
+        return jnp.asarray(s_struct)
 
-            # Generate combinations of indices to place ones in the S structure
-            comb = list(combinations(range(num),m))
-            indices = np.array(comb)
+    @staticmethod
+    @lru_cache(maxsize=None)
+    def _cached_error_operators(n_qubits_physical, code_distance, p_identity):
+        max_weight = min(int(code_distance) - 1, int(n_qubits_physical))
+        total_errors = sum(
+            comb(n_qubits_physical, weight) * (3 ** weight)
+            for weight in range(1, max_weight + 1)
+        )
+        error_ops = np.zeros(
+            (total_errors, 2 * n_qubits_physical), dtype=np.uint8
+        )
+        probabilities = np.empty((total_errors,), dtype=np.float32)
 
-            # Fill the S structure with ones at the specified indices
-            for i,idx in enumerate(indices):
-                S_struct[start_idx+i, idx] = 1
+        p_single = np.float32((1.0 - p_identity) / 3.0)
+        p_identity = np.float32(p_identity)
+        row = 0
+        for weight in range(1, max_weight + 1):
+            weight_probability = np.float32(
+                (p_single ** weight) * (p_identity ** (n_qubits_physical - weight))
+            )
+            for positions in combinations(range(n_qubits_physical), weight):
+                for pauli_types in product((1, 2, 3), repeat=weight):
+                    row_values = error_ops[row]
+                    for position, pauli_type in zip(positions, pauli_types):
+                        if pauli_type != 3:
+                            row_values[position] = 1
+                        if pauli_type != 1:
+                            row_values[n_qubits_physical + position] = 1
+                    probabilities[row] = weight_probability
+                    row += 1
 
-            # Update the start_idx
-            start_idx += i+1
-            
-        # Ensure there are no rows with all zeroes in the S structure
-        assert np.prod(np.any(S_struct, axis=1)), "There is a row with all zeroes"
-        
-        # Convert the S structure to a JAX array for efficient computation
-        self.S_struct = jnp.array(S_struct, dtype=jnp.uint8)
-
-        return
+        return jnp.asarray(error_ops), jnp.asarray(probabilities)
     
     def stabilizer_elements(self, tableau):
         # Generate the S matrix by multiplying the S structure with the tableau
@@ -182,34 +213,13 @@ class CodeDiscovery(environment.Environment):
         return check_mat
     
     def error_operators(self, params: Optional[EnvParams] = EnvParams) -> chex.Array:
-        
-        error_list = [1,2,3] # Corresponds to X,Y,Z
-        
-        results = []
-        
-        for weight in range(1, self.d):
-            # Generate all combinations of errors with repetition based on the current weight
-            prod = list(list(tup) for tup in itertools.combinations_with_replacement(error_list, weight))
-            
-            # Pad the error list to match the number of physical qubits
-            prod = [pr + [0] * (self.n_qubits_physical - weight) for pr in prod]
-            
-            # Generate distinct permutations of each product to form the error structure
-            result = list(list(distinct_permutations(pr, self.n_qubits_physical)) for pr in prod)
-            results.append(list(itertools.chain(*result)))
-            
-        error_structure = list(itertools.chain(*results))
-        
-        # Convert error structure to a JAX array for efficient computation
-        E_mu = jnp.array([jnp.array(stim.PauliString(p).to_numpy()).flatten() for p in error_structure], dtype=jnp.uint8)
-
-        # p_X = p_Y = p_Z by assumption
-        p_channel = jnp.array([self.pI] + [(1.-self.pI)/3.]*3, dtype=jnp.float32)
-
-        # Generate p_mu using p_channel and error_structure
-        p_mu = jnp.array([jnp.prod(p_channel[jnp.array(error_pauli_character)]) for error_pauli_character in error_structure], dtype=jnp.float32)
-        
-        return E_mu, p_mu
+        # Build symplectic X/Z bits directly instead of going through Python
+        # permutations and Stim PauliString objects for every operator.
+        return self._cached_error_operators(
+            self.n_qubits_physical,
+            self.d,
+            float(self.pI),
+        )
 
     
     def check_KL(self, state: EnvState, params: Optional[EnvParams] = EnvParams):
