@@ -24,6 +24,10 @@ import numpy as np
 import main as train_main
 from qdx.make_train import make_actor_critic
 from qdx.profiling import TimingRecorder, block_until_ready_tree, timed_section
+from qdx.validation_rollout import (
+    build_validation_episode_runner,
+    summarize_validation_episode,
+)
 from qdx.utils import (
     DEFAULT_CONFIG_PATH,
     aggregate_distance_stats,
@@ -232,6 +236,9 @@ def run_profiled_validation(
         task_config = build_task_config(base_config, task)
         env = make_task_env(task, task_config, validation_graph_padding)
         network = make_actor_critic(task_config, env)
+        validate_episode = build_validation_episode_runner(
+            env, network, task_config["MAX_STEPS"]
+        )
         rng = jax.random.PRNGKey(task_config["SEED"] + 10_000 + task_index)
         observation, state = env.reset(rng, None)
         if timing is not None:
@@ -241,24 +248,15 @@ def run_profiled_validation(
             )
 
         rollout_started = time.perf_counter()
-        gates = []
-        total_reward = 0.0
-        final_reward = float("nan")
-        final_value = float("nan")
-        done = False
-        for _ in range(task_config["MAX_STEPS"]):
-            policy, value = network.apply(params, observation)
-            action = int(policy.mode())
-            gates.append(env.action_string_stim[action])
-            rng, step_rng = jax.random.split(rng)
-            observation, state, reward, done, _ = env.step(
-                step_rng, state, action, None
-            )
-            final_reward = float(reward)
-            final_value = float(value)
-            total_reward += final_reward
-            if bool(done):
-                break
+        rollout = validate_episode(params, observation, state, rng)
+        block_until_ready_tree(rollout)
+        rollout_summary = summarize_validation_episode(
+            rollout, env.action_string_stim
+        )
+        gates = rollout_summary["gates"]
+        total_reward = rollout_summary["total_reward"]
+        final_reward = rollout_summary["final_reward"]
+        final_value = rollout_summary["final_value"]
         if timing is not None:
             timing.record(
                 f"validation/rollout/{task_label}",
@@ -299,7 +297,7 @@ def run_profiled_validation(
             "distance": distance,
             "distance_stats": distance_stats,
             "target_met": target_met,
-            "steps": len(gates),
+            "steps": rollout_summary["steps"],
             "total_reward": total_reward,
             "final_reward": final_reward,
             "final_value": final_value,
@@ -308,7 +306,7 @@ def run_profiled_validation(
         results.append(result)
         print(
             f"  {format_task(task)}: distance={distance} "
-            f"target_met={target_met} steps={len(gates)} "
+            f"target_met={target_met} steps={rollout_summary['steps']} "
             f"{distance_stats_text}"
         )
 
