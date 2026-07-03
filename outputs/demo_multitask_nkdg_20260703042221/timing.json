@@ -1,0 +1,3474 @@
+{
+  "total_seconds": 446.08964127488434,
+  "entries": [
+    {
+      "label": "startup/load_run_settings",
+      "seconds": 0.013822350651025772
+    },
+    {
+      "label": "startup/build_graph_padding/train",
+      "seconds": 0.0002036765217781067
+    },
+    {
+      "label": "startup/build_graph_padding/validation",
+      "seconds": 0.0006453804671764374
+    },
+    {
+      "label": "startup/compute_layout",
+      "seconds": 3.466382622718811e-06
+    },
+    {
+      "label": "startup/build_first_env",
+      "seconds": 0.2543465234339237
+    },
+    {
+      "label": "startup/build_network",
+      "seconds": 4.4753775000572205e-05
+    },
+    {
+      "label": "startup/init_state",
+      "seconds": 15.427061541005969
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=9_K=1_D=3",
+      "seconds": 0.939090084284544
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=9_K=2_D=3",
+      "seconds": 0.2462383657693863
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=9_K=3_D=3",
+      "seconds": 0.24347366020083427
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=10_K=1_D=3",
+      "seconds": 0.5106337703764439
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=10_K=2_D=3",
+      "seconds": 0.24892646074295044
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=10_K=3_D=3",
+      "seconds": 0.3633724916726351
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=10_K=4_D=3",
+      "seconds": 0.24370568990707397
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=11_K=1_D=3",
+      "seconds": 0.5152676217257977
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=11_K=2_D=3",
+      "seconds": 0.2531780060380697
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=11_K=3_D=3",
+      "seconds": 0.2495968360453844
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=11_K=4_D=3",
+      "seconds": 0.249688308686018
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=12_K=1_D=3",
+      "seconds": 0.5298232324421406
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=12_K=2_D=3",
+      "seconds": 0.2559654861688614
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=12_K=3_D=3",
+      "seconds": 0.25541815161705017
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=12_K=4_D=3",
+      "seconds": 0.2511806022375822
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=13_K=1_D=3",
+      "seconds": 0.5211075395345688
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=13_K=2_D=3",
+      "seconds": 0.24648689664900303
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=13_K=3_D=3",
+      "seconds": 0.24646132811903954
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=13_K=4_D=3",
+      "seconds": 0.24194443970918655
+    },
+    {
+      "label": "startup/build_joint_update_fn",
+      "seconds": 8.174404501914978e-05
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=9_K=1_D=3",
+      "seconds": 6.809602620080113
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=9_K=2_D=3",
+      "seconds": 5.560464173555374
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=9_K=3_D=3",
+      "seconds": 5.436607331037521
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=10_K=1_D=3",
+      "seconds": 5.468075294047594
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=10_K=2_D=3",
+      "seconds": 5.479580543935299
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=10_K=3_D=3",
+      "seconds": 5.662097081542015
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=10_K=4_D=3",
+      "seconds": 5.467915261164308
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=11_K=1_D=3",
+      "seconds": 5.524596935138106
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=11_K=2_D=3",
+      "seconds": 5.514977963641286
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=11_K=3_D=3",
+      "seconds": 5.520368212834001
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=11_K=4_D=3",
+      "seconds": 5.739683702588081
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=12_K=1_D=3",
+      "seconds": 5.605717336758971
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=12_K=2_D=3",
+      "seconds": 5.581617385149002
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=12_K=3_D=3",
+      "seconds": 5.5834721606224775
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=12_K=4_D=3",
+      "seconds": 5.580065079033375
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=13_K=1_D=3",
+      "seconds": 5.640326386317611
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=13_K=2_D=3",
+      "seconds": 5.900879584252834
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=13_K=3_D=3",
+      "seconds": 5.629154775291681
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=13_K=4_D=3",
+      "seconds": 5.617290906608105
+    },
+    {
+      "label": "startup/warmup/merge_batches",
+      "seconds": 1.6420877240598202
+    },
+    {
+      "label": "startup/warmup/optimize",
+      "seconds": 19.547427155077457
+    },
+    {
+      "label": "startup/warmup/aggregate_metrics",
+      "seconds": 0.0010217726230621338
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=9_K=1_D=3",
+      "seconds": 0.023915885016322136
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=9_K=2_D=3",
+      "seconds": 0.023442646488547325
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=9_K=3_D=3",
+      "seconds": 0.022966530174016953
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=10_K=1_D=3",
+      "seconds": 0.023281531408429146
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=10_K=2_D=3",
+      "seconds": 0.02374018169939518
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=10_K=3_D=3",
+      "seconds": 0.023039087653160095
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=10_K=4_D=3",
+      "seconds": 0.023349441587924957
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=11_K=1_D=3",
+      "seconds": 0.02342691645026207
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=11_K=2_D=3",
+      "seconds": 0.02312592789530754
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=11_K=3_D=3",
+      "seconds": 0.02321580983698368
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=11_K=4_D=3",
+      "seconds": 0.02319970913231373
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=12_K=1_D=3",
+      "seconds": 0.024646876379847527
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=12_K=2_D=3",
+      "seconds": 0.024021530523896217
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=12_K=3_D=3",
+      "seconds": 0.023888692259788513
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=12_K=4_D=3",
+      "seconds": 0.023891480639576912
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=13_K=1_D=3",
+      "seconds": 0.024423493072390556
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=13_K=2_D=3",
+      "seconds": 0.024487843737006187
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=13_K=3_D=3",
+      "seconds": 0.024555815383791924
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=13_K=4_D=3",
+      "seconds": 0.025180382654070854
+    },
+    {
+      "label": "ppo_update/merge_batches",
+      "seconds": 0.009409258142113686
+    },
+    {
+      "label": "ppo_update/optimize",
+      "seconds": 1.6176345720887184
+    },
+    {
+      "label": "ppo_update/aggregate_metrics",
+      "seconds": 0.0009511876851320267
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=5_K=1_D=3",
+      "seconds": 0.438314413651824
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=5_K=1_D=3",
+      "seconds": 4.683370163664222
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=5_K=1_D=3",
+      "seconds": 2.1012601237744093
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=6_K=1_D=3",
+      "seconds": 0.7548279445618391
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=6_K=1_D=3",
+      "seconds": 2.711963439360261
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=6_K=1_D=3",
+      "seconds": 2.032009756192565
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=7_K=1_D=3",
+      "seconds": 0.45004627108573914
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=7_K=1_D=3",
+      "seconds": 2.7395496014505625
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=7_K=1_D=3",
+      "seconds": 2.262182753533125
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=8_K=1_D=3",
+      "seconds": 0.4476854782551527
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=8_K=1_D=3",
+      "seconds": 2.7954620458185673
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=8_K=1_D=3",
+      "seconds": 2.3226873986423016
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=8_K=2_D=3",
+      "seconds": 0.21767292357981205
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=8_K=2_D=3",
+      "seconds": 2.771511284634471
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=8_K=2_D=3",
+      "seconds": 1.3533496465533972
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=8_K=3_D=3",
+      "seconds": 0.21607015281915665
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=8_K=3_D=3",
+      "seconds": 2.756004361435771
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=8_K=3_D=3",
+      "seconds": 1.3390121031552553
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=9_K=1_D=3",
+      "seconds": 0.22452076710760593
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=9_K=1_D=3",
+      "seconds": 2.798718210309744
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=9_K=1_D=3",
+      "seconds": 2.488739300519228
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=9_K=2_D=3",
+      "seconds": 0.21835881285369396
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=9_K=2_D=3",
+      "seconds": 2.8077772557735443
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=9_K=2_D=3",
+      "seconds": 1.49479547329247
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=9_K=3_D=3",
+      "seconds": 0.21607747673988342
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=9_K=3_D=3",
+      "seconds": 2.7836790177971125
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=9_K=3_D=3",
+      "seconds": 1.4231733791530132
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=10_K=1_D=3",
+      "seconds": 0.22445373237133026
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=10_K=1_D=3",
+      "seconds": 2.7802388556301594
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=10_K=1_D=3",
+      "seconds": 2.4928320664912462
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=10_K=2_D=3",
+      "seconds": 0.221701730042696
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=10_K=2_D=3",
+      "seconds": 2.799807518720627
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=10_K=2_D=3",
+      "seconds": 1.5015507452189922
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=10_K=3_D=3",
+      "seconds": 0.22222978062927723
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=10_K=3_D=3",
+      "seconds": 2.800050949677825
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=10_K=3_D=3",
+      "seconds": 1.4769607484340668
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=10_K=4_D=3",
+      "seconds": 0.2179495468735695
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=10_K=4_D=3",
+      "seconds": 3.1765814758837223
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=10_K=4_D=3",
+      "seconds": 1.4125910457223654
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=11_K=1_D=3",
+      "seconds": 0.22956935316324234
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=11_K=1_D=3",
+      "seconds": 2.9071182925254107
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=11_K=1_D=3",
+      "seconds": 2.50180197507143
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=11_K=2_D=3",
+      "seconds": 0.22937134839594364
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=11_K=2_D=3",
+      "seconds": 2.8820354361087084
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=11_K=2_D=3",
+      "seconds": 1.477791577577591
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=11_K=3_D=3",
+      "seconds": 0.22698314487934113
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=11_K=3_D=3",
+      "seconds": 2.8340474292635918
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=11_K=3_D=3",
+      "seconds": 1.4592389464378357
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=11_K=4_D=3",
+      "seconds": 0.22415711171925068
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=11_K=4_D=3",
+      "seconds": 2.85164650157094
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=11_K=4_D=3",
+      "seconds": 1.4473068546503782
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=11_K=5_D=3",
+      "seconds": 0.22973143123090267
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=11_K=5_D=3",
+      "seconds": 2.8563144858926535
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=11_K=5_D=3",
+      "seconds": 1.434434538707137
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=12_K=1_D=3",
+      "seconds": 0.2361943405121565
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=12_K=1_D=3",
+      "seconds": 2.9317432064563036
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=12_K=1_D=3",
+      "seconds": 2.673245372250676
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=12_K=2_D=3",
+      "seconds": 0.23693912848830223
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=12_K=2_D=3",
+      "seconds": 2.938108030706644
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=12_K=2_D=3",
+      "seconds": 1.620207006111741
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=12_K=3_D=3",
+      "seconds": 0.23094730637967587
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=12_K=3_D=3",
+      "seconds": 2.916237724944949
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=12_K=3_D=3",
+      "seconds": 1.6148602087050676
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=12_K=4_D=3",
+      "seconds": 0.22954099252820015
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=12_K=4_D=3",
+      "seconds": 2.8768290001899004
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=12_K=4_D=3",
+      "seconds": 1.5796826034784317
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=12_K=5_D=3",
+      "seconds": 0.22980305552482605
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=12_K=5_D=3",
+      "seconds": 2.905703354626894
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=12_K=5_D=3",
+      "seconds": 1.5701700635254383
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=12_K=6_D=3",
+      "seconds": 0.22908337600529194
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=12_K=6_D=3",
+      "seconds": 2.89323328435421
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=12_K=6_D=3",
+      "seconds": 1.5555329695343971
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=13_K=1_D=3",
+      "seconds": 0.24040916748344898
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=13_K=1_D=3",
+      "seconds": 2.929991215467453
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=13_K=1_D=3",
+      "seconds": 2.746799638494849
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=13_K=2_D=3",
+      "seconds": 0.23761771991848946
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=13_K=2_D=3",
+      "seconds": 2.9034161623567343
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=13_K=2_D=3",
+      "seconds": 1.657608425244689
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=13_K=3_D=3",
+      "seconds": 0.23839245550334454
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=13_K=3_D=3",
+      "seconds": 2.9507704358547926
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=13_K=3_D=3",
+      "seconds": 1.6567070912569761
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=13_K=4_D=3",
+      "seconds": 0.2327691037207842
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=13_K=4_D=3",
+      "seconds": 2.931588815525174
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=13_K=4_D=3",
+      "seconds": 2.154676066711545
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=13_K=5_D=3",
+      "seconds": 0.2328274343162775
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=13_K=5_D=3",
+      "seconds": 2.8998365476727486
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=13_K=5_D=3",
+      "seconds": 1.6208507921546698
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=13_K=6_D=3",
+      "seconds": 0.23208200559020042
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=13_K=6_D=3",
+      "seconds": 2.919405732303858
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=13_K=6_D=3",
+      "seconds": 1.6075081005692482
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=13_K=7_D=3",
+      "seconds": 0.23312462493777275
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=13_K=7_D=3",
+      "seconds": 2.9318861681967974
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=13_K=7_D=3",
+      "seconds": 1.6060969717800617
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=1_D=3",
+      "seconds": 0.3031576871871948
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=1_D=3",
+      "seconds": 2.986878450959921
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=1_D=3",
+      "seconds": 2.8556235507130623
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=2_D=3",
+      "seconds": 0.2456774264574051
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=2_D=3",
+      "seconds": 2.995546095073223
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=2_D=3",
+      "seconds": 1.6909066755324602
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=3_D=3",
+      "seconds": 0.24518553726375103
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=3_D=3",
+      "seconds": 2.9720022957772017
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=3_D=3",
+      "seconds": 1.6889977175742388
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=4_D=3",
+      "seconds": 0.24367781728506088
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=4_D=3",
+      "seconds": 2.9574272017925978
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=4_D=3",
+      "seconds": 1.6873400211334229
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=5_D=3",
+      "seconds": 0.24030165374279022
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=5_D=3",
+      "seconds": 2.968246378004551
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=5_D=3",
+      "seconds": 1.68392482586205
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=6_D=3",
+      "seconds": 0.23943423479795456
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=6_D=3",
+      "seconds": 2.966377081349492
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=6_D=3",
+      "seconds": 1.6721423100680113
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=7_D=3",
+      "seconds": 0.23616249673068523
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=7_D=3",
+      "seconds": 2.9945651423186064
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=7_D=3",
+      "seconds": 1.6571871396154165
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=8_D=3",
+      "seconds": 0.23843976482748985
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=8_D=3",
+      "seconds": 2.9687149710953236
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=8_D=3",
+      "seconds": 1.6474686246365309
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=1_D=3",
+      "seconds": 0.5302586741745472
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=1_D=3",
+      "seconds": 3.057340629398823
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=1_D=3",
+      "seconds": 2.7606017906218767
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=2_D=3",
+      "seconds": 0.24923992529511452
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=2_D=3",
+      "seconds": 3.0509554613381624
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=2_D=3",
+      "seconds": 1.657389359548688
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=3_D=3",
+      "seconds": 0.2495430763810873
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=3_D=3",
+      "seconds": 3.0658891517668962
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=3_D=3",
+      "seconds": 1.6564583610743284
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=4_D=3",
+      "seconds": 0.24882898479700089
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=4_D=3",
+      "seconds": 3.049329688772559
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=4_D=3",
+      "seconds": 1.6573290266096592
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=5_D=3",
+      "seconds": 0.24487183429300785
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=5_D=3",
+      "seconds": 3.0392225179821253
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=5_D=3",
+      "seconds": 1.6473800595849752
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=6_D=3",
+      "seconds": 0.24403483048081398
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=6_D=3",
+      "seconds": 3.0469356793910265
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=6_D=3",
+      "seconds": 1.6510761864483356
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=7_D=3",
+      "seconds": 0.948740167543292
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=7_D=3",
+      "seconds": 3.044425504282117
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=7_D=3",
+      "seconds": 1.6308054644614458
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=8_D=3",
+      "seconds": 0.2395081128925085
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=8_D=3",
+      "seconds": 3.0937285535037518
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=8_D=3",
+      "seconds": 1.62018078006804
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=9_D=3",
+      "seconds": 0.2380508091300726
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=9_D=3",
+      "seconds": 3.0853390116244555
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=9_D=3",
+      "seconds": 1.42667100392282
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=1_D=3",
+      "seconds": 0.3064392786473036
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=1_D=3",
+      "seconds": 3.118971325457096
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=1_D=3",
+      "seconds": 2.904580894857645
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=2_D=3",
+      "seconds": 0.24742302857339382
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=2_D=3",
+      "seconds": 3.100101951509714
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=2_D=3",
+      "seconds": 1.7150820903480053
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=3_D=3",
+      "seconds": 0.24574844166636467
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=3_D=3",
+      "seconds": 3.1008671689778566
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=3_D=3",
+      "seconds": 1.716037979349494
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=4_D=3",
+      "seconds": 0.2429997082799673
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=4_D=3",
+      "seconds": 3.0862490851432085
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=4_D=3",
+      "seconds": 1.69972500577569
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=5_D=3",
+      "seconds": 0.24365261755883694
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=5_D=3",
+      "seconds": 3.0802184864878654
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=5_D=3",
+      "seconds": 1.6966963969171047
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=6_D=3",
+      "seconds": 0.24396627582609653
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=6_D=3",
+      "seconds": 3.132871400564909
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=6_D=3",
+      "seconds": 1.703562581911683
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=7_D=3",
+      "seconds": 0.2404330149292946
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=7_D=3",
+      "seconds": 3.139639515429735
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=7_D=3",
+      "seconds": 1.701511561870575
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=8_D=3",
+      "seconds": 0.2364619169384241
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=8_D=3",
+      "seconds": 3.084541667252779
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=8_D=3",
+      "seconds": 1.6848151162266731
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=9_D=3",
+      "seconds": 0.23382506147027016
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=9_D=3",
+      "seconds": 3.1408776808530092
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=9_D=3",
+      "seconds": 1.6950859148055315
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=10_D=3",
+      "seconds": 0.23417945206165314
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=10_D=3",
+      "seconds": 3.1082224249839783
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=10_D=3",
+      "seconds": 1.684789516031742
+    },
+    {
+      "label": "validation/summary",
+      "seconds": 0.00021049752831459045
+    }
+  ],
+  "summary": [
+    {
+      "label": "startup/load_run_settings",
+      "seconds": 0.013822350651025772,
+      "count": 1
+    },
+    {
+      "label": "startup/build_graph_padding/train",
+      "seconds": 0.0002036765217781067,
+      "count": 1
+    },
+    {
+      "label": "startup/build_graph_padding/validation",
+      "seconds": 0.0006453804671764374,
+      "count": 1
+    },
+    {
+      "label": "startup/compute_layout",
+      "seconds": 3.466382622718811e-06,
+      "count": 1
+    },
+    {
+      "label": "startup/build_first_env",
+      "seconds": 0.2543465234339237,
+      "count": 1
+    },
+    {
+      "label": "startup/build_network",
+      "seconds": 4.4753775000572205e-05,
+      "count": 1
+    },
+    {
+      "label": "startup/init_state",
+      "seconds": 15.427061541005969,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=9_K=1_D=3",
+      "seconds": 0.939090084284544,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=9_K=2_D=3",
+      "seconds": 0.2462383657693863,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=9_K=3_D=3",
+      "seconds": 0.24347366020083427,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=10_K=1_D=3",
+      "seconds": 0.5106337703764439,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=10_K=2_D=3",
+      "seconds": 0.24892646074295044,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=10_K=3_D=3",
+      "seconds": 0.3633724916726351,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=10_K=4_D=3",
+      "seconds": 0.24370568990707397,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=11_K=1_D=3",
+      "seconds": 0.5152676217257977,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=11_K=2_D=3",
+      "seconds": 0.2531780060380697,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=11_K=3_D=3",
+      "seconds": 0.2495968360453844,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=11_K=4_D=3",
+      "seconds": 0.249688308686018,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=12_K=1_D=3",
+      "seconds": 0.5298232324421406,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=12_K=2_D=3",
+      "seconds": 0.2559654861688614,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=12_K=3_D=3",
+      "seconds": 0.25541815161705017,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=12_K=4_D=3",
+      "seconds": 0.2511806022375822,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=13_K=1_D=3",
+      "seconds": 0.5211075395345688,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=13_K=2_D=3",
+      "seconds": 0.24648689664900303,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=13_K=3_D=3",
+      "seconds": 0.24646132811903954,
+      "count": 1
+    },
+    {
+      "label": "startup/task_contexts/GRAPH=All-to-All_N=13_K=4_D=3",
+      "seconds": 0.24194443970918655,
+      "count": 1
+    },
+    {
+      "label": "startup/build_joint_update_fn",
+      "seconds": 8.174404501914978e-05,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=9_K=1_D=3",
+      "seconds": 6.809602620080113,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=9_K=2_D=3",
+      "seconds": 5.560464173555374,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=9_K=3_D=3",
+      "seconds": 5.436607331037521,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=10_K=1_D=3",
+      "seconds": 5.468075294047594,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=10_K=2_D=3",
+      "seconds": 5.479580543935299,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=10_K=3_D=3",
+      "seconds": 5.662097081542015,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=10_K=4_D=3",
+      "seconds": 5.467915261164308,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=11_K=1_D=3",
+      "seconds": 5.524596935138106,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=11_K=2_D=3",
+      "seconds": 5.514977963641286,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=11_K=3_D=3",
+      "seconds": 5.520368212834001,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=11_K=4_D=3",
+      "seconds": 5.739683702588081,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=12_K=1_D=3",
+      "seconds": 5.605717336758971,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=12_K=2_D=3",
+      "seconds": 5.581617385149002,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=12_K=3_D=3",
+      "seconds": 5.5834721606224775,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=12_K=4_D=3",
+      "seconds": 5.580065079033375,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=13_K=1_D=3",
+      "seconds": 5.640326386317611,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=13_K=2_D=3",
+      "seconds": 5.900879584252834,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=13_K=3_D=3",
+      "seconds": 5.629154775291681,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/rollout/GRAPH=All-to-All_N=13_K=4_D=3",
+      "seconds": 5.617290906608105,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/merge_batches",
+      "seconds": 1.6420877240598202,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/optimize",
+      "seconds": 19.547427155077457,
+      "count": 1
+    },
+    {
+      "label": "startup/warmup/aggregate_metrics",
+      "seconds": 0.0010217726230621338,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=9_K=1_D=3",
+      "seconds": 0.023915885016322136,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=9_K=2_D=3",
+      "seconds": 0.023442646488547325,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=9_K=3_D=3",
+      "seconds": 0.022966530174016953,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=10_K=1_D=3",
+      "seconds": 0.023281531408429146,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=10_K=2_D=3",
+      "seconds": 0.02374018169939518,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=10_K=3_D=3",
+      "seconds": 0.023039087653160095,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=10_K=4_D=3",
+      "seconds": 0.023349441587924957,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=11_K=1_D=3",
+      "seconds": 0.02342691645026207,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=11_K=2_D=3",
+      "seconds": 0.02312592789530754,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=11_K=3_D=3",
+      "seconds": 0.02321580983698368,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=11_K=4_D=3",
+      "seconds": 0.02319970913231373,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=12_K=1_D=3",
+      "seconds": 0.024646876379847527,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=12_K=2_D=3",
+      "seconds": 0.024021530523896217,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=12_K=3_D=3",
+      "seconds": 0.023888692259788513,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=12_K=4_D=3",
+      "seconds": 0.023891480639576912,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=13_K=1_D=3",
+      "seconds": 0.024423493072390556,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=13_K=2_D=3",
+      "seconds": 0.024487843737006187,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=13_K=3_D=3",
+      "seconds": 0.024555815383791924,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/rollout/GRAPH=All-to-All_N=13_K=4_D=3",
+      "seconds": 0.025180382654070854,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/merge_batches",
+      "seconds": 0.009409258142113686,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/optimize",
+      "seconds": 1.6176345720887184,
+      "count": 1
+    },
+    {
+      "label": "ppo_update/aggregate_metrics",
+      "seconds": 0.0009511876851320267,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=5_K=1_D=3",
+      "seconds": 0.438314413651824,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=5_K=1_D=3",
+      "seconds": 4.683370163664222,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=5_K=1_D=3",
+      "seconds": 2.1012601237744093,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=6_K=1_D=3",
+      "seconds": 0.7548279445618391,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=6_K=1_D=3",
+      "seconds": 2.711963439360261,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=6_K=1_D=3",
+      "seconds": 2.032009756192565,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=7_K=1_D=3",
+      "seconds": 0.45004627108573914,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=7_K=1_D=3",
+      "seconds": 2.7395496014505625,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=7_K=1_D=3",
+      "seconds": 2.262182753533125,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=8_K=1_D=3",
+      "seconds": 0.4476854782551527,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=8_K=1_D=3",
+      "seconds": 2.7954620458185673,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=8_K=1_D=3",
+      "seconds": 2.3226873986423016,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=8_K=2_D=3",
+      "seconds": 0.21767292357981205,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=8_K=2_D=3",
+      "seconds": 2.771511284634471,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=8_K=2_D=3",
+      "seconds": 1.3533496465533972,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=8_K=3_D=3",
+      "seconds": 0.21607015281915665,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=8_K=3_D=3",
+      "seconds": 2.756004361435771,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=8_K=3_D=3",
+      "seconds": 1.3390121031552553,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=9_K=1_D=3",
+      "seconds": 0.22452076710760593,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=9_K=1_D=3",
+      "seconds": 2.798718210309744,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=9_K=1_D=3",
+      "seconds": 2.488739300519228,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=9_K=2_D=3",
+      "seconds": 0.21835881285369396,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=9_K=2_D=3",
+      "seconds": 2.8077772557735443,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=9_K=2_D=3",
+      "seconds": 1.49479547329247,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=9_K=3_D=3",
+      "seconds": 0.21607747673988342,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=9_K=3_D=3",
+      "seconds": 2.7836790177971125,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=9_K=3_D=3",
+      "seconds": 1.4231733791530132,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=10_K=1_D=3",
+      "seconds": 0.22445373237133026,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=10_K=1_D=3",
+      "seconds": 2.7802388556301594,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=10_K=1_D=3",
+      "seconds": 2.4928320664912462,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=10_K=2_D=3",
+      "seconds": 0.221701730042696,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=10_K=2_D=3",
+      "seconds": 2.799807518720627,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=10_K=2_D=3",
+      "seconds": 1.5015507452189922,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=10_K=3_D=3",
+      "seconds": 0.22222978062927723,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=10_K=3_D=3",
+      "seconds": 2.800050949677825,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=10_K=3_D=3",
+      "seconds": 1.4769607484340668,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=10_K=4_D=3",
+      "seconds": 0.2179495468735695,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=10_K=4_D=3",
+      "seconds": 3.1765814758837223,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=10_K=4_D=3",
+      "seconds": 1.4125910457223654,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=11_K=1_D=3",
+      "seconds": 0.22956935316324234,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=11_K=1_D=3",
+      "seconds": 2.9071182925254107,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=11_K=1_D=3",
+      "seconds": 2.50180197507143,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=11_K=2_D=3",
+      "seconds": 0.22937134839594364,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=11_K=2_D=3",
+      "seconds": 2.8820354361087084,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=11_K=2_D=3",
+      "seconds": 1.477791577577591,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=11_K=3_D=3",
+      "seconds": 0.22698314487934113,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=11_K=3_D=3",
+      "seconds": 2.8340474292635918,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=11_K=3_D=3",
+      "seconds": 1.4592389464378357,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=11_K=4_D=3",
+      "seconds": 0.22415711171925068,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=11_K=4_D=3",
+      "seconds": 2.85164650157094,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=11_K=4_D=3",
+      "seconds": 1.4473068546503782,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=11_K=5_D=3",
+      "seconds": 0.22973143123090267,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=11_K=5_D=3",
+      "seconds": 2.8563144858926535,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=11_K=5_D=3",
+      "seconds": 1.434434538707137,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=12_K=1_D=3",
+      "seconds": 0.2361943405121565,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=12_K=1_D=3",
+      "seconds": 2.9317432064563036,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=12_K=1_D=3",
+      "seconds": 2.673245372250676,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=12_K=2_D=3",
+      "seconds": 0.23693912848830223,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=12_K=2_D=3",
+      "seconds": 2.938108030706644,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=12_K=2_D=3",
+      "seconds": 1.620207006111741,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=12_K=3_D=3",
+      "seconds": 0.23094730637967587,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=12_K=3_D=3",
+      "seconds": 2.916237724944949,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=12_K=3_D=3",
+      "seconds": 1.6148602087050676,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=12_K=4_D=3",
+      "seconds": 0.22954099252820015,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=12_K=4_D=3",
+      "seconds": 2.8768290001899004,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=12_K=4_D=3",
+      "seconds": 1.5796826034784317,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=12_K=5_D=3",
+      "seconds": 0.22980305552482605,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=12_K=5_D=3",
+      "seconds": 2.905703354626894,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=12_K=5_D=3",
+      "seconds": 1.5701700635254383,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=12_K=6_D=3",
+      "seconds": 0.22908337600529194,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=12_K=6_D=3",
+      "seconds": 2.89323328435421,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=12_K=6_D=3",
+      "seconds": 1.5555329695343971,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=13_K=1_D=3",
+      "seconds": 0.24040916748344898,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=13_K=1_D=3",
+      "seconds": 2.929991215467453,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=13_K=1_D=3",
+      "seconds": 2.746799638494849,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=13_K=2_D=3",
+      "seconds": 0.23761771991848946,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=13_K=2_D=3",
+      "seconds": 2.9034161623567343,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=13_K=2_D=3",
+      "seconds": 1.657608425244689,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=13_K=3_D=3",
+      "seconds": 0.23839245550334454,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=13_K=3_D=3",
+      "seconds": 2.9507704358547926,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=13_K=3_D=3",
+      "seconds": 1.6567070912569761,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=13_K=4_D=3",
+      "seconds": 0.2327691037207842,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=13_K=4_D=3",
+      "seconds": 2.931588815525174,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=13_K=4_D=3",
+      "seconds": 2.154676066711545,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=13_K=5_D=3",
+      "seconds": 0.2328274343162775,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=13_K=5_D=3",
+      "seconds": 2.8998365476727486,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=13_K=5_D=3",
+      "seconds": 1.6208507921546698,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=13_K=6_D=3",
+      "seconds": 0.23208200559020042,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=13_K=6_D=3",
+      "seconds": 2.919405732303858,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=13_K=6_D=3",
+      "seconds": 1.6075081005692482,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=13_K=7_D=3",
+      "seconds": 0.23312462493777275,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=13_K=7_D=3",
+      "seconds": 2.9318861681967974,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=13_K=7_D=3",
+      "seconds": 1.6060969717800617,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=1_D=3",
+      "seconds": 0.3031576871871948,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=1_D=3",
+      "seconds": 2.986878450959921,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=1_D=3",
+      "seconds": 2.8556235507130623,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=2_D=3",
+      "seconds": 0.2456774264574051,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=2_D=3",
+      "seconds": 2.995546095073223,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=2_D=3",
+      "seconds": 1.6909066755324602,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=3_D=3",
+      "seconds": 0.24518553726375103,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=3_D=3",
+      "seconds": 2.9720022957772017,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=3_D=3",
+      "seconds": 1.6889977175742388,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=4_D=3",
+      "seconds": 0.24367781728506088,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=4_D=3",
+      "seconds": 2.9574272017925978,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=4_D=3",
+      "seconds": 1.6873400211334229,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=5_D=3",
+      "seconds": 0.24030165374279022,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=5_D=3",
+      "seconds": 2.968246378004551,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=5_D=3",
+      "seconds": 1.68392482586205,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=6_D=3",
+      "seconds": 0.23943423479795456,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=6_D=3",
+      "seconds": 2.966377081349492,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=6_D=3",
+      "seconds": 1.6721423100680113,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=7_D=3",
+      "seconds": 0.23616249673068523,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=7_D=3",
+      "seconds": 2.9945651423186064,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=7_D=3",
+      "seconds": 1.6571871396154165,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=14_K=8_D=3",
+      "seconds": 0.23843976482748985,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=14_K=8_D=3",
+      "seconds": 2.9687149710953236,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=14_K=8_D=3",
+      "seconds": 1.6474686246365309,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=1_D=3",
+      "seconds": 0.5302586741745472,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=1_D=3",
+      "seconds": 3.057340629398823,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=1_D=3",
+      "seconds": 2.7606017906218767,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=2_D=3",
+      "seconds": 0.24923992529511452,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=2_D=3",
+      "seconds": 3.0509554613381624,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=2_D=3",
+      "seconds": 1.657389359548688,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=3_D=3",
+      "seconds": 0.2495430763810873,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=3_D=3",
+      "seconds": 3.0658891517668962,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=3_D=3",
+      "seconds": 1.6564583610743284,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=4_D=3",
+      "seconds": 0.24882898479700089,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=4_D=3",
+      "seconds": 3.049329688772559,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=4_D=3",
+      "seconds": 1.6573290266096592,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=5_D=3",
+      "seconds": 0.24487183429300785,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=5_D=3",
+      "seconds": 3.0392225179821253,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=5_D=3",
+      "seconds": 1.6473800595849752,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=6_D=3",
+      "seconds": 0.24403483048081398,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=6_D=3",
+      "seconds": 3.0469356793910265,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=6_D=3",
+      "seconds": 1.6510761864483356,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=7_D=3",
+      "seconds": 0.948740167543292,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=7_D=3",
+      "seconds": 3.044425504282117,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=7_D=3",
+      "seconds": 1.6308054644614458,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=8_D=3",
+      "seconds": 0.2395081128925085,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=8_D=3",
+      "seconds": 3.0937285535037518,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=8_D=3",
+      "seconds": 1.62018078006804,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=15_K=9_D=3",
+      "seconds": 0.2380508091300726,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=15_K=9_D=3",
+      "seconds": 3.0853390116244555,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=15_K=9_D=3",
+      "seconds": 1.42667100392282,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=1_D=3",
+      "seconds": 0.3064392786473036,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=1_D=3",
+      "seconds": 3.118971325457096,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=1_D=3",
+      "seconds": 2.904580894857645,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=2_D=3",
+      "seconds": 0.24742302857339382,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=2_D=3",
+      "seconds": 3.100101951509714,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=2_D=3",
+      "seconds": 1.7150820903480053,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=3_D=3",
+      "seconds": 0.24574844166636467,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=3_D=3",
+      "seconds": 3.1008671689778566,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=3_D=3",
+      "seconds": 1.716037979349494,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=4_D=3",
+      "seconds": 0.2429997082799673,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=4_D=3",
+      "seconds": 3.0862490851432085,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=4_D=3",
+      "seconds": 1.69972500577569,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=5_D=3",
+      "seconds": 0.24365261755883694,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=5_D=3",
+      "seconds": 3.0802184864878654,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=5_D=3",
+      "seconds": 1.6966963969171047,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=6_D=3",
+      "seconds": 0.24396627582609653,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=6_D=3",
+      "seconds": 3.132871400564909,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=6_D=3",
+      "seconds": 1.703562581911683,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=7_D=3",
+      "seconds": 0.2404330149292946,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=7_D=3",
+      "seconds": 3.139639515429735,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=7_D=3",
+      "seconds": 1.701511561870575,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=8_D=3",
+      "seconds": 0.2364619169384241,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=8_D=3",
+      "seconds": 3.084541667252779,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=8_D=3",
+      "seconds": 1.6848151162266731,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=9_D=3",
+      "seconds": 0.23382506147027016,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=9_D=3",
+      "seconds": 3.1408776808530092,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=9_D=3",
+      "seconds": 1.6950859148055315,
+      "count": 1
+    },
+    {
+      "label": "validation/setup/GRAPH=All-to-All_N=16_K=10_D=3",
+      "seconds": 0.23417945206165314,
+      "count": 1
+    },
+    {
+      "label": "validation/rollout/GRAPH=All-to-All_N=16_K=10_D=3",
+      "seconds": 3.1082224249839783,
+      "count": 1
+    },
+    {
+      "label": "validation/distance/GRAPH=All-to-All_N=16_K=10_D=3",
+      "seconds": 1.684789516031742,
+      "count": 1
+    },
+    {
+      "label": "validation/summary",
+      "seconds": 0.00021049752831459045,
+      "count": 1
+    }
+  ],
+  "phases": [
+    {
+      "phase": "startup",
+      "seconds": 150.82079779356718,
+      "count": 49,
+      "items": [
+        {
+          "label": "load_run_settings",
+          "seconds": 0.013822350651025772,
+          "count": 1
+        },
+        {
+          "label": "build_graph_padding/train",
+          "seconds": 0.0002036765217781067,
+          "count": 1
+        },
+        {
+          "label": "build_graph_padding/validation",
+          "seconds": 0.0006453804671764374,
+          "count": 1
+        },
+        {
+          "label": "compute_layout",
+          "seconds": 3.466382622718811e-06,
+          "count": 1
+        },
+        {
+          "label": "build_first_env",
+          "seconds": 0.2543465234339237,
+          "count": 1
+        },
+        {
+          "label": "build_network",
+          "seconds": 4.4753775000572205e-05,
+          "count": 1
+        },
+        {
+          "label": "init_state",
+          "seconds": 15.427061541005969,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=9_K=1_D=3",
+          "seconds": 0.939090084284544,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=9_K=2_D=3",
+          "seconds": 0.2462383657693863,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=9_K=3_D=3",
+          "seconds": 0.24347366020083427,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=10_K=1_D=3",
+          "seconds": 0.5106337703764439,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=10_K=2_D=3",
+          "seconds": 0.24892646074295044,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=10_K=3_D=3",
+          "seconds": 0.3633724916726351,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=10_K=4_D=3",
+          "seconds": 0.24370568990707397,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=11_K=1_D=3",
+          "seconds": 0.5152676217257977,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=11_K=2_D=3",
+          "seconds": 0.2531780060380697,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=11_K=3_D=3",
+          "seconds": 0.2495968360453844,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=11_K=4_D=3",
+          "seconds": 0.249688308686018,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=12_K=1_D=3",
+          "seconds": 0.5298232324421406,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=12_K=2_D=3",
+          "seconds": 0.2559654861688614,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=12_K=3_D=3",
+          "seconds": 0.25541815161705017,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=12_K=4_D=3",
+          "seconds": 0.2511806022375822,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=13_K=1_D=3",
+          "seconds": 0.5211075395345688,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=13_K=2_D=3",
+          "seconds": 0.24648689664900303,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=13_K=3_D=3",
+          "seconds": 0.24646132811903954,
+          "count": 1
+        },
+        {
+          "label": "task_contexts/GRAPH=All-to-All_N=13_K=4_D=3",
+          "seconds": 0.24194443970918655,
+          "count": 1
+        },
+        {
+          "label": "build_joint_update_fn",
+          "seconds": 8.174404501914978e-05,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=9_K=1_D=3",
+          "seconds": 6.809602620080113,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=9_K=2_D=3",
+          "seconds": 5.560464173555374,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=9_K=3_D=3",
+          "seconds": 5.436607331037521,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=10_K=1_D=3",
+          "seconds": 5.468075294047594,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=10_K=2_D=3",
+          "seconds": 5.479580543935299,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=10_K=3_D=3",
+          "seconds": 5.662097081542015,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=10_K=4_D=3",
+          "seconds": 5.467915261164308,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=11_K=1_D=3",
+          "seconds": 5.524596935138106,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=11_K=2_D=3",
+          "seconds": 5.514977963641286,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=11_K=3_D=3",
+          "seconds": 5.520368212834001,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=11_K=4_D=3",
+          "seconds": 5.739683702588081,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=12_K=1_D=3",
+          "seconds": 5.605717336758971,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=12_K=2_D=3",
+          "seconds": 5.581617385149002,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=12_K=3_D=3",
+          "seconds": 5.5834721606224775,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=12_K=4_D=3",
+          "seconds": 5.580065079033375,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=13_K=1_D=3",
+          "seconds": 5.640326386317611,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=13_K=2_D=3",
+          "seconds": 5.900879584252834,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=13_K=3_D=3",
+          "seconds": 5.629154775291681,
+          "count": 1
+        },
+        {
+          "label": "warmup/rollout/GRAPH=All-to-All_N=13_K=4_D=3",
+          "seconds": 5.617290906608105,
+          "count": 1
+        },
+        {
+          "label": "warmup/merge_batches",
+          "seconds": 1.6420877240598202,
+          "count": 1
+        },
+        {
+          "label": "warmup/optimize",
+          "seconds": 19.547427155077457,
+          "count": 1
+        },
+        {
+          "label": "warmup/aggregate_metrics",
+          "seconds": 0.0010217726230621338,
+          "count": 1
+        }
+      ]
+    },
+    {
+      "phase": "ppo_update",
+      "seconds": 2.0797947999089956,
+      "count": 22,
+      "items": [
+        {
+          "label": "rollout/GRAPH=All-to-All_N=9_K=1_D=3",
+          "seconds": 0.023915885016322136,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=9_K=2_D=3",
+          "seconds": 0.023442646488547325,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=9_K=3_D=3",
+          "seconds": 0.022966530174016953,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=10_K=1_D=3",
+          "seconds": 0.023281531408429146,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=10_K=2_D=3",
+          "seconds": 0.02374018169939518,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=10_K=3_D=3",
+          "seconds": 0.023039087653160095,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=10_K=4_D=3",
+          "seconds": 0.023349441587924957,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=11_K=1_D=3",
+          "seconds": 0.02342691645026207,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=11_K=2_D=3",
+          "seconds": 0.02312592789530754,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=11_K=3_D=3",
+          "seconds": 0.02321580983698368,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=11_K=4_D=3",
+          "seconds": 0.02319970913231373,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=12_K=1_D=3",
+          "seconds": 0.024646876379847527,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=12_K=2_D=3",
+          "seconds": 0.024021530523896217,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=12_K=3_D=3",
+          "seconds": 0.023888692259788513,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=12_K=4_D=3",
+          "seconds": 0.023891480639576912,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=13_K=1_D=3",
+          "seconds": 0.024423493072390556,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=13_K=2_D=3",
+          "seconds": 0.024487843737006187,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=13_K=3_D=3",
+          "seconds": 0.024555815383791924,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=13_K=4_D=3",
+          "seconds": 0.025180382654070854,
+          "count": 1
+        },
+        {
+          "label": "merge_batches",
+          "seconds": 0.009409258142113686,
+          "count": 1
+        },
+        {
+          "label": "optimize",
+          "seconds": 1.6176345720887184,
+          "count": 1
+        },
+        {
+          "label": "aggregate_metrics",
+          "seconds": 0.0009511876851320267,
+          "count": 1
+        }
+      ]
+    },
+    {
+      "phase": "validation",
+      "seconds": 293.18904868140817,
+      "count": 175,
+      "items": [
+        {
+          "label": "setup/GRAPH=All-to-All_N=5_K=1_D=3",
+          "seconds": 0.438314413651824,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=5_K=1_D=3",
+          "seconds": 4.683370163664222,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=5_K=1_D=3",
+          "seconds": 2.1012601237744093,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=6_K=1_D=3",
+          "seconds": 0.7548279445618391,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=6_K=1_D=3",
+          "seconds": 2.711963439360261,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=6_K=1_D=3",
+          "seconds": 2.032009756192565,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=7_K=1_D=3",
+          "seconds": 0.45004627108573914,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=7_K=1_D=3",
+          "seconds": 2.7395496014505625,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=7_K=1_D=3",
+          "seconds": 2.262182753533125,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=8_K=1_D=3",
+          "seconds": 0.4476854782551527,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=8_K=1_D=3",
+          "seconds": 2.7954620458185673,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=8_K=1_D=3",
+          "seconds": 2.3226873986423016,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=8_K=2_D=3",
+          "seconds": 0.21767292357981205,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=8_K=2_D=3",
+          "seconds": 2.771511284634471,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=8_K=2_D=3",
+          "seconds": 1.3533496465533972,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=8_K=3_D=3",
+          "seconds": 0.21607015281915665,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=8_K=3_D=3",
+          "seconds": 2.756004361435771,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=8_K=3_D=3",
+          "seconds": 1.3390121031552553,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=9_K=1_D=3",
+          "seconds": 0.22452076710760593,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=9_K=1_D=3",
+          "seconds": 2.798718210309744,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=9_K=1_D=3",
+          "seconds": 2.488739300519228,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=9_K=2_D=3",
+          "seconds": 0.21835881285369396,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=9_K=2_D=3",
+          "seconds": 2.8077772557735443,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=9_K=2_D=3",
+          "seconds": 1.49479547329247,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=9_K=3_D=3",
+          "seconds": 0.21607747673988342,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=9_K=3_D=3",
+          "seconds": 2.7836790177971125,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=9_K=3_D=3",
+          "seconds": 1.4231733791530132,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=10_K=1_D=3",
+          "seconds": 0.22445373237133026,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=10_K=1_D=3",
+          "seconds": 2.7802388556301594,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=10_K=1_D=3",
+          "seconds": 2.4928320664912462,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=10_K=2_D=3",
+          "seconds": 0.221701730042696,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=10_K=2_D=3",
+          "seconds": 2.799807518720627,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=10_K=2_D=3",
+          "seconds": 1.5015507452189922,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=10_K=3_D=3",
+          "seconds": 0.22222978062927723,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=10_K=3_D=3",
+          "seconds": 2.800050949677825,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=10_K=3_D=3",
+          "seconds": 1.4769607484340668,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=10_K=4_D=3",
+          "seconds": 0.2179495468735695,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=10_K=4_D=3",
+          "seconds": 3.1765814758837223,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=10_K=4_D=3",
+          "seconds": 1.4125910457223654,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=11_K=1_D=3",
+          "seconds": 0.22956935316324234,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=11_K=1_D=3",
+          "seconds": 2.9071182925254107,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=11_K=1_D=3",
+          "seconds": 2.50180197507143,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=11_K=2_D=3",
+          "seconds": 0.22937134839594364,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=11_K=2_D=3",
+          "seconds": 2.8820354361087084,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=11_K=2_D=3",
+          "seconds": 1.477791577577591,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=11_K=3_D=3",
+          "seconds": 0.22698314487934113,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=11_K=3_D=3",
+          "seconds": 2.8340474292635918,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=11_K=3_D=3",
+          "seconds": 1.4592389464378357,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=11_K=4_D=3",
+          "seconds": 0.22415711171925068,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=11_K=4_D=3",
+          "seconds": 2.85164650157094,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=11_K=4_D=3",
+          "seconds": 1.4473068546503782,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=11_K=5_D=3",
+          "seconds": 0.22973143123090267,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=11_K=5_D=3",
+          "seconds": 2.8563144858926535,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=11_K=5_D=3",
+          "seconds": 1.434434538707137,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=12_K=1_D=3",
+          "seconds": 0.2361943405121565,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=12_K=1_D=3",
+          "seconds": 2.9317432064563036,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=12_K=1_D=3",
+          "seconds": 2.673245372250676,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=12_K=2_D=3",
+          "seconds": 0.23693912848830223,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=12_K=2_D=3",
+          "seconds": 2.938108030706644,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=12_K=2_D=3",
+          "seconds": 1.620207006111741,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=12_K=3_D=3",
+          "seconds": 0.23094730637967587,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=12_K=3_D=3",
+          "seconds": 2.916237724944949,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=12_K=3_D=3",
+          "seconds": 1.6148602087050676,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=12_K=4_D=3",
+          "seconds": 0.22954099252820015,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=12_K=4_D=3",
+          "seconds": 2.8768290001899004,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=12_K=4_D=3",
+          "seconds": 1.5796826034784317,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=12_K=5_D=3",
+          "seconds": 0.22980305552482605,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=12_K=5_D=3",
+          "seconds": 2.905703354626894,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=12_K=5_D=3",
+          "seconds": 1.5701700635254383,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=12_K=6_D=3",
+          "seconds": 0.22908337600529194,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=12_K=6_D=3",
+          "seconds": 2.89323328435421,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=12_K=6_D=3",
+          "seconds": 1.5555329695343971,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=13_K=1_D=3",
+          "seconds": 0.24040916748344898,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=13_K=1_D=3",
+          "seconds": 2.929991215467453,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=13_K=1_D=3",
+          "seconds": 2.746799638494849,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=13_K=2_D=3",
+          "seconds": 0.23761771991848946,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=13_K=2_D=3",
+          "seconds": 2.9034161623567343,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=13_K=2_D=3",
+          "seconds": 1.657608425244689,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=13_K=3_D=3",
+          "seconds": 0.23839245550334454,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=13_K=3_D=3",
+          "seconds": 2.9507704358547926,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=13_K=3_D=3",
+          "seconds": 1.6567070912569761,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=13_K=4_D=3",
+          "seconds": 0.2327691037207842,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=13_K=4_D=3",
+          "seconds": 2.931588815525174,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=13_K=4_D=3",
+          "seconds": 2.154676066711545,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=13_K=5_D=3",
+          "seconds": 0.2328274343162775,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=13_K=5_D=3",
+          "seconds": 2.8998365476727486,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=13_K=5_D=3",
+          "seconds": 1.6208507921546698,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=13_K=6_D=3",
+          "seconds": 0.23208200559020042,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=13_K=6_D=3",
+          "seconds": 2.919405732303858,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=13_K=6_D=3",
+          "seconds": 1.6075081005692482,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=13_K=7_D=3",
+          "seconds": 0.23312462493777275,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=13_K=7_D=3",
+          "seconds": 2.9318861681967974,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=13_K=7_D=3",
+          "seconds": 1.6060969717800617,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=14_K=1_D=3",
+          "seconds": 0.3031576871871948,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=14_K=1_D=3",
+          "seconds": 2.986878450959921,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=14_K=1_D=3",
+          "seconds": 2.8556235507130623,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=14_K=2_D=3",
+          "seconds": 0.2456774264574051,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=14_K=2_D=3",
+          "seconds": 2.995546095073223,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=14_K=2_D=3",
+          "seconds": 1.6909066755324602,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=14_K=3_D=3",
+          "seconds": 0.24518553726375103,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=14_K=3_D=3",
+          "seconds": 2.9720022957772017,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=14_K=3_D=3",
+          "seconds": 1.6889977175742388,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=14_K=4_D=3",
+          "seconds": 0.24367781728506088,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=14_K=4_D=3",
+          "seconds": 2.9574272017925978,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=14_K=4_D=3",
+          "seconds": 1.6873400211334229,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=14_K=5_D=3",
+          "seconds": 0.24030165374279022,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=14_K=5_D=3",
+          "seconds": 2.968246378004551,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=14_K=5_D=3",
+          "seconds": 1.68392482586205,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=14_K=6_D=3",
+          "seconds": 0.23943423479795456,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=14_K=6_D=3",
+          "seconds": 2.966377081349492,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=14_K=6_D=3",
+          "seconds": 1.6721423100680113,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=14_K=7_D=3",
+          "seconds": 0.23616249673068523,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=14_K=7_D=3",
+          "seconds": 2.9945651423186064,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=14_K=7_D=3",
+          "seconds": 1.6571871396154165,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=14_K=8_D=3",
+          "seconds": 0.23843976482748985,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=14_K=8_D=3",
+          "seconds": 2.9687149710953236,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=14_K=8_D=3",
+          "seconds": 1.6474686246365309,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=15_K=1_D=3",
+          "seconds": 0.5302586741745472,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=15_K=1_D=3",
+          "seconds": 3.057340629398823,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=15_K=1_D=3",
+          "seconds": 2.7606017906218767,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=15_K=2_D=3",
+          "seconds": 0.24923992529511452,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=15_K=2_D=3",
+          "seconds": 3.0509554613381624,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=15_K=2_D=3",
+          "seconds": 1.657389359548688,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=15_K=3_D=3",
+          "seconds": 0.2495430763810873,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=15_K=3_D=3",
+          "seconds": 3.0658891517668962,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=15_K=3_D=3",
+          "seconds": 1.6564583610743284,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=15_K=4_D=3",
+          "seconds": 0.24882898479700089,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=15_K=4_D=3",
+          "seconds": 3.049329688772559,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=15_K=4_D=3",
+          "seconds": 1.6573290266096592,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=15_K=5_D=3",
+          "seconds": 0.24487183429300785,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=15_K=5_D=3",
+          "seconds": 3.0392225179821253,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=15_K=5_D=3",
+          "seconds": 1.6473800595849752,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=15_K=6_D=3",
+          "seconds": 0.24403483048081398,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=15_K=6_D=3",
+          "seconds": 3.0469356793910265,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=15_K=6_D=3",
+          "seconds": 1.6510761864483356,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=15_K=7_D=3",
+          "seconds": 0.948740167543292,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=15_K=7_D=3",
+          "seconds": 3.044425504282117,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=15_K=7_D=3",
+          "seconds": 1.6308054644614458,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=15_K=8_D=3",
+          "seconds": 0.2395081128925085,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=15_K=8_D=3",
+          "seconds": 3.0937285535037518,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=15_K=8_D=3",
+          "seconds": 1.62018078006804,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=15_K=9_D=3",
+          "seconds": 0.2380508091300726,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=15_K=9_D=3",
+          "seconds": 3.0853390116244555,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=15_K=9_D=3",
+          "seconds": 1.42667100392282,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=16_K=1_D=3",
+          "seconds": 0.3064392786473036,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=16_K=1_D=3",
+          "seconds": 3.118971325457096,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=16_K=1_D=3",
+          "seconds": 2.904580894857645,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=16_K=2_D=3",
+          "seconds": 0.24742302857339382,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=16_K=2_D=3",
+          "seconds": 3.100101951509714,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=16_K=2_D=3",
+          "seconds": 1.7150820903480053,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=16_K=3_D=3",
+          "seconds": 0.24574844166636467,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=16_K=3_D=3",
+          "seconds": 3.1008671689778566,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=16_K=3_D=3",
+          "seconds": 1.716037979349494,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=16_K=4_D=3",
+          "seconds": 0.2429997082799673,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=16_K=4_D=3",
+          "seconds": 3.0862490851432085,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=16_K=4_D=3",
+          "seconds": 1.69972500577569,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=16_K=5_D=3",
+          "seconds": 0.24365261755883694,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=16_K=5_D=3",
+          "seconds": 3.0802184864878654,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=16_K=5_D=3",
+          "seconds": 1.6966963969171047,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=16_K=6_D=3",
+          "seconds": 0.24396627582609653,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=16_K=6_D=3",
+          "seconds": 3.132871400564909,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=16_K=6_D=3",
+          "seconds": 1.703562581911683,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=16_K=7_D=3",
+          "seconds": 0.2404330149292946,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=16_K=7_D=3",
+          "seconds": 3.139639515429735,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=16_K=7_D=3",
+          "seconds": 1.701511561870575,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=16_K=8_D=3",
+          "seconds": 0.2364619169384241,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=16_K=8_D=3",
+          "seconds": 3.084541667252779,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=16_K=8_D=3",
+          "seconds": 1.6848151162266731,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=16_K=9_D=3",
+          "seconds": 0.23382506147027016,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=16_K=9_D=3",
+          "seconds": 3.1408776808530092,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=16_K=9_D=3",
+          "seconds": 1.6950859148055315,
+          "count": 1
+        },
+        {
+          "label": "setup/GRAPH=All-to-All_N=16_K=10_D=3",
+          "seconds": 0.23417945206165314,
+          "count": 1
+        },
+        {
+          "label": "rollout/GRAPH=All-to-All_N=16_K=10_D=3",
+          "seconds": 3.1082224249839783,
+          "count": 1
+        },
+        {
+          "label": "distance/GRAPH=All-to-All_N=16_K=10_D=3",
+          "seconds": 1.684789516031742,
+          "count": 1
+        },
+        {
+          "label": "summary",
+          "seconds": 0.00021049752831459045,
+          "count": 1
+        }
+      ]
+    }
+  ]
+}
