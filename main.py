@@ -288,7 +288,7 @@ def build_joint_update_fn(config, network, batch_size):
         )
         return train_state, metrics, rng
 
-    return jax.jit(update)
+    return jax.jit(update, donate_argnums=(0))
 
 
 def initialize_task_state(env, num_envs_per_task, rng):
@@ -381,7 +381,7 @@ def compute_training_layout(base_config, total_timesteps, train_tasks):
 
 
 def train_joint_multitask(
-    base_config, total_timesteps, train_tasks, train_graph_padding
+    base_config, total_timesteps, train_tasks, train_graph_padding, run_started
 ):
     layout = compute_training_layout(base_config, total_timesteps, train_tasks)
     first_task = train_tasks[0]
@@ -416,11 +416,13 @@ def train_joint_multitask(
 
     history = []
     training_started = time.perf_counter()
+    startup_elapsed = time.perf_counter() - run_started
     print(
         f"Training {len(train_tasks)} tasks jointly for "
         f"{layout['num_updates']} PPO updates; "
         f"{layout['rollout_per_update']:,} timesteps/update "
-        f"({layout['rollout_per_task']:,} per task)."
+        f"({layout['rollout_per_task']:,} per task). "
+        f"elapsed={format_duration(startup_elapsed)}"
     )
 
     for update_index in range(layout["num_updates"]):
@@ -560,17 +562,23 @@ def dry_run(
     check_tasks("validation", validation_tasks, validation_graph_padding)
 
 
-def save_results(output_dir, params, history, validation, run_config):
+def save_training_results(output_dir, params, history, run_config):
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "params.msgpack").write_bytes(serialization.to_bytes(params))
     for name, value in (
         ("train_history.json", history),
-        ("validation.json", validation),
         ("run_config.json", run_config),
     ):
         with (output_dir / name).open("w", encoding="utf-8") as file:
             json.dump(value, file, indent=2)
-    print(f"Saved checkpoint and results to {output_dir}")
+    print(f"Saved training artifacts to {output_dir}")
+
+
+def save_validation_results(output_dir, validation):
+    output_dir.mkdir(parents=True, exist_ok=True)
+    with (output_dir / "validation.json").open("w", encoding="utf-8") as file:
+        json.dump(validation, file, indent=2)
+    print(f"Saved validation results to {output_dir}")
 
 
 def parse_args():
@@ -581,6 +589,12 @@ def parse_args():
         default=DEFAULT_CONFIG_PATH,
         help="Path to the YAML config file.",
     )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=None,
+        help="Override the output directory from the config file.",
+    )
     return parser.parse_args()
 
 
@@ -588,6 +602,8 @@ def main():
     run_started = time.perf_counter()
     args = parse_args()
     run_settings = load_run_settings(args.config)
+    if args.output_dir is not None:
+        run_settings["output_dir"] = args.output_dir.expanduser()
     config = run_settings["config"]
     graphs = run_settings["graphs"]
     train_tasks = run_settings["train_tasks"]
@@ -619,13 +635,7 @@ def main():
         total_timesteps=config["TOTAL_TIMESTEPS"],
         train_tasks=train_tasks,
         train_graph_padding=train_graph_padding,
-    )
-    validation = run_validation(
-        params,
-        config,
-        validation_tasks,
-        validation_graph_padding=validation_graph_padding,
-        compute_distance=not run_settings["skip_distance"],
+        run_started=run_started,
     )
     run_config = {
         **config,
@@ -647,7 +657,15 @@ def main():
         "requested_total_timesteps": config["TOTAL_TIMESTEPS"],
         **layout,
     }
-    save_results(run_settings["output_dir"], params, history, validation, run_config)
+    save_training_results(run_settings["output_dir"], params, history, run_config)
+    validation = run_validation(
+        params,
+        config,
+        validation_tasks,
+        validation_graph_padding=validation_graph_padding,
+        compute_distance=not run_settings["skip_distance"],
+    )
+    save_validation_results(run_settings["output_dir"], validation)
     total_runtime = time.perf_counter() - run_started
     print(
         f"Total runtime: {format_duration(total_runtime)} "
