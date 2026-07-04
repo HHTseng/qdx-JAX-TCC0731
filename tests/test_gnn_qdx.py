@@ -5,7 +5,8 @@ import jax.numpy as jnp
 import numpy as np
 
 from qdx.envs.graph_code_discovery import GraphCodeDiscovery
-from qdx.gnn import GNNQDXActorCritic, GraphPadding
+from qdx.gnn import GNNQDXActorCritic, GraphObservationBuilder, GraphPadding
+from qdx.gnn.observation import EDGE_FEATURE_DIM, GLOBAL_FEATURE_DIM, NODE_FEATURE_DIM
 from qdx.make_train import make_train
 from qdx.simulators.clifford_gates import CliffordGates
 
@@ -40,7 +41,10 @@ class GNNQDXSmokeTest(unittest.TestCase):
         large_obs, _ = large_env.reset(jax.random.PRNGKey(1), None)
 
         self.assertEqual(small_obs.node_features.shape, large_obs.node_features.shape)
+        self.assertEqual(small_obs.node_features.shape[-1], NODE_FEATURE_DIM)
         self.assertEqual(small_obs.edge_features.shape, large_obs.edge_features.shape)
+        self.assertEqual(small_obs.edge_features.shape[-1], EDGE_FEATURE_DIM)
+        self.assertEqual(small_obs.global_features.shape, (GLOBAL_FEATURE_DIM,))
         self.assertEqual(small_obs.action_mask.shape, large_obs.action_mask.shape)
         self.assertEqual(int(small_obs.node_mask.sum()), 3 + (3 - 1))
         self.assertEqual(int(small_obs.action_mask.sum()), small_env.num_actions)
@@ -89,7 +93,99 @@ class GNNQDXSmokeTest(unittest.TestCase):
         )
         self.assertTrue(bool(jnp.isfinite(reward)))
         self.assertAlmostEqual(float(next_obs.global_features[0]), 1.0 / 3.0)
+        self.assertAlmostEqual(float(next_obs.global_features[1]), 2.0 / 3.0)
 
+    def test_v11_feature_builder_emits_expected_stats(self):
+        gates = CliffordGates(3)
+        builder = GraphObservationBuilder(
+            n=3,
+            k=1,
+            d=2,
+            max_steps=4,
+            gates=[gates.h, gates.s, gates.cx],
+            hardware_edges=[(0, 1), (1, 0), (1, 2), (2, 1)],
+            padding=GraphPadding(
+                n_max=3,
+                stabilizers_max=2,
+                hardware_edges_max=4,
+            ),
+        )
+        check = jnp.asarray(
+            [
+                [1, 0, 1, 0, 1, 1],
+                [0, 1, 0, 0, 0, 1],
+            ],
+            dtype=jnp.uint8,
+        )
+
+        obs = builder.build(check, jnp.asarray(1, dtype=jnp.int32))
+
+        self.assertEqual(obs.node_features.shape, (builder.max_nodes, NODE_FEATURE_DIM))
+        self.assertEqual(obs.edge_features.shape, (builder.max_edges, EDGE_FEATURE_DIM))
+        self.assertEqual(obs.global_features.shape, (GLOBAL_FEATURE_DIM,))
+
+        np.testing.assert_allclose(
+            np.asarray(obs.edge_features[:3]),
+            np.asarray(
+                [
+                    [1.0, 0.0, 1.0, 0.0, 0.0],
+                    [0.0, 1.0, 0.0, 1.0, 0.0],
+                    [1.0, 1.0, 0.0, 0.0, 1.0],
+                ]
+            ),
+        )
+
+        q0 = np.asarray(obs.node_features[0])
+        q2 = np.asarray(obs.node_features[2])
+        s0 = np.asarray(obs.node_features[builder.n_max])
+
+        np.testing.assert_allclose(
+            q0[[0, 2, 3, 5, 9, 10, 13, 15, 18]],
+            np.asarray([1.0, 0.5, 0.5, 0.5, 0.6, 1.5, 0.5, 1.0, 1.0]),
+            atol=5.0e-6,
+        )
+        np.testing.assert_allclose(
+            q2[[2, 4, 6, 7, 15, 16, 17, 18]],
+            np.asarray([1.0, 1.0, 0.5, 0.5, 0.0, 0.5, 0.5, -0.5]),
+            atol=5.0e-6,
+        )
+        np.testing.assert_allclose(
+            s0[[0, 1, 2, 3, 4, 10, 12, 15, 16, 17, 19, 20]],
+            np.asarray(
+                [
+                    0.0,
+                    1.0,
+                    1.0,
+                    2.0 / 3.0,
+                    2.0 / 3.0,
+                    1.0,
+                    2.0,
+                    1.0 / 3.0,
+                    1.0 / 3.0,
+                    1.0 / 3.0,
+                    np.log1p(3.0),
+                    1.2,
+                ]
+            ),
+            atol=5.0e-6,
+        )
+        np.testing.assert_allclose(
+            np.asarray(obs.global_features),
+            np.asarray(
+                [
+                    0.25,
+                    0.75,
+                    1.0 / 3.0,
+                    2.0 / 3.0,
+                    np.log1p(2.5),
+                    0.2,
+                    np.log1p(5.0 / 3.0),
+                    np.sqrt(2.0) / 5.0,
+                    np.log1p(4.0 / 3.0),
+                ]
+            ),
+            atol=1.0e-6,
+        )
 
     def test_one_ppo_update(self):
         padding = GraphPadding(
@@ -125,6 +221,7 @@ class GNNQDXSmokeTest(unittest.TestCase):
         self.assertTrue(
             all(bool(jnp.all(jnp.isfinite(x))) for x in parameter_leaves)
         )
+
 
 if __name__ == "__main__":
     unittest.main()

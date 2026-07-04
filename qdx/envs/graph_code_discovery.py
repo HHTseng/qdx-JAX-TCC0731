@@ -8,7 +8,14 @@ import jax.numpy as jnp
 from gymnax.environments import spaces
 
 from qdx.envs.code_discovery import CodeDiscovery, EnvParams, EnvState
-from qdx.gnn.observation import GraphObservation, GraphObservationBuilder, GraphPadding
+from qdx.gnn.observation import (
+    EDGE_FEATURE_DIM,
+    GLOBAL_FEATURE_DIM,
+    NODE_FEATURE_DIM,
+    GraphObservation,
+    GraphObservationBuilder,
+    GraphPadding,
+)
 
 
 class GraphCodeDiscovery(CodeDiscovery):
@@ -77,13 +84,22 @@ class GraphCodeDiscovery(CodeDiscovery):
         return spaces.Dict(
             {
                 "node_features": spaces.Box(
-                    0.0, 1.0, (builder.max_nodes, 6), dtype=jnp.float32
+                    -1.0e9,
+                    1.0e9,
+                    (builder.max_nodes, NODE_FEATURE_DIM),
+                    dtype=jnp.float32,
                 ),
                 "edge_features": spaces.Box(
-                    0.0, 1.0, (builder.max_edges, 2), dtype=jnp.float32
+                    0.0,
+                    1.0,
+                    (builder.max_edges, EDGE_FEATURE_DIM),
+                    dtype=jnp.float32,
                 ),
                 "global_features": spaces.Box(
-                    0.0, 1.0, (3,), dtype=jnp.float32
+                    -1.0e9,
+                    1.0e9,
+                    (GLOBAL_FEATURE_DIM,),
+                    dtype=jnp.float32,
                 ),
                 "action_mask": spaces.Box(
                     0, 1, (builder.max_actions,), dtype=jnp.bool_
