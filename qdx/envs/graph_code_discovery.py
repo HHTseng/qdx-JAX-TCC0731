@@ -55,16 +55,11 @@ class GraphCodeDiscovery(CodeDiscovery):
         obs_step, state_step, reward, done, info = self.step_env(
             key_step, state, action, params
         )
-        obs_reset, state_reset = self.reset_env(key_reset, params)
-        state = jax.tree.map(
-            lambda reset, stepped: jax.lax.select(done, reset, stepped),
-            state_reset,
-            state_step,
-        )
-        obs = jax.tree.map(
-            lambda reset, stepped: jax.lax.select(done, reset, stepped),
-            obs_reset,
-            obs_step,
+        obs, state = jax.lax.cond(
+            done,
+            lambda _: self.reset_env(key_reset, params),
+            lambda _: (obs_step, state_step),
+            operand=None,
         )
         return obs, state, reward, done, info
 
