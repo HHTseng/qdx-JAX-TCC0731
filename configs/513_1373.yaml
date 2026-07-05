@@ -1,7 +1,7 @@
 model: GNN
 env_type: STANDARD
 d: 3
-max_steps: 100
+max_steps: 50
 which_gates:
   - cx
   - h
