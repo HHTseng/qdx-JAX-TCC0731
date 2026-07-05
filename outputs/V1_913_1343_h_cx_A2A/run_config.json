@@ -1,0 +1,528 @@
+{
+  "MODEL": "GNN",
+  "ENV_TYPE": "STANDARD",
+  "D": 3,
+  "MAX_STEPS": 50,
+  "WHICH_GATES": [
+    "cx",
+    "h"
+  ],
+  "GRAPH": "All-to-All",
+  "SOFTNESS": 1,
+  "VALIDATION_SOFTNESS": 3,
+  "P_I": 0.9,
+  "LAMBDA": 10,
+  "SEED": 42,
+  "LR": 0.001,
+  "NUM_ENVS_PER_TASK": 16,
+  "NUM_STEPS": 50,
+  "TOTAL_TIMESTEPS": 10000000,
+  "UPDATE_EPOCHS": 3,
+  "NUM_MINIBATCHES": 16,
+  "GAMMA": 0.99,
+  "GAE_LAMBDA": 0.95,
+  "CLIP_EPS": 0.2,
+  "ENT_COEF": 0.02,
+  "VF_COEF": 0.5,
+  "MAX_GRAD_NORM": 0.25,
+  "ACTIVATION": "relu",
+  "HIDDEN_DIM": 32,
+  "ANNEAL_LR": true,
+  "COMPUTE_METRICS": true,
+  "GNN_HIDDEN_DIM": 64,
+  "GNN_RELATION_DIM": 8,
+  "GNN_GATE_DIM": 8,
+  "GNN_NUM_LAYERS": 3,
+  "config_path": "configs/913_1343_h_cx_A2A.yaml",
+  "output_dir": "outputs/V1_913_1343_h_cx_A2A",
+  "skip_distance": false,
+  "skip_validation": false,
+  "dry_run": false,
+  "graphs": [
+    "All-to-All"
+  ],
+  "train_tasks": [
+    {
+      "n": 9,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 9,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 9,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 10,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 10,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 10,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 10,
+      "k": 4,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 11,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 11,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 11,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 11,
+      "k": 4,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 12,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 12,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 12,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 12,
+      "k": 4,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 13,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 13,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 13,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 13,
+      "k": 4,
+      "d": 3,
+      "graph": "All-to-All"
+    }
+  ],
+  "validation_tasks": [
+    {
+      "n": 5,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 6,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 7,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 8,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 8,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 8,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 9,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 9,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 9,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 10,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 10,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 10,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 10,
+      "k": 4,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 11,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 11,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 11,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 11,
+      "k": 4,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 11,
+      "k": 5,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 12,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 12,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 12,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 12,
+      "k": 4,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 12,
+      "k": 5,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 12,
+      "k": 6,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 13,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 13,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 13,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 13,
+      "k": 4,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 13,
+      "k": 5,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 13,
+      "k": 6,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 13,
+      "k": 7,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 14,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 14,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 14,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 14,
+      "k": 4,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 14,
+      "k": 5,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 14,
+      "k": 6,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 14,
+      "k": 7,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 14,
+      "k": 8,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 15,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 15,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 15,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 15,
+      "k": 4,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 15,
+      "k": 5,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 15,
+      "k": 6,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 15,
+      "k": 7,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 15,
+      "k": 8,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 15,
+      "k": 9,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 16,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 16,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 16,
+      "k": 3,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 16,
+      "k": 4,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 16,
+      "k": 5,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 16,
+      "k": 6,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 16,
+      "k": 7,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 16,
+      "k": 8,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 16,
+      "k": 9,
+      "d": 3,
+      "graph": "All-to-All"
+    },
+    {
+      "n": 16,
+      "k": 10,
+      "d": 3,
+      "graph": "All-to-All"
+    }
+  ],
+  "train_graph_padding": {
+    "n_max": 13,
+    "stabilizers_max": 12,
+    "hardware_edges_max": 156,
+    "actions_max": null
+  },
+  "validation_graph_padding": {
+    "n_max": 16,
+    "stabilizers_max": 15,
+    "hardware_edges_max": 240,
+    "actions_max": null
+  },
+  "requested_total_timesteps": 10000000,
+  "num_updates": 657,
+  "rollout_per_task": 800,
+  "rollout_per_update": 15200,
+  "actual_total_timesteps": 9986400,
+  "minibatch_size": 950
+}

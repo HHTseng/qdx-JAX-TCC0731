@@ -1,7 +1,7 @@
 model: GNN
 env_type: STANDARD
 d: 3
-max_steps: 100
+max_steps: 50
 which_gates:
   - cx
   - h
@@ -13,7 +13,7 @@ lambda: 10
 seed: 42
 lr: 0.001
 num_envs_per_task: 16
-num_steps: 100
+num_steps: 50
 total_timesteps: 50000000
 update_epochs: 3
 num_minibatches: 16
