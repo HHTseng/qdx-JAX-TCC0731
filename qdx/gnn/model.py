@@ -45,6 +45,29 @@ def _gather_nodes(nodes, indices):
     return jnp.take_along_axis(nodes, gather_indices, axis=-2)
 
 
+def _aggregate_messages(messages, receivers, edge_mask, num_nodes):
+    """Aggregate edge messages into receiver nodes using scatter-add."""
+
+    batch_shape = messages.shape[:-2]
+    flat_messages = messages.reshape((-1, messages.shape[-2], messages.shape[-1]))
+    flat_receivers = receivers.reshape((-1, receivers.shape[-1]))
+    flat_edge_mask = edge_mask.reshape((-1, edge_mask.shape[-1]))
+
+    def _single(message_row, receiver_row, edge_mask_row):
+        edge_weights = edge_mask_row.astype(message_row.dtype)
+        weighted_messages = message_row * edge_weights[:, None]
+        summed = jnp.zeros((num_nodes, message_row.shape[-1]), dtype=message_row.dtype).at[
+            receiver_row
+        ].add(weighted_messages)
+        count = jnp.zeros((num_nodes,), dtype=message_row.dtype).at[receiver_row].add(
+            edge_weights
+        )
+        return summed / jnp.maximum(count[..., None], 1.0)
+
+    aggregated = jax.vmap(_single)(flat_messages, flat_receivers, flat_edge_mask)
+    return aggregated.reshape(batch_shape + (num_nodes, messages.shape[-1]))
+
+
 class GNNQDXActorCritic(nn.Module):
     """Variable-size candidate-scoring actor and global-state critic."""
 
@@ -107,19 +130,9 @@ class GNNQDXActorCritic(nn.Module):
                 self.activation,
                 name=f"edge_message_mlp_{layer}",
             )(message_input)
-            edge_weights = graph_obs.edge_mask.astype(messages.dtype)[..., :, None]
-            messages = messages * edge_weights
-
-            receiver_one_hot = jax.nn.one_hot(
-                graph_obs.receivers, h.shape[-2], dtype=messages.dtype
+            aggregated = _aggregate_messages(
+                messages, graph_obs.receivers, graph_obs.edge_mask, h.shape[-2]
             )
-            message_sum = jnp.einsum("...ev,...eh->...vh", receiver_one_hot, messages)
-            message_count = jnp.einsum(
-                "...ev,...e->...v",
-                receiver_one_hot,
-                graph_obs.edge_mask.astype(messages.dtype),
-            )[..., :, None]
-            aggregated = message_sum / jnp.maximum(message_count, 1.0)
 
             g_nodes = jnp.broadcast_to(
                 g[..., None, :], h.shape[:-1] + (g.shape[-1],)
