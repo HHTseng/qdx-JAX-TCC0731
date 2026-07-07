@@ -85,8 +85,8 @@ class GraphCodeDiscovery(CodeDiscovery):
                     dtype=jnp.float32,
                 ),
                 "edge_features": spaces.Box(
-                    0.0,
-                    1.0,
+                    -1.0e9,
+                    1.0e9,
                     (builder.max_edges, EDGE_FEATURE_DIM),
                     dtype=jnp.float32,
                 ),

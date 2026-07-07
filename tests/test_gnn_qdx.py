@@ -46,6 +46,9 @@ class GNNQDXSmokeTest(unittest.TestCase):
         self.assertEqual(small_obs.edge_features.shape[-1], EDGE_FEATURE_DIM)
         self.assertEqual(small_obs.global_features.shape, (GLOBAL_FEATURE_DIM,))
         self.assertEqual(small_obs.action_mask.shape, large_obs.action_mask.shape)
+        self.assertEqual(
+            small_obs.action_edge_indices.shape, large_obs.action_edge_indices.shape
+        )
         self.assertEqual(int(small_obs.node_mask.sum()), 3 + (3 - 1))
         self.assertEqual(int(small_obs.action_mask.sum()), small_env.num_actions)
 
@@ -95,7 +98,7 @@ class GNNQDXSmokeTest(unittest.TestCase):
         self.assertAlmostEqual(float(next_obs.global_features[0]), 1.0 / 3.0)
         self.assertAlmostEqual(float(next_obs.global_features[1]), 2.0 / 3.0)
 
-    def test_v11_feature_builder_emits_expected_stats(self):
+    def test_v12_feature_builder_emits_expected_stats(self):
         gates = CliffordGates(3)
         builder = GraphObservationBuilder(
             n=3,
@@ -123,16 +126,90 @@ class GNNQDXSmokeTest(unittest.TestCase):
         self.assertEqual(obs.node_features.shape, (builder.max_nodes, NODE_FEATURE_DIM))
         self.assertEqual(obs.edge_features.shape, (builder.max_edges, EDGE_FEATURE_DIM))
         self.assertEqual(obs.global_features.shape, (GLOBAL_FEATURE_DIM,))
+        self.assertEqual(obs.action_edge_indices.shape, (builder.max_actions,))
 
         np.testing.assert_allclose(
             np.asarray(obs.edge_features[:3]),
+            np.pad(
+                np.asarray(
+                    [
+                        [1.0, 0.0, 1.0, 0.0, 0.0],
+                        [0.0, 1.0, 0.0, 1.0, 0.0],
+                        [1.0, 1.0, 0.0, 0.0, 1.0],
+                    ],
+                    dtype=np.float32,
+                ),
+                ((0, 0), (0, EDGE_FEATURE_DIM - 5)),
+            ),
+        )
+
+        hw_start = 2 * builder.n * builder.num_stabilizers
+        np.testing.assert_allclose(
             np.asarray(
-                [
-                    [1.0, 0.0, 1.0, 0.0, 0.0],
-                    [0.0, 1.0, 0.0, 1.0, 0.0],
-                    [1.0, 1.0, 0.0, 0.0, 1.0],
+                obs.edge_features[hw_start : hw_start + len(builder.hardware_edges)]
+            ),
+            np.pad(
+                np.asarray(
+                    [
+                        [
+                            np.log1p(1.0),
+                            np.log1p(2.0),
+                            0.5,
+                            0.0,
+                            0.0,
+                            0.0,
+                            -0.5,
+                            1.0,
+                        ],
+                        [
+                            np.log1p(2.0),
+                            np.log1p(1.0),
+                            0.5,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.5,
+                            -1.0,
+                        ],
+                        [
+                            np.log1p(2.0),
+                            np.log1p(1.0),
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.5,
+                        ],
+                        [
+                            np.log1p(1.0),
+                            np.log1p(2.0),
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            -0.5,
+                        ],
+                    ],
+                    dtype=np.float32,
+                ),
+                ((0, 0), (5, 0)),
+            ),
+            atol=1.0e-6,
+        )
+
+        np.testing.assert_array_equal(
+            np.asarray(obs.action_edge_indices[: 2 * builder.n]),
+            np.zeros(2 * builder.n, dtype=np.int32),
+        )
+        np.testing.assert_array_equal(
+            np.asarray(
+                obs.action_edge_indices[
+                    2 * builder.n : 2 * builder.n + len(builder.hardware_edges)
                 ]
             ),
+            np.arange(hw_start, hw_start + len(builder.hardware_edges), dtype=np.int32),
         )
 
         q0 = np.asarray(obs.node_features[0])

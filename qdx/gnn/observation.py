@@ -1,4 +1,4 @@
-"""Padded heterogeneous graph observations for GNN-QDX v1.1."""
+"""Padded heterogeneous graph observations for GNN-QDX v1.2."""
 
 from dataclasses import dataclass
 from inspect import signature
@@ -18,7 +18,9 @@ SINGLE_ACTION = 0
 TWO_QUBIT_ACTION = 1
 
 NODE_FEATURE_DIM = 21
-EDGE_FEATURE_DIM = 5
+CHECK_EDGE_FEATURE_DIM = 5
+HW_EDGE_FEATURE_DIM = 8
+EDGE_FEATURE_DIM = CHECK_EDGE_FEATURE_DIM + HW_EDGE_FEATURE_DIM
 GLOBAL_FEATURE_DIM = 9
 EPSILON = 1.0e-6
 
@@ -43,6 +45,7 @@ class GraphObservation:
     action_gate_ids: jnp.ndarray
     action_first: jnp.ndarray
     action_second: jnp.ndarray
+    action_edge_indices: jnp.ndarray
     action_mask: jnp.ndarray
     action_env_indices: jnp.ndarray
 
@@ -125,7 +128,7 @@ class GraphObservationBuilder:
         )
         self.gate_arities = tuple(len(signature(gate).parameters) for gate in self.gates)
         if any(arity not in (1, 2) for arity in self.gate_arities):
-            raise ValueError("GNN-QDX v1.1 supports only one- and two-qubit gates")
+            raise ValueError("GNN-QDX v1.2 supports only one- and two-qubit gates")
         self.num_gate_types = len(self.gates)
 
         self.max_nodes = self.n_max + self.stabilizers_max
@@ -200,6 +203,17 @@ class GraphObservationBuilder:
         self._relation_ids = jnp.asarray(relations)
         self._check_pairs = check_pairs
         self._hw_offset = hw_offset
+        self._hw_src = jnp.asarray(
+            [i for i, _ in self.hardware_edges], dtype=jnp.int32
+        )
+        self._hw_dst = jnp.asarray(
+            [j for _, j in self.hardware_edges], dtype=jnp.int32
+        )
+        self._hw_edge_indices = jnp.arange(
+            self._hw_offset,
+            self._hw_offset + len(self.hardware_edges),
+            dtype=jnp.int32,
+        )
 
         neighbors = [set() for _ in range(self.n)]
         for i, j in self.hardware_edges:
@@ -217,6 +231,7 @@ class GraphObservationBuilder:
         gate_ids = np.zeros(self.max_actions, dtype=np.int32)
         first = np.zeros(self.max_actions, dtype=np.int32)
         second = np.zeros(self.max_actions, dtype=np.int32)
+        edge_indices = np.zeros(self.max_actions, dtype=np.int32)
         action_mask = np.zeros(self.max_actions, dtype=bool)
         env_indices = np.full(self.max_actions, -1, dtype=np.int32)
         cursor = 0
@@ -227,11 +242,12 @@ class GraphObservationBuilder:
                     first[cursor] = i
                     cursor += 1
             else:
-                for i, j in self.hardware_edges:
+                for hw_index, (i, j) in enumerate(self.hardware_edges):
                     action_types[cursor] = TWO_QUBIT_ACTION
                     gate_ids[cursor] = gate_id
                     first[cursor] = i
                     second[cursor] = j
+                    edge_indices[cursor] = hw_offset + hw_index
                     cursor += 1
         action_mask[:cursor] = True
         env_indices[:cursor] = np.arange(cursor, dtype=np.int32)
@@ -239,6 +255,7 @@ class GraphObservationBuilder:
         self._action_gate_ids = jnp.asarray(gate_ids)
         self._action_first = jnp.asarray(first)
         self._action_second = jnp.asarray(second)
+        self._action_edge_indices = jnp.asarray(edge_indices)
         self._action_mask = jnp.asarray(action_mask)
         self._action_env_indices = jnp.asarray(env_indices)
 
@@ -268,6 +285,8 @@ class GraphObservationBuilder:
         z_degree = jnp.sum(z_only_f, axis=0)
         y_degree = jnp.sum(y_like_f, axis=0)
         total_check_degree = jnp.sum(touched_f, axis=0)
+        load_frac = total_check_degree / stabilizer_denominator
+        xz_balance = (x_degree - z_degree) / (total_check_degree + EPSILON)
 
         x_weight = jnp.sum(x_only_f, axis=1)
         z_weight = jnp.sum(z_only_f, axis=1)
@@ -374,11 +393,44 @@ class GraphObservationBuilder:
             ],
             axis=-1,
         )
+        src_touched = touched_f[:, self._hw_src]
+        dst_touched = touched_f[:, self._hw_dst]
+        src_x_only = x_only_f[:, self._hw_src]
+        dst_x_only = x_only_f[:, self._hw_dst]
+        src_y_like = y_like_f[:, self._hw_src]
+        dst_y_like = y_like_f[:, self._hw_dst]
+        src_z_only = z_only_f[:, self._hw_src]
+        dst_z_only = z_only_f[:, self._hw_dst]
+
+        def _jaccard(src_values, dst_values):
+            intersection = jnp.sum(src_values * dst_values, axis=0)
+            union = jnp.sum(jnp.maximum(src_values, dst_values), axis=0)
+            return intersection / (union + EPSILON)
+
+        hardware_features = jnp.stack(
+            [
+                jnp.log1p(self._hardware_degree[self._hw_src]),
+                jnp.log1p(self._hardware_degree[self._hw_dst]),
+                _jaccard(src_touched, dst_touched),
+                _jaccard(src_x_only, dst_x_only),
+                _jaccard(src_y_like, dst_y_like),
+                _jaccard(src_z_only, dst_z_only),
+                load_frac[self._hw_src] - load_frac[self._hw_dst],
+                xz_balance[self._hw_src] - xz_balance[self._hw_dst],
+            ],
+            axis=-1,
+        )
         touched_flat = touched.reshape(-1)
-        edge_features = edge_features.at[: self._check_pairs].set(check_features)
         edge_features = edge_features.at[
-            self._check_pairs : 2 * self._check_pairs
+            : self._check_pairs, :CHECK_EDGE_FEATURE_DIM
         ].set(check_features)
+        edge_features = edge_features.at[
+            self._check_pairs : 2 * self._check_pairs, :CHECK_EDGE_FEATURE_DIM
+        ].set(check_features)
+        edge_features = edge_features.at[
+            self._hw_offset : self._hw_offset + len(self.hardware_edges),
+            CHECK_EDGE_FEATURE_DIM:,
+        ].set(hardware_features)
         edge_mask = edge_mask.at[: self._check_pairs].set(touched_flat)
         edge_mask = edge_mask.at[
             self._check_pairs : 2 * self._check_pairs
@@ -418,6 +470,7 @@ class GraphObservationBuilder:
             action_gate_ids=self._action_gate_ids,
             action_first=self._action_first,
             action_second=self._action_second,
+            action_edge_indices=self._action_edge_indices,
             action_mask=self._action_mask,
             action_env_indices=self._action_env_indices,
         )
