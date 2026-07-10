@@ -6,7 +6,15 @@ import numpy as np
 
 from qdx.envs.graph_code_discovery import GraphCodeDiscovery
 from qdx.gnn import GNNQDXActorCritic, GraphObservationBuilder, GraphPadding
-from qdx.gnn.observation import EDGE_FEATURE_DIM, GLOBAL_FEATURE_DIM, NODE_FEATURE_DIM
+from qdx.gnn.model import _aggregate_messages, _edge_group_masks, _masked_mean
+from qdx.gnn.observation import (
+    CHECK_Q_TO_S,
+    CHECK_S_TO_Q,
+    EDGE_FEATURE_DIM,
+    GLOBAL_FEATURE_DIM,
+    HW_Q_TO_Q,
+    NODE_FEATURE_DIM,
+)
 from qdx.make_train import make_train
 from qdx.simulators.clifford_gates import CliffordGates
 
@@ -262,6 +270,72 @@ class GNNQDXSmokeTest(unittest.TestCase):
                 ]
             ),
             atol=1.0e-6,
+        )
+
+    def test_v13_separates_check_and_hardware_edge_groups(self):
+        messages = jnp.asarray(
+            [
+                [1.0, 10.0],
+                [2.0, 20.0],
+                [100.0, 1000.0],
+                [200.0, 2000.0],
+                [999.0, 9999.0],
+            ],
+            dtype=jnp.float32,
+        )
+        receivers = jnp.asarray([0, 0, 0, 1, 1], dtype=jnp.int32)
+        relation_ids = jnp.asarray(
+            [CHECK_S_TO_Q, CHECK_Q_TO_S, HW_Q_TO_Q, HW_Q_TO_Q, CHECK_S_TO_Q],
+            dtype=jnp.int32,
+        )
+        edge_mask = jnp.asarray([True, True, True, True, False])
+
+        check_mask, hw_mask = _edge_group_masks(relation_ids, edge_mask)
+        agg_check = _aggregate_messages(messages, receivers, check_mask, 2)
+        agg_hw = _aggregate_messages(messages, receivers, hw_mask, 2)
+        check_pool = _masked_mean(messages, check_mask)
+        hw_pool = _masked_mean(messages, hw_mask)
+
+        np.testing.assert_allclose(
+            np.asarray(agg_check),
+            np.asarray([[1.5, 15.0], [0.0, 0.0]], dtype=np.float32),
+        )
+        np.testing.assert_allclose(
+            np.asarray(agg_hw),
+            np.asarray([[100.0, 1000.0], [200.0, 2000.0]], dtype=np.float32),
+        )
+        np.testing.assert_allclose(
+            np.asarray(check_pool), np.asarray([1.5, 15.0], dtype=np.float32)
+        )
+        np.testing.assert_allclose(
+            np.asarray(hw_pool), np.asarray([150.0, 1500.0], dtype=np.float32)
+        )
+
+    def test_v13_model_uses_edge_grouped_node_and_global_inputs(self):
+        padding = GraphPadding(
+            n_max=4,
+            stabilizers_max=3,
+            hardware_edges_max=6,
+        )
+        env = make_env(3, padding)
+        obs, _ = env.reset(jax.random.PRNGKey(5), None)
+
+        network = GNNQDXActorCritic(
+            num_gate_types=3,
+            hidden_dim=16,
+            num_gnn_layers=1,
+        )
+        params = network.init(jax.random.PRNGKey(6), obs)
+
+        node_kernel = params['params']['node_update_mlp_0']['dense_0']['kernel']
+        global_kernel = params['params']['global_update_mlp_0']['dense_0']['kernel']
+        two_action_kernel = params['params']['two_action_mlp']['dense_0']['kernel']
+
+        self.assertEqual(node_kernel.shape, (4 * network.hidden_dim, network.hidden_dim))
+        self.assertEqual(global_kernel.shape, (5 * network.hidden_dim, network.hidden_dim))
+        self.assertEqual(
+            two_action_kernel.shape,
+            (3 * network.hidden_dim + network.gate_dim, network.hidden_dim),
         )
 
     def test_one_ppo_update(self):

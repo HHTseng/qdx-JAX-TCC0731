@@ -1,4 +1,4 @@
-"""Flax implementation of the GNN-QDX v1.2 actor-critic."""
+"""Flax implementation of the GNN-QDX v1.3 actor-critic."""
 
 from typing import Sequence
 
@@ -8,7 +8,10 @@ import jax
 import jax.numpy as jnp
 
 from qdx.gnn.observation import (
+    CHECK_Q_TO_S,
+    CHECK_S_TO_Q,
     GraphObservation,
+    HW_Q_TO_Q,
     NUM_RELATION_TYPES,
     TWO_QUBIT_ACTION,
 )
@@ -68,6 +71,16 @@ def _aggregate_messages(messages, receivers, edge_mask, num_nodes):
     return aggregated.reshape(batch_shape + (num_nodes, messages.shape[-1]))
 
 
+def _edge_group_masks(relation_ids, edge_mask):
+    """Split valid edges into check-edge and hardware-edge groups."""
+
+    check_mask = edge_mask & (
+        (relation_ids == CHECK_S_TO_Q) | (relation_ids == CHECK_Q_TO_S)
+    )
+    hw_mask = edge_mask & (relation_ids == HW_Q_TO_Q)
+    return check_mask, hw_mask
+
+
 class GNNQDXActorCritic(nn.Module):
     """Variable-size candidate-scoring actor and global-state critic."""
 
@@ -100,6 +113,11 @@ class GNNQDXActorCritic(nn.Module):
             self.activation,
             name="edge_embed_mlp",
         )(jnp.concatenate([graph_obs.edge_features, relation_onehot], axis=-1))
+        check_edge_mask, hw_edge_mask = _edge_group_masks(
+            graph_obs.relation_ids, graph_obs.edge_mask
+        )
+        check_edge_pool = _masked_mean(edge_h, check_edge_mask)
+        hw_edge_pool = _masked_mean(edge_h, hw_edge_mask)
 
         gate_onehot = jax.nn.one_hot(
             graph_obs.action_gate_ids,
@@ -130,8 +148,11 @@ class GNNQDXActorCritic(nn.Module):
                 self.activation,
                 name=f"edge_message_mlp_{layer}",
             )(message_input)
-            aggregated = _aggregate_messages(
-                messages, graph_obs.receivers, graph_obs.edge_mask, h.shape[-2]
+            agg_check = _aggregate_messages(
+                messages, graph_obs.receivers, check_edge_mask, h.shape[-2]
+            )
+            agg_hw = _aggregate_messages(
+                messages, graph_obs.receivers, hw_edge_mask, h.shape[-2]
             )
 
             g_nodes = jnp.broadcast_to(
@@ -141,7 +162,7 @@ class GNNQDXActorCritic(nn.Module):
                 (self.hidden_dim, self.hidden_dim),
                 self.activation,
                 name=f"node_update_mlp_{layer}",
-            )(jnp.concatenate([h, aggregated, g_nodes], axis=-1))
+            )(jnp.concatenate([h, agg_check, agg_hw, g_nodes], axis=-1))
             h = (h + node_delta) * node_mask_f
 
             q_pool = _masked_mean(h, graph_obs.qubit_mask)
@@ -150,7 +171,11 @@ class GNNQDXActorCritic(nn.Module):
                 (self.hidden_dim, self.hidden_dim),
                 self.activation,
                 name=f"global_update_mlp_{layer}",
-            )(jnp.concatenate([g, q_pool, s_pool], axis=-1))
+            )(
+                jnp.concatenate(
+                    [g, q_pool, s_pool, check_edge_pool, hw_edge_pool], axis=-1
+                )
+            )
             g = g + global_delta
 
         first_h = _gather_nodes(h, graph_obs.action_first)
