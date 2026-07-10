@@ -45,16 +45,6 @@ def _gather_nodes(nodes, indices):
     return jnp.take_along_axis(nodes, gather_indices, axis=-2)
 
 
-def _gather_edges(edges, indices):
-    """Gather from the edge axis while preserving arbitrary leading batch axes."""
-
-    indices = jnp.broadcast_to(indices, edges.shape[:-2] + indices.shape[-1:])
-    gather_indices = jnp.broadcast_to(
-        indices[..., :, None], indices.shape + (edges.shape[-1],)
-    )
-    return jnp.take_along_axis(edges, gather_indices, axis=-2)
-
-
 def _aggregate_messages(messages, receivers, edge_mask, num_nodes):
     """Aggregate edge messages into receiver nodes using scatter-add."""
 
@@ -165,7 +155,6 @@ class GNNQDXActorCritic(nn.Module):
 
         first_h = _gather_nodes(h, graph_obs.action_first)
         second_h = _gather_nodes(h, graph_obs.action_second)
-        action_edge_h = _gather_edges(edge_h, graph_obs.action_edge_indices)
         g_actions = jnp.broadcast_to(
             g[..., None, :], first_h.shape[:-1] + (g.shape[-1],)
         )
@@ -175,9 +164,7 @@ class GNNQDXActorCritic(nn.Module):
         two_logits = MLP(
             (self.hidden_dim, 1), self.activation, name="two_action_mlp"
         )(
-            jnp.concatenate(
-                [first_h, second_h, action_edge_h, gate_h, g_actions], axis=-1
-            )
+            jnp.concatenate([first_h, second_h, gate_h, g_actions], axis=-1)
         )[..., 0]
         logits = jnp.where(
             graph_obs.action_types == TWO_QUBIT_ACTION, two_logits, single_logits
