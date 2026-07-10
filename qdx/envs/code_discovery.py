@@ -98,6 +98,7 @@ class CodeDiscovery(environment.Environment):
         
         # Initialize error operators and probabilities
         self.E_mu, self.p_mu = self.error_operators()
+        self.E_mu_Omega = self.E_mu @ self.Omega
         
         # Initialize stabilizer group structure
         self.generate_S_structure(softness) # This generates self.S_struct
@@ -265,12 +266,20 @@ class CodeDiscovery(environment.Environment):
         # Determine if errors are in S by calculating the logical XOR between S and error operators, E_mu
         inS = jax.vmap(jnp.logical_xor, in_axes=(None,0))(S, self.E_mu)
         inS = jnp.prod(jnp.logical_not(inS), axis=-1)
-        
+        inS_per_error = jnp.sum(inS, axis=-1)
+
+        # Reuse the symplectic product result across the KL count and reward.
+        violations = jnp.any((self.E_mu_Omega @ check_matrix.T) % 2, axis=1)
+
         # Calculate the number of Knill-Laflamme conditions that are not satisfied. This is used for stopping criterion
-        self.num_KL = len(self.E_mu) - jnp.sum(jnp.any(((self.E_mu @ self.Omega) @ check_matrix.T)%2, axis=1), axis=0) - jnp.sum(inS)
-        
+        self.num_KL = len(self.E_mu) - jnp.sum(violations, axis=0) - jnp.sum(inS_per_error)
+
         # Return the weighted KL sum rescaled by lbda
-        return self.lbda * ( jnp.sum(self.p_mu) - jnp.sum(self.p_mu * jnp.any(((self.E_mu @ self.Omega) @ check_matrix.T)%2, axis=1), axis=0) - jnp.dot(self.p_mu, jnp.sum(inS, axis=-1)) )
+        return self.lbda * (
+            jnp.sum(self.p_mu)
+            - jnp.sum(self.p_mu * violations, axis=0)
+            - jnp.dot(self.p_mu, inS_per_error)
+        )
     
     def step_env(
         self, key: chex.PRNGKey, state: EnvState, action: int, params: EnvParams

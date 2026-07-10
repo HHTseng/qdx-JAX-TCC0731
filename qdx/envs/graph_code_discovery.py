@@ -8,7 +8,14 @@ import jax.numpy as jnp
 from gymnax.environments import spaces
 
 from qdx.envs.code_discovery import CodeDiscovery, EnvParams, EnvState
-from qdx.gnn.observation import GraphObservation, GraphObservationBuilder, GraphPadding
+from qdx.gnn.observation import (
+    EDGE_FEATURE_DIM,
+    GLOBAL_FEATURE_DIM,
+    NODE_FEATURE_DIM,
+    GraphObservation,
+    GraphObservationBuilder,
+    GraphPadding,
+)
 
 
 class GraphCodeDiscovery(CodeDiscovery):
@@ -48,16 +55,11 @@ class GraphCodeDiscovery(CodeDiscovery):
         obs_step, state_step, reward, done, info = self.step_env(
             key_step, state, action, params
         )
-        obs_reset, state_reset = self.reset_env(key_reset, params)
-        state = jax.tree.map(
-            lambda reset, stepped: jax.lax.select(done, reset, stepped),
-            state_reset,
-            state_step,
-        )
-        obs = jax.tree.map(
-            lambda reset, stepped: jax.lax.select(done, reset, stepped),
-            obs_reset,
-            obs_step,
+        obs, state = jax.lax.cond(
+            done,
+            lambda _: self.reset_env(key_reset, params),
+            lambda _: (obs_step, state_step),
+            operand=None,
         )
         return obs, state, reward, done, info
 
@@ -77,13 +79,22 @@ class GraphCodeDiscovery(CodeDiscovery):
         return spaces.Dict(
             {
                 "node_features": spaces.Box(
-                    0.0, 1.0, (builder.max_nodes, 6), dtype=jnp.float32
+                    -1.0e9,
+                    1.0e9,
+                    (builder.max_nodes, NODE_FEATURE_DIM),
+                    dtype=jnp.float32,
                 ),
                 "edge_features": spaces.Box(
-                    0.0, 1.0, (builder.max_edges, 2), dtype=jnp.float32
+                    -1.0e9,
+                    1.0e9,
+                    (builder.max_edges, EDGE_FEATURE_DIM),
+                    dtype=jnp.float32,
                 ),
                 "global_features": spaces.Box(
-                    0.0, 1.0, (3,), dtype=jnp.float32
+                    -1.0e9,
+                    1.0e9,
+                    (GLOBAL_FEATURE_DIM,),
+                    dtype=jnp.float32,
                 ),
                 "action_mask": spaces.Box(
                     0, 1, (builder.max_actions,), dtype=jnp.bool_

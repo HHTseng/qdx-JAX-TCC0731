@@ -1,4 +1,4 @@
-"""Padded heterogeneous graph observations for GNN-QDX v1."""
+"""Padded heterogeneous graph observations for GNN-QDX v1.2."""
 
 from dataclasses import dataclass
 from inspect import signature
@@ -12,9 +12,17 @@ from flax import struct
 CHECK_S_TO_Q = 0
 CHECK_Q_TO_S = 1
 HW_Q_TO_Q = 2
+NUM_RELATION_TYPES = 3
 
 SINGLE_ACTION = 0
 TWO_QUBIT_ACTION = 1
+
+NODE_FEATURE_DIM = 21
+CHECK_EDGE_FEATURE_DIM = 5
+HW_EDGE_FEATURE_DIM = 8
+EDGE_FEATURE_DIM = CHECK_EDGE_FEATURE_DIM + HW_EDGE_FEATURE_DIM
+GLOBAL_FEATURE_DIM = 9
+EPSILON = 1.0e-6
 
 GATE_NAME_ALIASES = {"CX": "CNOT"}
 
@@ -37,6 +45,7 @@ class GraphObservation:
     action_gate_ids: jnp.ndarray
     action_first: jnp.ndarray
     action_second: jnp.ndarray
+    action_edge_indices: jnp.ndarray
     action_mask: jnp.ndarray
     action_env_indices: jnp.ndarray
 
@@ -119,7 +128,7 @@ class GraphObservationBuilder:
         )
         self.gate_arities = tuple(len(signature(gate).parameters) for gate in self.gates)
         if any(arity not in (1, 2) for arity in self.gate_arities):
-            raise ValueError("GNN-QDX v1 supports only one- and two-qubit gates")
+            raise ValueError("GNN-QDX v1.2 supports only one- and two-qubit gates")
         self.num_gate_types = len(self.gates)
 
         self.max_nodes = self.n_max + self.stabilizers_max
@@ -194,18 +203,35 @@ class GraphObservationBuilder:
         self._relation_ids = jnp.asarray(relations)
         self._check_pairs = check_pairs
         self._hw_offset = hw_offset
+        self._hw_src = jnp.asarray(
+            [i for i, _ in self.hardware_edges], dtype=jnp.int32
+        )
+        self._hw_dst = jnp.asarray(
+            [j for _, j in self.hardware_edges], dtype=jnp.int32
+        )
+        self._hw_edge_indices = jnp.arange(
+            self._hw_offset,
+            self._hw_offset + len(self.hardware_edges),
+            dtype=jnp.int32,
+        )
 
-        degree = np.zeros(self.n, dtype=np.float32)
-        for i, _ in self.hardware_edges:
-            degree[i] += 1.0
+        neighbors = [set() for _ in range(self.n)]
+        for i, j in self.hardware_edges:
+            neighbors[i].add(j)
+            neighbors[j].add(i)
+        hardware_degree = np.asarray(
+            [len(node_neighbors) for node_neighbors in neighbors], dtype=np.float32
+        )
+        self._hardware_degree = jnp.asarray(hardware_degree)
         self._normalized_hw_degree = jnp.asarray(
-            degree / float(max(self.n - 1, 1))
+            hardware_degree / float(max(self.n - 1, 1))
         )
 
         action_types = np.zeros(self.max_actions, dtype=np.int32)
         gate_ids = np.zeros(self.max_actions, dtype=np.int32)
         first = np.zeros(self.max_actions, dtype=np.int32)
         second = np.zeros(self.max_actions, dtype=np.int32)
+        edge_indices = np.zeros(self.max_actions, dtype=np.int32)
         action_mask = np.zeros(self.max_actions, dtype=bool)
         env_indices = np.full(self.max_actions, -1, dtype=np.int32)
         cursor = 0
@@ -216,11 +242,12 @@ class GraphObservationBuilder:
                     first[cursor] = i
                     cursor += 1
             else:
-                for i, j in self.hardware_edges:
+                for hw_index, (i, j) in enumerate(self.hardware_edges):
                     action_types[cursor] = TWO_QUBIT_ACTION
                     gate_ids[cursor] = gate_id
                     first[cursor] = i
                     second[cursor] = j
+                    edge_indices[cursor] = hw_offset + hw_index
                     cursor += 1
         action_mask[:cursor] = True
         env_indices[:cursor] = np.arange(cursor, dtype=np.int32)
@@ -228,6 +255,7 @@ class GraphObservationBuilder:
         self._action_gate_ids = jnp.asarray(gate_ids)
         self._action_first = jnp.asarray(first)
         self._action_second = jnp.asarray(second)
+        self._action_edge_indices = jnp.asarray(edge_indices)
         self._action_mask = jnp.asarray(action_mask)
         self._action_env_indices = jnp.asarray(env_indices)
 
@@ -239,19 +267,86 @@ class GraphObservationBuilder:
         )
         h_x = check_matrix[:, : self.n]
         h_z = check_matrix[:, self.n :]
-        touched = jnp.logical_or(h_x != 0, h_z != 0)
+
+        x_only = jnp.logical_and(h_x != 0, h_z == 0)
+        z_only = jnp.logical_and(h_x == 0, h_z != 0)
+        y_like = jnp.logical_and(h_x != 0, h_z != 0)
+        touched = jnp.logical_or(jnp.logical_or(x_only, z_only), y_like)
+
+        x_only_f = x_only.astype(jnp.float32)
+        z_only_f = z_only.astype(jnp.float32)
+        y_like_f = y_like.astype(jnp.float32)
         touched_f = touched.astype(jnp.float32)
 
-        node_features = jnp.zeros((self.max_nodes, 6), dtype=jnp.float32)
         stabilizer_denominator = float(max(self.num_stabilizers, 1))
+        qubit_denominator = float(max(self.n, 1))
+
+        x_degree = jnp.sum(x_only_f, axis=0)
+        z_degree = jnp.sum(z_only_f, axis=0)
+        y_degree = jnp.sum(y_like_f, axis=0)
+        total_check_degree = jnp.sum(touched_f, axis=0)
+        load_frac = total_check_degree / stabilizer_denominator
+        xz_balance = (x_degree - z_degree) / (total_check_degree + EPSILON)
+
+        x_weight = jnp.sum(x_only_f, axis=1)
+        z_weight = jnp.sum(z_only_f, axis=1)
+        y_weight = jnp.sum(y_like_f, axis=1)
+        total_weight = jnp.sum(touched_f, axis=1)
+
+        if self.n > 0:
+            mean_qubit_check_degree = jnp.mean(total_check_degree)
+            mean_x_degree = jnp.mean(x_degree)
+            mean_z_degree = jnp.mean(z_degree)
+            mean_y_degree = jnp.mean(y_degree)
+            std_qubit_check_degree = jnp.std(total_check_degree)
+            mean_hardware_degree = jnp.mean(self._hardware_degree)
+        else:
+            mean_qubit_check_degree = jnp.asarray(0.0, dtype=jnp.float32)
+            mean_x_degree = jnp.asarray(0.0, dtype=jnp.float32)
+            mean_z_degree = jnp.asarray(0.0, dtype=jnp.float32)
+            mean_y_degree = jnp.asarray(0.0, dtype=jnp.float32)
+            std_qubit_check_degree = jnp.asarray(0.0, dtype=jnp.float32)
+            mean_hardware_degree = jnp.asarray(0.0, dtype=jnp.float32)
+
+        if self.num_stabilizers > 0:
+            mean_stabilizer_weight = jnp.mean(total_weight)
+            mean_x_weight = jnp.mean(x_weight)
+            mean_z_weight = jnp.mean(z_weight)
+            mean_y_weight = jnp.mean(y_weight)
+            std_stabilizer_weight = jnp.std(total_weight)
+        else:
+            mean_stabilizer_weight = jnp.asarray(0.0, dtype=jnp.float32)
+            mean_x_weight = jnp.asarray(0.0, dtype=jnp.float32)
+            mean_z_weight = jnp.asarray(0.0, dtype=jnp.float32)
+            mean_y_weight = jnp.asarray(0.0, dtype=jnp.float32)
+            std_stabilizer_weight = jnp.asarray(0.0, dtype=jnp.float32)
+
+        node_features = jnp.zeros(
+            (self.max_nodes, NODE_FEATURE_DIM), dtype=jnp.float32
+        )
         qubit_features = jnp.stack(
             [
                 jnp.ones(self.n),
                 jnp.zeros(self.n),
-                jnp.sum(touched_f, axis=0) / stabilizer_denominator,
-                self._normalized_hw_degree,
+                total_check_degree / stabilizer_denominator,
                 jnp.sum(h_x, axis=0) / stabilizer_denominator,
                 jnp.sum(h_z, axis=0) / stabilizer_denominator,
+                x_degree / stabilizer_denominator,
+                z_degree / stabilizer_denominator,
+                y_degree / stabilizer_denominator,
+                jnp.log1p(total_check_degree),
+                total_check_degree / (mean_qubit_check_degree + EPSILON),
+                x_degree / (mean_x_degree + EPSILON),
+                z_degree / (mean_z_degree + EPSILON),
+                y_degree / (mean_y_degree + EPSILON),
+                self._normalized_hw_degree,
+                jnp.log1p(self._hardware_degree),
+                x_degree / (total_check_degree + EPSILON),
+                z_degree / (total_check_degree + EPSILON),
+                y_degree / (total_check_degree + EPSILON),
+                (x_degree - z_degree) / (total_check_degree + EPSILON),
+                jnp.zeros(self.n),
+                jnp.zeros(self.n),
             ],
             axis=-1,
         )
@@ -259,10 +354,25 @@ class GraphObservationBuilder:
             [
                 jnp.zeros(self.num_stabilizers),
                 jnp.ones(self.num_stabilizers),
-                jnp.sum(touched_f, axis=1) / float(max(self.n, 1)),
-                jnp.sum(h_x, axis=1) / float(max(self.n, 1)),
-                jnp.sum(h_z, axis=1) / float(max(self.n, 1)),
+                total_weight / qubit_denominator,
+                jnp.sum(h_x, axis=1) / qubit_denominator,
+                jnp.sum(h_z, axis=1) / qubit_denominator,
                 jnp.zeros(self.num_stabilizers),
+                jnp.zeros(self.num_stabilizers),
+                jnp.zeros(self.num_stabilizers),
+                jnp.zeros(self.num_stabilizers),
+                jnp.zeros(self.num_stabilizers),
+                x_weight / (mean_x_weight + EPSILON),
+                z_weight / (mean_z_weight + EPSILON),
+                y_weight / (mean_y_weight + EPSILON),
+                jnp.zeros(self.num_stabilizers),
+                jnp.zeros(self.num_stabilizers),
+                x_weight / (total_weight + EPSILON),
+                z_weight / (total_weight + EPSILON),
+                y_weight / (total_weight + EPSILON),
+                (x_weight - z_weight) / (total_weight + EPSILON),
+                jnp.log1p(total_weight),
+                total_weight / (mean_stabilizer_weight + EPSILON),
             ],
             axis=-1,
         )
@@ -271,14 +381,56 @@ class GraphObservationBuilder:
             self.n_max : self.n_max + self.num_stabilizers
         ].set(stabilizer_features)
 
-        edge_features = jnp.zeros((self.max_edges, 2), dtype=jnp.float32)
+        edge_features = jnp.zeros((self.max_edges, EDGE_FEATURE_DIM), dtype=jnp.float32)
         edge_mask = jnp.zeros(self.max_edges, dtype=bool)
-        check_features = jnp.stack([h_x.reshape(-1), h_z.reshape(-1)], axis=-1)
+        check_features = jnp.stack(
+            [
+                h_x.reshape(-1),
+                h_z.reshape(-1),
+                x_only_f.reshape(-1),
+                z_only_f.reshape(-1),
+                y_like_f.reshape(-1),
+            ],
+            axis=-1,
+        )
+        src_touched = touched_f[:, self._hw_src]
+        dst_touched = touched_f[:, self._hw_dst]
+        src_x_only = x_only_f[:, self._hw_src]
+        dst_x_only = x_only_f[:, self._hw_dst]
+        src_y_like = y_like_f[:, self._hw_src]
+        dst_y_like = y_like_f[:, self._hw_dst]
+        src_z_only = z_only_f[:, self._hw_src]
+        dst_z_only = z_only_f[:, self._hw_dst]
+
+        def _jaccard(src_values, dst_values):
+            intersection = jnp.sum(src_values * dst_values, axis=0)
+            union = jnp.sum(jnp.maximum(src_values, dst_values), axis=0)
+            return intersection / (union + EPSILON)
+
+        hardware_features = jnp.stack(
+            [
+                jnp.log1p(self._hardware_degree[self._hw_src]),
+                jnp.log1p(self._hardware_degree[self._hw_dst]),
+                _jaccard(src_touched, dst_touched),
+                _jaccard(src_x_only, dst_x_only),
+                _jaccard(src_y_like, dst_y_like),
+                _jaccard(src_z_only, dst_z_only),
+                load_frac[self._hw_src] - load_frac[self._hw_dst],
+                xz_balance[self._hw_src] - xz_balance[self._hw_dst],
+            ],
+            axis=-1,
+        )
         touched_flat = touched.reshape(-1)
-        edge_features = edge_features.at[: self._check_pairs].set(check_features)
         edge_features = edge_features.at[
-            self._check_pairs : 2 * self._check_pairs
+            : self._check_pairs, :CHECK_EDGE_FEATURE_DIM
         ].set(check_features)
+        edge_features = edge_features.at[
+            self._check_pairs : 2 * self._check_pairs, :CHECK_EDGE_FEATURE_DIM
+        ].set(check_features)
+        edge_features = edge_features.at[
+            self._hw_offset : self._hw_offset + len(self.hardware_edges),
+            CHECK_EDGE_FEATURE_DIM:,
+        ].set(hardware_features)
         edge_mask = edge_mask.at[: self._check_pairs].set(touched_flat)
         edge_mask = edge_mask.at[
             self._check_pairs : 2 * self._check_pairs
@@ -287,11 +439,19 @@ class GraphObservationBuilder:
             self._hw_offset : self._hw_offset + len(self.hardware_edges)
         ].set(True)
 
+        time_f = jnp.asarray(time, dtype=jnp.float32)
+        max_steps = float(max(self.max_steps, 1))
         global_features = jnp.asarray(
             [
-                jnp.asarray(time, dtype=jnp.float32) / float(max(self.max_steps, 1)),
+                time_f / max_steps,
+                (max_steps - time_f) / max_steps,
                 float(self.k) / float(max(self.n, 1)),
                 float(self.d) / float(max(self.n, 1)),
+                jnp.log1p(mean_stabilizer_weight),
+                std_stabilizer_weight / (mean_stabilizer_weight + EPSILON),
+                jnp.log1p(mean_qubit_check_degree),
+                std_qubit_check_degree / (mean_qubit_check_degree + EPSILON),
+                jnp.log1p(mean_hardware_degree),
             ],
             dtype=jnp.float32,
         )
@@ -310,6 +470,7 @@ class GraphObservationBuilder:
             action_gate_ids=self._action_gate_ids,
             action_first=self._action_first,
             action_second=self._action_second,
+            action_edge_indices=self._action_edge_indices,
             action_mask=self._action_mask,
             action_env_indices=self._action_env_indices,
         )
