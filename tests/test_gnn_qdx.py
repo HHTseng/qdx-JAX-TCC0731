@@ -55,7 +55,12 @@ class GNNQDXSmokeTest(unittest.TestCase):
         self.assertEqual(small_obs.global_features.shape, (GLOBAL_FEATURE_DIM,))
         self.assertEqual(small_obs.action_mask.shape, large_obs.action_mask.shape)
         self.assertEqual(
-            small_obs.action_edge_indices.shape, large_obs.action_edge_indices.shape
+            small_obs.action_is_symmetric.shape,
+            large_obs.action_is_symmetric.shape,
+        )
+        self.assertEqual(
+            small_state.pending_action_mask.shape,
+            small_obs.action_mask.shape,
         )
         self.assertEqual(int(small_obs.node_mask.sum()), 3 + (3 - 1))
         self.assertEqual(int(small_obs.action_mask.sum()), small_env.num_actions)
@@ -106,7 +111,7 @@ class GNNQDXSmokeTest(unittest.TestCase):
         self.assertAlmostEqual(float(next_obs.global_features[0]), 1.0 / 3.0)
         self.assertAlmostEqual(float(next_obs.global_features[1]), 2.0 / 3.0)
 
-    def test_v12_feature_builder_emits_expected_stats(self):
+    def test_v14_feature_builder_emits_expected_stats(self):
         gates = CliffordGates(3)
         builder = GraphObservationBuilder(
             n=3,
@@ -134,7 +139,8 @@ class GNNQDXSmokeTest(unittest.TestCase):
         self.assertEqual(obs.node_features.shape, (builder.max_nodes, NODE_FEATURE_DIM))
         self.assertEqual(obs.edge_features.shape, (builder.max_edges, EDGE_FEATURE_DIM))
         self.assertEqual(obs.global_features.shape, (GLOBAL_FEATURE_DIM,))
-        self.assertEqual(obs.action_edge_indices.shape, (builder.max_actions,))
+        self.assertEqual(obs.action_is_symmetric.shape, (builder.max_actions,))
+        self.assertFalse(bool(jnp.any(obs.action_is_symmetric)))
 
         np.testing.assert_allclose(
             np.asarray(obs.edge_features[:3]),
@@ -207,19 +213,6 @@ class GNNQDXSmokeTest(unittest.TestCase):
             atol=1.0e-6,
         )
 
-        np.testing.assert_array_equal(
-            np.asarray(obs.action_edge_indices[: 2 * builder.n]),
-            np.zeros(2 * builder.n, dtype=np.int32),
-        )
-        np.testing.assert_array_equal(
-            np.asarray(
-                obs.action_edge_indices[
-                    2 * builder.n : 2 * builder.n + len(builder.hardware_edges)
-                ]
-            ),
-            np.arange(hw_start, hw_start + len(builder.hardware_edges), dtype=np.int32),
-        )
-
         q0 = np.asarray(obs.node_features[0])
         q2 = np.asarray(obs.node_features[2])
         s0 = np.asarray(obs.node_features[builder.n_max])
@@ -272,7 +265,7 @@ class GNNQDXSmokeTest(unittest.TestCase):
             atol=1.0e-6,
         )
 
-    def test_v13_separates_check_and_hardware_edge_groups(self):
+    def test_v14_separates_check_and_hardware_edge_groups(self):
         messages = jnp.asarray(
             [
                 [1.0, 10.0],
@@ -311,7 +304,7 @@ class GNNQDXSmokeTest(unittest.TestCase):
             np.asarray(hw_pool), np.asarray([150.0, 1500.0], dtype=np.float32)
         )
 
-    def test_v13_model_uses_edge_grouped_node_and_global_inputs(self):
+    def test_v14_model_uses_edge_grouped_node_and_global_inputs(self):
         padding = GraphPadding(
             n_max=4,
             stabilizers_max=3,
@@ -336,6 +329,135 @@ class GNNQDXSmokeTest(unittest.TestCase):
         self.assertEqual(
             two_action_kernel.shape,
             (3 * network.hidden_dim + network.gate_dim, network.hidden_dim),
+        )
+
+    def test_v14_canonicalizes_symmetric_two_qubit_actions(self):
+        gates = CliffordGates(3)
+        env = GraphCodeDiscovery(
+            3,
+            1,
+            2,
+            [gates.cx, gates.cz, gates.sqrt_xx],
+            graph=[(1, 2), (2, 1)],
+            max_steps=4,
+            softness=1,
+            graph_padding=GraphPadding(
+                n_max=3,
+                stabilizers_max=2,
+                hardware_edges_max=2,
+            ),
+        )
+
+        self.assertEqual(
+            env.action_string_stim,
+            [
+                ".cx(1, 2)",
+                ".cx(2, 1)",
+                ".cz(1, 2)",
+                ".sqrt_xx(1, 2)",
+            ],
+        )
+        self.assertEqual(env.num_actions, 4)
+        self.assertEqual(
+            env.action_descriptor(2),
+            {"type": "two", "gate": "CZ", "control": 1, "target": 2},
+        )
+        self.assertEqual(
+            env.action_descriptor(3),
+            {"type": "two", "gate": "SQRT_XX", "control": 1, "target": 2},
+        )
+
+        obs, _ = env.reset(jax.random.PRNGKey(10), None)
+        self.assertEqual(int(obs.action_mask.sum()), 4)
+        np.testing.assert_array_equal(
+            np.asarray(obs.action_is_symmetric[: env.num_actions]),
+            np.asarray([False, False, True, True]),
+        )
+
+    def test_v14_pending_mask_filters_redundant_actions(self):
+        gates = CliffordGates(4)
+        env = GraphCodeDiscovery(
+            4,
+            1,
+            3,
+            [gates.h, gates.s, gates.cx],
+            graph=[(1, 2), (2, 1)],
+            max_steps=8,
+            softness=1,
+            graph_padding=GraphPadding(
+                n_max=4,
+                stabilizers_max=3,
+                hardware_edges_max=2,
+            ),
+        )
+
+        def action_id(stim_name):
+            return env.action_string_stim.index(stim_name)
+
+        def run_actions(stim_names):
+            obs, state = env.reset(jax.random.PRNGKey(11), None)
+            for step, stim_name in enumerate(stim_names):
+                obs, state, _, done, _ = env.step(
+                    jax.random.PRNGKey(20 + step),
+                    state,
+                    jnp.asarray(action_id(stim_name), dtype=jnp.int32),
+                    None,
+                )
+                self.assertFalse(bool(done))
+            return np.asarray(obs.action_mask)
+
+        mask = run_actions([".h(1)", ".h(2)", ".s(3)"])
+        self.assertFalse(mask[action_id(".h(1)")])
+        self.assertFalse(mask[action_id(".h(2)")])
+        self.assertFalse(mask[action_id(".s(3)")])
+
+        mask = run_actions([".h(1)", ".cx(1, 2)"])
+        self.assertTrue(mask[action_id(".h(1)")])
+
+        mask = run_actions([".s(1)", ".cx(1, 2)"])
+        self.assertFalse(mask[action_id(".s(1)")])
+
+    def test_v14_symmetric_two_qubit_logits_are_order_invariant(self):
+        gates = CliffordGates(3)
+        builder = GraphObservationBuilder(
+            n=3,
+            k=1,
+            d=2,
+            max_steps=4,
+            gates=[gates.cz],
+            hardware_edges=[(2, 1), (1, 2)],
+            padding=GraphPadding(
+                n_max=3,
+                stabilizers_max=2,
+                hardware_edges_max=2,
+            ),
+        )
+        obs = builder.empty_observation()
+        self.assertTrue(bool(obs.action_is_symmetric[0]))
+        self.assertEqual(
+            builder.action_descriptor(0),
+            {"type": "two", "gate": "CZ", "control": 1, "target": 2},
+        )
+
+        network = GNNQDXActorCritic(
+            num_gate_types=1,
+            hidden_dim=8,
+            num_gnn_layers=1,
+        )
+        params = network.init(jax.random.PRNGKey(12), obs)
+        policy, _ = network.apply(params, obs)
+
+        first = obs.action_first[0]
+        second = obs.action_second[0]
+        swapped_obs = obs.replace(
+            action_first=obs.action_first.at[0].set(second),
+            action_second=obs.action_second.at[0].set(first),
+        )
+        swapped_policy, _ = network.apply(params, swapped_obs)
+        np.testing.assert_allclose(
+            np.asarray(policy.logits[0]),
+            np.asarray(swapped_policy.logits[0]),
+            atol=1.0e-6,
         )
 
     def test_one_ppo_update(self):

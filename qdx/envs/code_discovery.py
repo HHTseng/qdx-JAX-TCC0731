@@ -4,10 +4,10 @@ import jax
 import jax.numpy as jnp
 from flax import struct
 import chex
-from inspect import signature
 from typing import Tuple, Optional
 from itertools import combinations, product
 from math import comb
+from qdx.action_space import ACTION_SPACE_VERSION, build_action_specs
 from qdx.runtime_cache import (
     build_error_operators_upto,
     build_s_structure,
@@ -28,6 +28,7 @@ class EnvState:
     """
     tableau: jnp.array
     time: int
+    pending_action_mask: jnp.array
 
 # We ignore this class   
 @struct.dataclass
@@ -89,9 +90,15 @@ class CodeDiscovery(environment.Environment):
 
         
         self.obs_shape = (2 * n_qubits_physical * (n_qubits_physical - n_qubits_logical), )
+        self.action_specs = build_action_specs(
+            self.n_qubits_physical,
+            self.gates,
+            self.graph,
+        )
         
-        # Initialize action tensor
+        # Initialize action tensor and v1.4 action-relation tables
         self.actions = self.action_matrix()
+        self._configure_action_relations(self.actions.shape[0])
         
         # Symplectic metric Omega
         self.Omega = self._cached_omega(self.n_qubits_physical)
@@ -178,32 +185,40 @@ class CodeDiscovery(environment.Environment):
             f"{gate.__module__}.{gate.__qualname__}" for gate in self.gates
         )
         graph_edges = tuple((int(src), int(dst)) for src, dst in self.graph)
-        memory_key = (int(self.n_qubits_physical), gate_names, graph_edges)
+        memory_key = (
+            ACTION_SPACE_VERSION,
+            int(self.n_qubits_physical),
+            gate_names,
+            graph_edges,
+        )
         cached = self._ACTION_MATRIX_MEMORY_CACHE.get(memory_key)
         if cached is None:
+            action_specs = self.action_specs
+
             def build():
                 action_matrix = []
                 action_string = []
                 action_string_stim = []
 
-                for gate in self.gates:
-                    if len(signature(gate).parameters) == 1:
-                        for n_qubit in range(self.n_qubits_physical):
-                            action_matrix.append(gate(n_qubit))
-                            action_string.append('%s-%d' % (gate.__name__, n_qubit))
-                            action_string_stim.append(
-                                '.%s(%d)' % (gate.__name__.lower(), n_qubit)
-                            )
-                    elif len(signature(gate).parameters) == 2:
-                        for edge in self.graph:
-                            action_matrix.append(gate(edge[0], edge[1]))
-                            action_string.append(
-                                '%s-%d-%d' % (gate.__name__, edge[0], edge[1])
-                            )
-                            action_string_stim.append(
-                                '.%s(%d, %d)'
-                                % (gate.__name__.lower(), edge[0], edge[1])
-                            )
+                for spec in action_specs:
+                    gate = self.gates[spec.gate_id]
+                    args = spec.gate_args()
+                    action_matrix.append(gate(*args))
+                    if spec.arity == 1:
+                        qubit = args[0]
+                        action_string.append('%s-%d' % (gate.__name__, qubit))
+                        action_string_stim.append(
+                            '.%s(%d)' % (gate.__name__.lower(), qubit)
+                        )
+                    else:
+                        first, second = args
+                        action_string.append(
+                            '%s-%d-%d' % (gate.__name__, first, second)
+                        )
+                        action_string_stim.append(
+                            '.%s(%d, %d)'
+                            % (gate.__name__.lower(), first, second)
+                        )
 
                 return {
                     "actions": np.asarray(action_matrix, dtype=np.uint8),
@@ -214,6 +229,7 @@ class CodeDiscovery(environment.Environment):
             arrays = load_or_build_array_bundle(
                 "code_discovery_action_matrix",
                 {
+                    "action_space_version": ACTION_SPACE_VERSION,
                     "n_qubits_physical": int(self.n_qubits_physical),
                     "gate_names": gate_names,
                     "graph_edges": graph_edges,
@@ -234,6 +250,54 @@ class CodeDiscovery(environment.Environment):
         self.action_string = list(action_string)
         self.action_string_stim = list(action_string_stim)
         return actions
+
+    def _configure_action_relations(self, max_actions: Optional[int] = None) -> None:
+        action_count = int(self.actions.shape[0])
+        max_actions = action_count if max_actions is None else int(max_actions)
+        if max_actions < action_count:
+            raise ValueError("max_actions cannot be smaller than action count")
+
+        self.max_actions = max_actions
+        base_action_mask = np.zeros(max_actions, dtype=bool)
+        base_action_mask[:action_count] = True
+        self._base_action_mask = jnp.asarray(base_action_mask)
+
+        commute_table, cancel_table = self._build_action_relation_tables(max_actions)
+        self._commute_table = jnp.asarray(commute_table)
+        self._cancel_table = jnp.asarray(cancel_table)
+
+    def _build_action_relation_tables(self, max_actions: int):
+        actions = np.asarray(self.actions, dtype=np.uint16)
+        action_count = int(actions.shape[0])
+        width = int(actions.shape[-1])
+        identity = np.eye(width, dtype=np.uint8)
+        commute_table = np.zeros((max_actions, max_actions), dtype=bool)
+        cancel_table = np.zeros((max_actions, max_actions), dtype=bool)
+
+        for action_index in range(action_count):
+            action_matrix = actions[action_index]
+            left_products = np.matmul(action_matrix, actions) % 2
+            right_products = np.matmul(actions, action_matrix) % 2
+            commute_table[action_index, :action_count] = np.all(
+                left_products == right_products, axis=(-2, -1)
+            )
+            cancel_table[action_index, :action_count] = np.all(
+                left_products == identity, axis=(-2, -1)
+            )
+
+        return commute_table, cancel_table
+
+    def update_pending_action_mask(self, pending_action_mask, action):
+        commutes = self._commute_table[:, action]
+        cancels = self._cancel_table[:, action]
+        return jnp.where(
+            commutes,
+            jnp.logical_xor(pending_action_mask, cancels),
+            False,
+        )
+
+    def dynamic_action_mask(self, state: EnvState):
+        return self._base_action_mask & ~state.pending_action_mask
 
     def get_observation(self, tableau):
         '''
@@ -289,7 +353,15 @@ class CodeDiscovery(environment.Environment):
         prev_terminal = self.is_terminal(state, params)
         
         # Update state
-        state = EnvState( (state.tableau @ self.actions[action]) % 2, state.time + 1)
+        new_pending_action_mask = self.update_pending_action_mask(
+            state.pending_action_mask,
+            action,
+        )
+        state = EnvState(
+            (state.tableau @ self.actions[action]) % 2,
+            state.time + 1,
+            new_pending_action_mask,
+        )
         
         # Update KLs
         reward = -self.check_KL(state) 
@@ -314,8 +386,9 @@ class CodeDiscovery(environment.Environment):
         init_state = tableau.current_tableau[0]
         
         state = EnvState(
-            tableau = init_state,
-            time = 0
+            tableau=init_state,
+            time=0,
+            pending_action_mask=jnp.zeros(self.max_actions, dtype=bool),
         )
         return self.get_obs(state), state
 
@@ -362,6 +435,9 @@ class CodeDiscovery(environment.Environment):
         return spaces.Dict(
             {
                 "tableau": spaces.Box(0, 1, self.obs_shape, jnp.uint8),
-                "time": spaces.Discrete(params.max_steps),
+                "time": spaces.Discrete(self.max_steps),
+                "pending_action_mask": spaces.Box(
+                    0, 1, (self.max_actions,), dtype=jnp.bool_
+                ),
             }
         )

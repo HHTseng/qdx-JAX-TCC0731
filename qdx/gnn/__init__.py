@@ -1,4 +1,4 @@
-"""Graph observations and the GNN-QDX v1.2 actor-critic."""
+"""Graph observations and the GNN-QDX v1.4 actor-critic."""
 
 from qdx.gnn.model import GNNQDXActorCritic
 from qdx.gnn.observation import (

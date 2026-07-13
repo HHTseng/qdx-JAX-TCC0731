@@ -1,12 +1,17 @@
-"""Padded heterogeneous graph observations for GNN-QDX v1.2."""
+"""Padded heterogeneous graph observations for GNN-QDX v1.4."""
 
 from dataclasses import dataclass
-from inspect import signature
 from typing import Any, Dict, Optional, Sequence, Tuple
 
 import jax.numpy as jnp
 import numpy as np
 from flax import struct
+
+from qdx.action_space import (
+    build_action_specs,
+    canonical_gate_name,
+    gate_arity,
+)
 
 
 CHECK_S_TO_Q = 0
@@ -23,8 +28,6 @@ HW_EDGE_FEATURE_DIM = 8
 EDGE_FEATURE_DIM = CHECK_EDGE_FEATURE_DIM + HW_EDGE_FEATURE_DIM
 GLOBAL_FEATURE_DIM = 9
 EPSILON = 1.0e-6
-
-GATE_NAME_ALIASES = {"CX": "CNOT"}
 
 
 @struct.dataclass
@@ -43,9 +46,9 @@ class GraphObservation:
     global_features: jnp.ndarray
     action_types: jnp.ndarray
     action_gate_ids: jnp.ndarray
+    action_is_symmetric: jnp.ndarray
     action_first: jnp.ndarray
     action_second: jnp.ndarray
-    action_edge_indices: jnp.ndarray
     action_mask: jnp.ndarray
     action_env_indices: jnp.ndarray
 
@@ -122,14 +125,16 @@ class GraphObservationBuilder:
         if len(self.hardware_edges) > self.hardware_edges_max:
             raise ValueError("hardware edge count exceeds graph bucket capacity")
 
-        self.gate_names = tuple(
-            GATE_NAME_ALIASES.get(gate.__name__.upper(), gate.__name__.upper())
-            for gate in self.gates
-        )
-        self.gate_arities = tuple(len(signature(gate).parameters) for gate in self.gates)
+        self.gate_names = tuple(canonical_gate_name(gate) for gate in self.gates)
+        self.gate_arities = tuple(gate_arity(gate) for gate in self.gates)
         if any(arity not in (1, 2) for arity in self.gate_arities):
-            raise ValueError("GNN-QDX v1.2 supports only one- and two-qubit gates")
+            raise ValueError("GNN-QDX supports only one- and two-qubit gates")
         self.num_gate_types = len(self.gates)
+        self.action_specs = build_action_specs(
+            self.n,
+            self.gates,
+            self.hardware_edges,
+        )
 
         self.max_nodes = self.n_max + self.stabilizers_max
         self.max_edges = (
@@ -152,16 +157,19 @@ class GraphObservationBuilder:
 
     def _build_action_descriptors(self) -> Tuple[ActionDescriptor, ...]:
         descriptors = []
-        for gate_name, arity in zip(self.gate_names, self.gate_arities):
-            if arity == 1:
-                descriptors.extend(
-                    ActionDescriptor("single", gate_name, qubit=i)
-                    for i in range(self.n)
+        for spec in self.action_specs:
+            if spec.arity == 1:
+                descriptors.append(
+                    ActionDescriptor("single", spec.gate_name, qubit=spec.qubit)
                 )
             else:
-                descriptors.extend(
-                    ActionDescriptor("two", gate_name, control=i, target=j)
-                    for i, j in self.hardware_edges
+                descriptors.append(
+                    ActionDescriptor(
+                        "two",
+                        spec.gate_name,
+                        control=spec.first,
+                        target=spec.second,
+                    )
                 )
         return tuple(descriptors)
 
@@ -229,37 +237,37 @@ class GraphObservationBuilder:
 
         action_types = np.zeros(self.max_actions, dtype=np.int32)
         gate_ids = np.zeros(self.max_actions, dtype=np.int32)
+        action_is_symmetric = np.zeros(self.max_actions, dtype=bool)
         first = np.zeros(self.max_actions, dtype=np.int32)
         second = np.zeros(self.max_actions, dtype=np.int32)
-        edge_indices = np.zeros(self.max_actions, dtype=np.int32)
         action_mask = np.zeros(self.max_actions, dtype=bool)
         env_indices = np.full(self.max_actions, -1, dtype=np.int32)
-        cursor = 0
-        for gate_id, arity in enumerate(self.gate_arities):
-            if arity == 1:
-                for i in range(self.n):
-                    gate_ids[cursor] = gate_id
-                    first[cursor] = i
-                    cursor += 1
+        for cursor, spec in enumerate(self.action_specs):
+            gate_ids[cursor] = spec.gate_id
+            action_is_symmetric[cursor] = spec.is_symmetric
+            if spec.arity == 1:
+                first[cursor] = spec.qubit
             else:
-                for hw_index, (i, j) in enumerate(self.hardware_edges):
-                    action_types[cursor] = TWO_QUBIT_ACTION
-                    gate_ids[cursor] = gate_id
-                    first[cursor] = i
-                    second[cursor] = j
-                    edge_indices[cursor] = hw_offset + hw_index
-                    cursor += 1
-        action_mask[:cursor] = True
-        env_indices[:cursor] = np.arange(cursor, dtype=np.int32)
+                action_types[cursor] = TWO_QUBIT_ACTION
+                first[cursor] = spec.first
+                second[cursor] = spec.second
+        action_count = len(self.action_specs)
+        action_mask[:action_count] = True
+        env_indices[:action_count] = np.arange(action_count, dtype=np.int32)
         self._action_types = jnp.asarray(action_types)
         self._action_gate_ids = jnp.asarray(gate_ids)
+        self._action_is_symmetric = jnp.asarray(action_is_symmetric)
         self._action_first = jnp.asarray(first)
         self._action_second = jnp.asarray(second)
-        self._action_edge_indices = jnp.asarray(edge_indices)
         self._action_mask = jnp.asarray(action_mask)
         self._action_env_indices = jnp.asarray(env_indices)
 
-    def build(self, check_matrix: jnp.ndarray, time: jnp.ndarray) -> GraphObservation:
+    def build(
+        self,
+        check_matrix: jnp.ndarray,
+        time: jnp.ndarray,
+        pending_action_mask: Optional[jnp.ndarray] = None,
+    ) -> GraphObservation:
         """Build the graph using only JAX operations, so it is safe under jit."""
 
         check_matrix = jnp.asarray(check_matrix, dtype=jnp.float32).reshape(
@@ -455,6 +463,12 @@ class GraphObservationBuilder:
             ],
             dtype=jnp.float32,
         )
+        if pending_action_mask is None:
+            action_mask = self._action_mask
+        else:
+            pending_action_mask = jnp.asarray(pending_action_mask, dtype=bool)
+            action_mask = self._action_mask & ~pending_action_mask
+
         return GraphObservation(
             node_features=node_features,
             edge_features=edge_features,
@@ -468,10 +482,10 @@ class GraphObservationBuilder:
             global_features=global_features,
             action_types=self._action_types,
             action_gate_ids=self._action_gate_ids,
+            action_is_symmetric=self._action_is_symmetric,
             action_first=self._action_first,
             action_second=self._action_second,
-            action_edge_indices=self._action_edge_indices,
-            action_mask=self._action_mask,
+            action_mask=action_mask,
             action_env_indices=self._action_env_indices,
         )
 

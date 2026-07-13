@@ -1,4 +1,4 @@
-"""Flax implementation of the GNN-QDX v1.3 actor-critic."""
+"""Flax implementation of the GNN-QDX v1.4 actor-critic."""
 
 from typing import Sequence
 
@@ -186,11 +186,20 @@ class GNNQDXActorCritic(nn.Module):
         single_logits = MLP(
             (self.hidden_dim, 1), self.activation, name="single_action_mlp"
         )(jnp.concatenate([first_h, gate_h, g_actions], axis=-1))[..., 0]
-        two_logits = MLP(
+        two_action_mlp = MLP(
             (self.hidden_dim, 1), self.activation, name="two_action_mlp"
-        )(
+        )
+        two_forward_logits = two_action_mlp(
             jnp.concatenate([first_h, second_h, gate_h, g_actions], axis=-1)
         )[..., 0]
+        two_reverse_logits = two_action_mlp(
+            jnp.concatenate([second_h, first_h, gate_h, g_actions], axis=-1)
+        )[..., 0]
+        two_logits = jnp.where(
+            graph_obs.action_is_symmetric,
+            0.5 * (two_forward_logits + two_reverse_logits),
+            two_forward_logits,
+        )
         logits = jnp.where(
             graph_obs.action_types == TWO_QUBIT_ACTION, two_logits, single_logits
         )
