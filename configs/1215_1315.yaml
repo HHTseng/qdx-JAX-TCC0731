@@ -1,0 +1,83 @@
+model: GNN
+env_type: STANDARD
+d: 3
+max_steps: 100
+which_gates:
+  - cx
+  - h
+  - s
+  - sqrt_x
+  - cz
+  - sqrt_xx
+graph: All-to-All
+softness: 1
+validation_softness: 3
+p_i: 0.9
+lambda: 10
+seed: 42
+lr: 0.001
+num_envs_per_task: 32
+num_steps: 100
+total_timesteps: 50000000
+update_epochs: 3
+num_minibatches: 16
+gamma: 0.99
+gae_lambda: 0.95
+clip_eps: 0.2
+ent_coef: 0.02
+vf_coef: 0.5
+max_grad_norm: 0.25
+activation: relu
+hidden_dim: 32
+anneal_lr: true
+compute_metrics: true
+gnn_hidden_dim: 64
+gnn_relation_dim: 8
+gnn_gate_dim: 8
+gnn_num_layers: 3
+
+graphs:
+  - All-to-All
+
+train_tasks:
+  - [12, 1, 5]
+  - [12, 2, 4]
+  - [13, 1, 5]
+  - [13, 2, 4]
+  - [13, 3, 4]
+  - [13, 4, 4]
+  - [14, 1, 5]
+  - [14, 2, 4]
+  - [14, 3, 4]
+  - [14, 4, 4]
+  - [15, 1, 5]
+  - [15, 2, 5]
+
+validation_tasks:
+  - [12, 1, 5]
+  - [12, 2, 4]
+  - [13, 1, 5]
+  - [13, 2, 4]
+  - [13, 3, 4]
+  - [13, 4, 4]
+  - [14, 1, 5]
+  - [14, 2, 4]
+  - [14, 3, 4]
+  - [14, 4, 4]
+  - [15, 1, 5]
+  - [15, 2, 5]
+  - [15, 3, 4]
+  - [15, 4, 4]
+  - [15, 5, 4]
+  - [15, 6, 4]
+  - [16, 1, 5]
+  - [16, 2, 5]
+  - [16, 3, 4]
+  - [16, 4, 4]
+  - [16, 5, 4]
+  - [16, 6, 4]
+
+skip_validation: false
+skip_distance: false
+dry_run: false
+output_dir: null
