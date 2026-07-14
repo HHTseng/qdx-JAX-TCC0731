@@ -595,6 +595,12 @@ def parse_args():
         default=None,
         help="Override the output directory from the config file.",
     )
+    parser.add_argument(
+        "--kl-method",
+        choices=("existing", "gf2", "gf2_tableau"),
+        default=None,
+        help="KL check used by env.step; overrides the YAML config.",
+    )
     return parser.parse_args()
 
 
@@ -605,6 +611,9 @@ def main():
     if args.output_dir is not None:
         run_settings["output_dir"] = args.output_dir.expanduser()
     config = run_settings["config"]
+    if args.kl_method is not None:
+        config = dict(config)
+        config["KL_METHOD"] = args.kl_method
     graphs = run_settings["graphs"]
     train_tasks = run_settings["train_tasks"]
     configured_validation_tasks = run_settings["validation_tasks"]

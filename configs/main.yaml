@@ -11,6 +11,7 @@ which_gates:
   - sqrt_xx
 graph: All-to-All
 softness: 1
+kl_method: existing
 validation_softness: null
 p_i: 0.9
 lambda: 10

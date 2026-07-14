@@ -33,6 +33,7 @@ BASE_CONFIG = {
     "WHICH_GATES": ("cx", "h", "s", "sqrt_x", "cz", "sqrt_xx"),
     "GRAPH": "All-to-All",
     "SOFTNESS": 1,
+    "KL_METHOD": "existing",
     "VALIDATION_SOFTNESS": None,
     "P_I": 0.9,
     "LAMBDA": 10,
@@ -251,6 +252,7 @@ def make_env(n, k, d, config, graph_padding, graph_name=None):
         lbda=config["LAMBDA"],
         pI=config["P_I"],
         softness=config["SOFTNESS"],
+        kl_method=config.get("KL_METHOD", "existing"),
         graph_padding=graph_padding,
     )
 

@@ -14,6 +14,7 @@ from qdx.runtime_cache import (
     load_or_build_array_bundle,
 )
 from qdx.simulators import TableauSimulator
+from qdx.gf2_distance import jax_exact_gf2_kl, jax_tableau_kl
 import numpy as np
 from jax import lax
 
@@ -53,8 +54,18 @@ class CodeDiscovery(environment.Environment):
         lbda (float, optional): Global rescaling factor for the instantaneous reward. Default: 100
         pI (float, optional): Probability of no error in the noise channel. Default: 0.9
         softness (int, optional): Parameter that controls the size of the stabilizer subgroup to be generated. Default: 1
+        kl_method (str, optional): KL check implementation. ``existing`` uses the
+            current softness-based implementation, ``gf2`` uses GF(2) RREF, and
+            ``gf2_tableau`` uses direct tableau coordinates.
     """
     _ACTION_MATRIX_MEMORY_CACHE = {}
+    _KL_METHOD_ALIASES = {
+        "existing": "existing",
+        "legacy": "existing",
+        "softness": "existing",
+        "gf2": "gf2",
+        "gf2_tableau": "gf2_tableau",
+    }
 
     def __init__(self,
             n_qubits_physical,
@@ -66,6 +77,7 @@ class CodeDiscovery(environment.Environment):
             lbda = 100,
             pI=0.9,
             softness=1,
+            kl_method="existing",
                 ):
         super().__init__()
         
@@ -76,6 +88,7 @@ class CodeDiscovery(environment.Environment):
         self.d = code_distance
         self.lbda = lbda # Rescales reward for better convergence
         self.pI = pI # Probability of no error
+        self.kl_method = self._normalize_kl_method(kl_method)
         
         
         self.graph = graph
@@ -112,6 +125,18 @@ class CodeDiscovery(environment.Environment):
         
         # Initialize num_KL
         self.num_KL = len(self.E_mu)
+
+
+    @classmethod
+    def _normalize_kl_method(cls, kl_method):
+        method = str(kl_method).strip().lower()
+        try:
+            return cls._KL_METHOD_ALIASES[method]
+        except KeyError as exc:
+            supported = "existing, gf2, gf2_tableau"
+            raise ValueError(
+                f"unsupported kl_method {kl_method!r}; choose from {supported}"
+            ) from exc
 
 
     @property
@@ -324,6 +349,27 @@ class CodeDiscovery(environment.Environment):
         # Extract the stabilizer generators
         check_matrix = state.tableau[self.n_qubits_physical + self.n_qubits_logical:]
         
+        if self.kl_method == "gf2":
+            result = jax_exact_gf2_kl(
+                check_matrix,
+                self.E_mu,
+                self.p_mu,
+                self.lbda,
+            )
+            self.num_KL = result.error_count
+            return result.error_cost
+
+        if self.kl_method == "gf2_tableau":
+            result = jax_tableau_kl(
+                state.tableau,
+                self.n_qubits_logical,
+                self.E_mu,
+                self.p_mu,
+                self.lbda,
+            )
+            self.num_KL = result.error_count
+            return result.error_cost
+
         # Update the stabilizer group S
         S = self.stabilizer_elements(check_matrix)
         
