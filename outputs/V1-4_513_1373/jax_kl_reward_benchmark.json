@@ -1,0 +1,741 @@
+{
+  "config_path": "/home/TCC0731/qdx/configs/513_1373.yaml",
+  "params_path": "/home/TCC0731/qdx/outputs/V1-4_513_1373/params.msgpack",
+  "task_count": 2,
+  "graphs": [
+    "All-to-All",
+    "NN-1",
+    "NN-2"
+  ],
+  "settings": {
+    "num_steps": 100,
+    "repetitions": 5,
+    "task_limit": 2,
+    "probability_model": "p_single^weight * p_identity^(n-weight)",
+    "p_identity": 0.9,
+    "lambda": 10
+  },
+  "warmup": {
+    "rollout_seconds": 2.16357010230422,
+    "error_cache_seconds": 0.001051468774676323
+  },
+  "timing_totals": {
+    "gf2": 1.0584772415459156,
+    "softness_1": 0.07626360282301903,
+    "softness_2": 0.080255888402462,
+    "softness_3": 0.0783858560025692
+  },
+  "mismatch_count": 0,
+  "tasks": [
+    {
+      "task_index": 0,
+      "task_number": 1,
+      "n": 5,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All",
+      "rollout": {
+        "done": true,
+        "steps": 6,
+        "total_reward": -0.9801025390625,
+        "final_reward": -5.960464477539062e-07,
+        "final_value": 0.009369060397148132,
+        "gates": [
+          ".sqrt_xx(0, 1)",
+          ".cx(1, 2)",
+          ".cx(0, 3)",
+          ".sqrt_xx(0, 4)",
+          ".sqrt_xx(2, 4)",
+          ".cx(0, 1)"
+        ],
+        "seconds": 0.012076115235686302
+      },
+      "stabilizer_check_matrix": [
+        [
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "distance": {
+        "target_distance": 3,
+        "gf2_target_met": true,
+        "gf2_estimated_distance": "3",
+        "softness": {
+          "1": {
+            "target_met": true,
+            "estimated_distance": 3,
+            "estimated_distance_label": "3",
+            "weight_stats": [
+              {
+                "weight": 1,
+                "violation_count": 0,
+                "total_count": 15
+              },
+              {
+                "weight": 2,
+                "violation_count": 0,
+                "total_count": 90
+              },
+              {
+                "weight": 3,
+                "violation_count": 30,
+                "total_count": 270
+              }
+            ]
+          },
+          "2": {
+            "target_met": true,
+            "estimated_distance": 3,
+            "estimated_distance_label": "3",
+            "weight_stats": [
+              {
+                "weight": 1,
+                "violation_count": 0,
+                "total_count": 15
+              },
+              {
+                "weight": 2,
+                "violation_count": 0,
+                "total_count": 90
+              },
+              {
+                "weight": 3,
+                "violation_count": 30,
+                "total_count": 270
+              }
+            ]
+          },
+          "3": {
+            "target_met": true,
+            "estimated_distance": 3,
+            "estimated_distance_label": "3",
+            "weight_stats": [
+              {
+                "weight": 1,
+                "violation_count": 0,
+                "total_count": 15
+              },
+              {
+                "weight": 2,
+                "violation_count": 0,
+                "total_count": 90
+              },
+              {
+                "weight": 3,
+                "violation_count": 30,
+                "total_count": 270
+              }
+            ]
+          }
+        },
+        "mismatches": []
+      },
+      "weights": [
+        {
+          "weight": 1,
+          "error_count": 0,
+          "total_count": 15,
+          "probability_per_error": 0.021869999999999997,
+          "benchmark": {
+            "num_steps": 100,
+            "repetitions": 5,
+            "calculations_per_method": 500,
+            "timings": {
+              "gf2": {
+                "total_seconds": 0.2251104637980461,
+                "mean_seconds_per_step": 0.0004502209275960922,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.45989302918314934
+              },
+              "softness_1": {
+                "total_seconds": 0.010016832500696182,
+                "mean_seconds_per_step": 2.0033665001392365e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.23837244883179665
+              },
+              "softness_2": {
+                "total_seconds": 0.011757710948586464,
+                "mean_seconds_per_step": 2.3515421897172926e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.434730751439929
+              },
+              "softness_3": {
+                "total_seconds": 0.011034836992621422,
+                "mean_seconds_per_step": 2.2069673985242845e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.23090986348688602
+              }
+            },
+            "speedup_definition": "softness total seconds / GF(2) total seconds",
+            "gf2_comparisons": {
+              "softness_1": {
+                "speedup": 0.044497409545931225,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              },
+              "softness_2": {
+                "speedup": 0.052230850357692336,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              },
+              "softness_3": {
+                "speedup": 0.04901965375772639,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              }
+            }
+          },
+          "legacy_error_counts": {
+            "1": 0,
+            "2": 0,
+            "3": 0
+          },
+          "jax_matches_legacy": {
+            "softness_1": true,
+            "softness_2": true,
+            "softness_3": true
+          }
+        },
+        {
+          "weight": 2,
+          "error_count": 0,
+          "total_count": 90,
+          "probability_per_error": 0.0008099999999999997,
+          "benchmark": {
+            "num_steps": 100,
+            "repetitions": 5,
+            "calculations_per_method": 500,
+            "timings": {
+              "gf2": {
+                "total_seconds": 0.16764584928750992,
+                "mean_seconds_per_step": 0.0003352916985750198,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.4286912549287081
+              },
+              "softness_1": {
+                "total_seconds": 0.013502389192581177,
+                "mean_seconds_per_step": 2.7004778385162353e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.2784648798406124
+              },
+              "softness_2": {
+                "total_seconds": 0.01385761983692646,
+                "mean_seconds_per_step": 2.771523967385292e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.22106748260557652
+              },
+              "softness_3": {
+                "total_seconds": 0.013861365616321564,
+                "mean_seconds_per_step": 2.7722731232643128e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.23550246469676495
+              }
+            },
+            "speedup_definition": "softness total seconds / GF(2) total seconds",
+            "gf2_comparisons": {
+              "softness_1": {
+                "speedup": 0.08054114820000582,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              },
+              "softness_2": {
+                "speedup": 0.08266008312058395,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              },
+              "softness_3": {
+                "speedup": 0.08268242652730129,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              }
+            }
+          },
+          "legacy_error_counts": {
+            "1": 0,
+            "2": 0,
+            "3": 0
+          },
+          "jax_matches_legacy": {
+            "softness_1": true,
+            "softness_2": true,
+            "softness_3": true
+          }
+        },
+        {
+          "weight": 3,
+          "error_count": 30,
+          "total_count": 270,
+          "probability_per_error": 2.999999999999998e-05,
+          "benchmark": {
+            "num_steps": 100,
+            "repetitions": 5,
+            "calculations_per_method": 500,
+            "timings": {
+              "gf2": {
+                "total_seconds": 0.16836615279316902,
+                "mean_seconds_per_step": 0.00033673230558633804,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.4797530919313431
+              },
+              "softness_1": {
+                "total_seconds": 0.014321716502308846,
+                "mean_seconds_per_step": 2.864343300461769e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.24047185480594635
+              },
+              "softness_2": {
+                "total_seconds": 0.01447257213294506,
+                "mean_seconds_per_step": 2.8945144265890122e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.26523813232779503
+              },
+              "softness_3": {
+                "total_seconds": 0.014244934543967247,
+                "mean_seconds_per_step": 2.8489869087934493e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.29698231630027294
+              }
+            },
+            "speedup_definition": "softness total seconds / GF(2) total seconds",
+            "gf2_comparisons": {
+              "softness_1": {
+                "speedup": 0.0850629195043881,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              },
+              "softness_2": {
+                "speedup": 0.08595891687757472,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              },
+              "softness_3": {
+                "speedup": 0.08460687797188411,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              }
+            }
+          },
+          "legacy_error_counts": {
+            "1": 30,
+            "2": 30,
+            "3": 30
+          },
+          "jax_matches_legacy": {
+            "softness_1": true,
+            "softness_2": true,
+            "softness_3": true
+          }
+        }
+      ]
+    },
+    {
+      "task_index": 1,
+      "task_number": 2,
+      "n": 5,
+      "k": 1,
+      "d": 3,
+      "graph": "NN-1",
+      "rollout": {
+        "done": true,
+        "steps": 8,
+        "total_reward": -1.4742037057876587,
+        "final_reward": -5.960464477539062e-07,
+        "final_value": -0.0034445375204086304,
+        "gates": [
+          ".sqrt_xx(0, 1)",
+          ".cx(1, 2)",
+          ".sqrt_xx(2, 3)",
+          ".cx(0, 1)",
+          ".cx(2, 1)",
+          ".sqrt_xx(3, 4)",
+          ".cx(3, 2)",
+          ".cz(1, 2)"
+        ],
+        "seconds": 0.011419681832194328
+      },
+      "stabilizer_check_matrix": [
+        [
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          1
+        ]
+      ],
+      "distance": {
+        "target_distance": 3,
+        "gf2_target_met": true,
+        "gf2_estimated_distance": "3",
+        "softness": {
+          "1": {
+            "target_met": true,
+            "estimated_distance": 3,
+            "estimated_distance_label": "3",
+            "weight_stats": [
+              {
+                "weight": 1,
+                "violation_count": 0,
+                "total_count": 15
+              },
+              {
+                "weight": 2,
+                "violation_count": 0,
+                "total_count": 90
+              },
+              {
+                "weight": 3,
+                "violation_count": 30,
+                "total_count": 270
+              }
+            ]
+          },
+          "2": {
+            "target_met": true,
+            "estimated_distance": 3,
+            "estimated_distance_label": "3",
+            "weight_stats": [
+              {
+                "weight": 1,
+                "violation_count": 0,
+                "total_count": 15
+              },
+              {
+                "weight": 2,
+                "violation_count": 0,
+                "total_count": 90
+              },
+              {
+                "weight": 3,
+                "violation_count": 30,
+                "total_count": 270
+              }
+            ]
+          },
+          "3": {
+            "target_met": true,
+            "estimated_distance": 3,
+            "estimated_distance_label": "3",
+            "weight_stats": [
+              {
+                "weight": 1,
+                "violation_count": 0,
+                "total_count": 15
+              },
+              {
+                "weight": 2,
+                "violation_count": 0,
+                "total_count": 90
+              },
+              {
+                "weight": 3,
+                "violation_count": 30,
+                "total_count": 270
+              }
+            ]
+          }
+        },
+        "mismatches": []
+      },
+      "weights": [
+        {
+          "weight": 1,
+          "error_count": 0,
+          "total_count": 15,
+          "probability_per_error": 0.021869999999999997,
+          "benchmark": {
+            "num_steps": 100,
+            "repetitions": 5,
+            "calculations_per_method": 500,
+            "timings": {
+              "gf2": {
+                "total_seconds": 0.16353366896510124,
+                "mean_seconds_per_step": 0.0003270673379302025,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.10507241077721119
+              },
+              "softness_1": {
+                "total_seconds": 0.010192371904850006,
+                "mean_seconds_per_step": 2.0384743809700013e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.03464512526988983
+              },
+              "softness_2": {
+                "total_seconds": 0.011953219771385193,
+                "mean_seconds_per_step": 2.3906439542770387e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.03555122949182987
+              },
+              "softness_3": {
+                "total_seconds": 0.01089085265994072,
+                "mean_seconds_per_step": 2.178170531988144e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.033215124160051346
+              }
+            },
+            "speedup_definition": "softness total seconds / GF(2) total seconds",
+            "gf2_comparisons": {
+              "softness_1": {
+                "speedup": 0.06232583155108628,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              },
+              "softness_2": {
+                "speedup": 0.07309332596173855,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              },
+              "softness_3": {
+                "speedup": 0.06659700555158994,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              }
+            }
+          },
+          "legacy_error_counts": {
+            "1": 0,
+            "2": 0,
+            "3": 0
+          },
+          "jax_matches_legacy": {
+            "softness_1": true,
+            "softness_2": true,
+            "softness_3": true
+          }
+        },
+        {
+          "weight": 2,
+          "error_count": 0,
+          "total_count": 90,
+          "probability_per_error": 0.0008099999999999997,
+          "benchmark": {
+            "num_steps": 100,
+            "repetitions": 5,
+            "calculations_per_method": 500,
+            "timings": {
+              "gf2": {
+                "total_seconds": 0.1673537753522396,
+                "mean_seconds_per_step": 0.0003347075507044792,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.10463310964405537
+              },
+              "softness_1": {
+                "total_seconds": 0.013869011774659157,
+                "mean_seconds_per_step": 2.7738023549318312e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.033447062596678734
+              },
+              "softness_2": {
+                "total_seconds": 0.014222020283341408,
+                "mean_seconds_per_step": 2.8444040566682816e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.033953720703721046
+              },
+              "softness_3": {
+                "total_seconds": 0.01404404267668724,
+                "mean_seconds_per_step": 2.808808535337448e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.033694298937916756
+              }
+            },
+            "speedup_definition": "softness total seconds / GF(2) total seconds",
+            "gf2_comparisons": {
+              "softness_1": {
+                "speedup": 0.0828724165049053,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              },
+              "softness_2": {
+                "speedup": 0.08498177142049805,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              },
+              "softness_3": {
+                "speedup": 0.0839182901439056,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              }
+            }
+          },
+          "legacy_error_counts": {
+            "1": 0,
+            "2": 0,
+            "3": 0
+          },
+          "jax_matches_legacy": {
+            "softness_1": true,
+            "softness_2": true,
+            "softness_3": true
+          }
+        },
+        {
+          "weight": 3,
+          "error_count": 30,
+          "total_count": 270,
+          "probability_per_error": 2.999999999999998e-05,
+          "benchmark": {
+            "num_steps": 100,
+            "repetitions": 5,
+            "calculations_per_method": 500,
+            "timings": {
+              "gf2": {
+                "total_seconds": 0.1664673313498497,
+                "mean_seconds_per_step": 0.0003329346626996994,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.10599433071911335
+              },
+              "softness_1": {
+                "total_seconds": 0.01436128094792366,
+                "mean_seconds_per_step": 2.8722561895847322e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.03487926907837391
+              },
+              "softness_2": {
+                "total_seconds": 0.01399274542927742,
+                "mean_seconds_per_step": 2.798549085855484e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.03435708023607731
+              },
+              "softness_3": {
+                "total_seconds": 0.014309823513031006,
+                "mean_seconds_per_step": 2.8619647026062013e-05,
+                "calculations": 500,
+                "warmup_seconds_excluded": 0.03482315503060818
+              }
+            },
+            "speedup_definition": "softness total seconds / GF(2) total seconds",
+            "gf2_comparisons": {
+              "softness_1": {
+                "speedup": 0.08627086667078133,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              },
+              "softness_2": {
+                "speedup": 0.08405700575490155,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              },
+              "softness_3": {
+                "speedup": 0.08596175235702741,
+                "reward_allclose": true,
+                "error_count_equal": true,
+                "terminal_equal": true
+              }
+            }
+          },
+          "legacy_error_counts": {
+            "1": 30,
+            "2": 30,
+            "3": 30
+          },
+          "jax_matches_legacy": {
+            "softness_1": true,
+            "softness_2": true,
+            "softness_3": true
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2187 @@
+{
+  "benchmark": "batched_validation_env_step",
+  "config_path": "/home/TCC0731/qdx/configs/513_1373.yaml",
+  "params_path": "/home/TCC0731/qdx/outputs/V1-4_513_1373/params.msgpack",
+  "graph": "All-to-All",
+  "methods": [
+    "softness_1",
+    "softness_2",
+    "softness_3",
+    "gf2",
+    "gf2_tableau"
+  ],
+  "settings": {
+    "num_envs_per_task": [
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "repetitions": 5,
+    "task_limit": 5,
+    "timed_scope": "batched env.step only; validation action generation, JIT compilation, and reset excluded",
+    "speedup_vs_gf2": "method total seconds / GF(2) total seconds"
+  },
+  "task_count": 5,
+  "tasks": [
+    {
+      "task_index": 0,
+      "task_number": 1,
+      "n": 5,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All",
+      "validation": {
+        "softness_1": {
+          "done": true,
+          "steps": 6,
+          "total_reward": -0.9801025390625,
+          "final_reward": -5.960464477539062e-07,
+          "final_value": 0.009369060397148132,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(1, 2)",
+            ".cx(0, 3)",
+            ".sqrt_xx(0, 4)",
+            ".sqrt_xx(2, 4)",
+            ".cx(0, 1)"
+          ],
+          "distance_stats": []
+        },
+        "softness_2": {
+          "done": true,
+          "steps": 6,
+          "total_reward": -0.9477024078369141,
+          "final_reward": -5.960464477539062e-07,
+          "final_value": 0.009369060397148132,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(1, 2)",
+            ".cx(0, 3)",
+            ".sqrt_xx(0, 4)",
+            ".sqrt_xx(2, 4)",
+            ".cx(0, 1)"
+          ],
+          "distance_stats": []
+        },
+        "softness_3": {
+          "done": true,
+          "steps": 6,
+          "total_reward": -0.9477024078369141,
+          "final_reward": -5.960464477539062e-07,
+          "final_value": 0.009369060397148132,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(1, 2)",
+            ".cx(0, 3)",
+            ".sqrt_xx(0, 4)",
+            ".sqrt_xx(2, 4)",
+            ".cx(0, 1)"
+          ],
+          "distance_stats": []
+        },
+        "gf2": {
+          "done": true,
+          "steps": 6,
+          "total_reward": -0.9476999640464783,
+          "final_reward": -0.0,
+          "final_value": 0.009369060397148132,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(1, 2)",
+            ".cx(0, 3)",
+            ".sqrt_xx(0, 4)",
+            ".sqrt_xx(2, 4)",
+            ".cx(0, 1)"
+          ],
+          "distance_stats": [
+            {
+              "d": 1,
+              "error_count": 0,
+              "total_count": 15,
+              "error_count_over_total": "0/15",
+              "error_rate": 0.0
+            },
+            {
+              "d": 2,
+              "error_count": 0,
+              "total_count": 90,
+              "error_count_over_total": "0/90",
+              "error_rate": 0.0
+            }
+          ]
+        },
+        "gf2_tableau": {
+          "done": true,
+          "steps": 6,
+          "total_reward": -0.9476999640464783,
+          "final_reward": -0.0,
+          "final_value": 0.009369060397148132,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(1, 2)",
+            ".cx(0, 3)",
+            ".sqrt_xx(0, 4)",
+            ".sqrt_xx(2, 4)",
+            ".cx(0, 1)"
+          ],
+          "distance_stats": [
+            {
+              "d": 1,
+              "error_count": 0,
+              "total_count": 15,
+              "error_count_over_total": "0/15",
+              "error_rate": 0.0
+            },
+            {
+              "d": 2,
+              "error_count": 0,
+              "total_count": 90,
+              "error_count_over_total": "0/90",
+              "error_rate": 0.0
+            }
+          ]
+        }
+      },
+      "timings": {
+        "8": {
+          "softness_1": {
+            "total_seconds": 0.006379824131727219,
+            "mean_seconds_per_batched_step": 0.00021266080439090728,
+            "mean_seconds_per_env_step": 2.658260054886341e-05,
+            "env_steps_per_run": 48,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.4887443967163563,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.006393931806087494,
+            "mean_seconds_per_batched_step": 0.00021313106020291647,
+            "mean_seconds_per_env_step": 2.664138252536456e-05,
+            "env_steps_per_run": 48,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.491521794348955,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.0063056740909814835,
+            "mean_seconds_per_batched_step": 0.00021018913636604945,
+            "mean_seconds_per_env_step": 2.627364204575618e-05,
+            "env_steps_per_run": 48,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.4857961144298315,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.01878451555967331,
+            "mean_seconds_per_batched_step": 0.000626150518655777,
+            "mean_seconds_per_env_step": 7.826881483197212e-05,
+            "env_steps_per_run": 48,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.7435139790177345,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.006071772426366806,
+            "mean_seconds_per_batched_step": 0.00020239241421222688,
+            "mean_seconds_per_env_step": 2.529905177652836e-05,
+            "env_steps_per_run": 48,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.3944769520312548,
+            "final_done": true
+          }
+        },
+        "16": {
+          "softness_1": {
+            "total_seconds": 0.006513576954603195,
+            "mean_seconds_per_batched_step": 0.0002171192318201065,
+            "mean_seconds_per_env_step": 1.3569951988756657e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.497681301087141,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.007206907495856285,
+            "mean_seconds_per_batched_step": 0.00024023024986187617,
+            "mean_seconds_per_env_step": 1.501439061636726e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.623759686946869,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.0074142999947071075,
+            "mean_seconds_per_batched_step": 0.0002471433331569036,
+            "mean_seconds_per_env_step": 1.5446458322306476e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.662484498694539,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.016993852332234383,
+            "mean_seconds_per_batched_step": 0.0005664617444078127,
+            "mean_seconds_per_env_step": 3.5403859025488295e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.8278684355318546,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.0061737168580293655,
+            "mean_seconds_per_batched_step": 0.00020579056193431217,
+            "mean_seconds_per_env_step": 1.286191012089451e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.428518043830991,
+            "final_done": true
+          }
+        },
+        "32": {
+          "softness_1": {
+            "total_seconds": 0.006803864613175392,
+            "mean_seconds_per_batched_step": 0.0002267954871058464,
+            "mean_seconds_per_env_step": 7.0873589720577e-06,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.502206241711974,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.006708336994051933,
+            "mean_seconds_per_batched_step": 0.00022361123313506445,
+            "mean_seconds_per_env_step": 6.987851035470764e-06,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.5258033610880375,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.006826590746641159,
+            "mean_seconds_per_batched_step": 0.00022755302488803865,
+            "mean_seconds_per_env_step": 7.111032027751208e-06,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.5552758518606424,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.0166720449924469,
+            "mean_seconds_per_batched_step": 0.0005557348330815633,
+            "mean_seconds_per_env_step": 1.7366713533798852e-05,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.7711043749004602,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.00663275271654129,
+            "mean_seconds_per_batched_step": 0.00022109175721804302,
+            "mean_seconds_per_env_step": 6.909117413063844e-06,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.4631647020578384,
+            "final_done": true
+          }
+        },
+        "64": {
+          "softness_1": {
+            "total_seconds": 0.006954863667488098,
+            "mean_seconds_per_batched_step": 0.00023182878891626993,
+            "mean_seconds_per_env_step": 3.6223248268167177e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.514282139018178,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.0068991947919130325,
+            "mean_seconds_per_batched_step": 0.0002299731597304344,
+            "mean_seconds_per_env_step": 3.5933306207880376e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.5038689225912094,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.006968667730689049,
+            "mean_seconds_per_batched_step": 0.00023228892435630163,
+            "mean_seconds_per_env_step": 3.629514443067213e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.529684353619814,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.017833475023508072,
+            "mean_seconds_per_batched_step": 0.0005944491674502691,
+            "mean_seconds_per_env_step": 9.288268241410454e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.762127785012126,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.0046800412237644196,
+            "mean_seconds_per_batched_step": 0.00015600137412548066,
+            "mean_seconds_per_env_step": 2.4375214707106354e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.4193821232765913,
+            "final_done": true
+          }
+        },
+        "128": {
+          "softness_1": {
+            "total_seconds": 0.007744234055280685,
+            "mean_seconds_per_batched_step": 0.00025814113517602286,
+            "mean_seconds_per_env_step": 2.0167276185626786e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.648910889402032,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.00753367692232132,
+            "mean_seconds_per_batched_step": 0.0002511225640773773,
+            "mean_seconds_per_env_step": 1.9618950318545102e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.6138221472501755,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.007776293903589249,
+            "mean_seconds_per_batched_step": 0.0002592097967863083,
+            "mean_seconds_per_env_step": 2.0250765373930337e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.642402544617653,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.017957884818315506,
+            "mean_seconds_per_batched_step": 0.0005985961606105168,
+            "mean_seconds_per_env_step": 4.676532504769663e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.8835776317864656,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.007237385958433151,
+            "mean_seconds_per_batched_step": 0.00024124619861443837,
+            "mean_seconds_per_env_step": 1.8847359266752998e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.5155651438981295,
+            "final_done": true
+          }
+        }
+      }
+    },
+    {
+      "task_index": 1,
+      "task_number": 2,
+      "n": 6,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All",
+      "validation": {
+        "softness_1": {
+          "done": true,
+          "steps": 6,
+          "total_reward": -0.947698712348938,
+          "final_reward": 2.421438694000244e-07,
+          "final_value": 0.00553496927022934,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(0, 2)",
+            ".cx(1, 3)",
+            ".sqrt_xx(0, 4)",
+            ".cx(0, 3)",
+            ".sqrt_xx(1, 4)"
+          ],
+          "distance_stats": []
+        },
+        "softness_2": {
+          "done": true,
+          "steps": 6,
+          "total_reward": -0.8747986555099487,
+          "final_reward": 2.421438694000244e-07,
+          "final_value": 0.005534470081329346,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(0, 2)",
+            ".cx(1, 3)",
+            ".sqrt_xx(0, 4)",
+            ".cx(0, 3)",
+            ".sqrt_xx(1, 4)"
+          ],
+          "distance_stats": []
+        },
+        "softness_3": {
+          "done": true,
+          "steps": 6,
+          "total_reward": -0.8747986555099487,
+          "final_reward": 2.421438694000244e-07,
+          "final_value": 0.00553496927022934,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(0, 2)",
+            ".cx(1, 3)",
+            ".sqrt_xx(0, 4)",
+            ".cx(0, 3)",
+            ".sqrt_xx(1, 4)"
+          ],
+          "distance_stats": []
+        },
+        "gf2": {
+          "done": true,
+          "steps": 6,
+          "total_reward": -0.8747999668121338,
+          "final_reward": -0.0,
+          "final_value": 0.005534470081329346,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(0, 2)",
+            ".cx(1, 3)",
+            ".sqrt_xx(0, 4)",
+            ".cx(0, 3)",
+            ".sqrt_xx(1, 4)"
+          ],
+          "distance_stats": [
+            {
+              "d": 1,
+              "error_count": 0,
+              "total_count": 18,
+              "error_count_over_total": "0/18",
+              "error_rate": 0.0
+            },
+            {
+              "d": 2,
+              "error_count": 0,
+              "total_count": 135,
+              "error_count_over_total": "0/135",
+              "error_rate": 0.0
+            }
+          ]
+        },
+        "gf2_tableau": {
+          "done": true,
+          "steps": 6,
+          "total_reward": -0.8747999668121338,
+          "final_reward": -0.0,
+          "final_value": 0.00553496927022934,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(0, 2)",
+            ".cx(1, 3)",
+            ".sqrt_xx(0, 4)",
+            ".cx(0, 3)",
+            ".sqrt_xx(1, 4)"
+          ],
+          "distance_stats": [
+            {
+              "d": 1,
+              "error_count": 0,
+              "total_count": 18,
+              "error_count_over_total": "0/18",
+              "error_rate": 0.0
+            },
+            {
+              "d": 2,
+              "error_count": 0,
+              "total_count": 135,
+              "error_count_over_total": "0/135",
+              "error_rate": 0.0
+            }
+          ]
+        }
+      },
+      "timings": {
+        "8": {
+          "softness_1": {
+            "total_seconds": 0.0060691870748996735,
+            "mean_seconds_per_batched_step": 0.0002023062358299891,
+            "mean_seconds_per_env_step": 2.5288279478748638e-05,
+            "env_steps_per_run": 48,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.4625292290002108,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.006097111850976944,
+            "mean_seconds_per_batched_step": 0.00020323706169923146,
+            "mean_seconds_per_env_step": 2.5404632712403933e-05,
+            "env_steps_per_run": 48,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.4603566341102123,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.006822321563959122,
+            "mean_seconds_per_batched_step": 0.00022741071879863738,
+            "mean_seconds_per_env_step": 2.8426339849829673e-05,
+            "env_steps_per_run": 48,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.4648316595703363,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.019834307953715324,
+            "mean_seconds_per_batched_step": 0.0006611435984571775,
+            "mean_seconds_per_env_step": 8.264294980714718e-05,
+            "env_steps_per_run": 48,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.6778524704277515,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.005391208454966545,
+            "mean_seconds_per_batched_step": 0.00017970694849888484,
+            "mean_seconds_per_env_step": 2.2463368562360605e-05,
+            "env_steps_per_run": 48,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.364541184157133,
+            "final_done": true
+          }
+        },
+        "16": {
+          "softness_1": {
+            "total_seconds": 0.006019223481416702,
+            "mean_seconds_per_batched_step": 0.00020064078271389007,
+            "mean_seconds_per_env_step": 1.254004891961813e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.463834784924984,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.006385834887623787,
+            "mean_seconds_per_batched_step": 0.00021286116292079288,
+            "mean_seconds_per_env_step": 1.3303822682549555e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.4427243880927563,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.006378753110766411,
+            "mean_seconds_per_batched_step": 0.0002126251036922137,
+            "mean_seconds_per_env_step": 1.3289068980763356e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.459769545122981,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.019934628158807755,
+            "mean_seconds_per_batched_step": 0.0006644876052935918,
+            "mean_seconds_per_env_step": 4.153047533084949e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.9093317948281765,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.005869720131158829,
+            "mean_seconds_per_batched_step": 0.0001956573377052943,
+            "mean_seconds_per_env_step": 1.2228583606580894e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.391147820279002,
+            "final_done": true
+          }
+        },
+        "32": {
+          "softness_1": {
+            "total_seconds": 0.006396826356649399,
+            "mean_seconds_per_batched_step": 0.00021322754522164664,
+            "mean_seconds_per_env_step": 6.663360788176457e-06,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.462824337184429,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.0063967593014240265,
+            "mean_seconds_per_batched_step": 0.00021322531004746754,
+            "mean_seconds_per_env_step": 6.6632909389833605e-06,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.4841490034013987,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.007698617875576019,
+            "mean_seconds_per_batched_step": 0.00025662059585253397,
+            "mean_seconds_per_env_step": 8.019393620391687e-06,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.612572316080332,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.020744098350405693,
+            "mean_seconds_per_batched_step": 0.0006914699450135231,
+            "mean_seconds_per_env_step": 2.1608435781672596e-05,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.7978340834379196,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.005753381177783012,
+            "mean_seconds_per_batched_step": 0.00019177937259276707,
+            "mean_seconds_per_env_step": 5.993105393523971e-06,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.5482736825942993,
+            "final_done": true
+          }
+        },
+        "64": {
+          "softness_1": {
+            "total_seconds": 0.006894867867231369,
+            "mean_seconds_per_batched_step": 0.0002298289289077123,
+            "mean_seconds_per_env_step": 3.5910770141830045e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.49930801615119,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.006929773837327957,
+            "mean_seconds_per_batched_step": 0.00023099246124426523,
+            "mean_seconds_per_env_step": 3.6092572069416443e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.5196959115564823,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.007270514965057373,
+            "mean_seconds_per_batched_step": 0.00024235049883524577,
+            "mean_seconds_per_env_step": 3.786726544300715e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.550032503902912,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.02197778783738613,
+            "mean_seconds_per_batched_step": 0.000732592927912871,
+            "mean_seconds_per_env_step": 1.144676449863861e-05,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.776226583868265,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.006408998742699623,
+            "mean_seconds_per_batched_step": 0.00021363329142332077,
+            "mean_seconds_per_env_step": 3.338020178489387e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.367893187329173,
+            "final_done": true
+          }
+        },
+        "128": {
+          "softness_1": {
+            "total_seconds": 0.007391044870018959,
+            "mean_seconds_per_batched_step": 0.0002463681623339653,
+            "mean_seconds_per_env_step": 1.924751268234104e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.8152936436235905,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.007758293300867081,
+            "mean_seconds_per_batched_step": 0.0002586097766955694,
+            "mean_seconds_per_env_step": 2.020388880434136e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.884254079312086,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.00766507163643837,
+            "mean_seconds_per_batched_step": 0.00025550238788127897,
+            "mean_seconds_per_env_step": 1.996112405322492e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.889420010149479,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.021875467151403427,
+            "mean_seconds_per_batched_step": 0.0007291822383801142,
+            "mean_seconds_per_env_step": 5.6967362373446425e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 3.1002503987401724,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.0077207498252391815,
+            "mean_seconds_per_batched_step": 0.00025735832750797274,
+            "mean_seconds_per_env_step": 2.010611933656037e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.707584287971258,
+            "final_done": true
+          }
+        }
+      }
+    },
+    {
+      "task_index": 2,
+      "task_number": 3,
+      "n": 7,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All",
+      "validation": {
+        "softness_1": {
+          "done": true,
+          "steps": 7,
+          "total_reward": -0.9382297992706299,
+          "final_reward": -1.1548399925231934e-06,
+          "final_value": -0.00022336095571517944,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(0, 2)",
+            ".cx(1, 3)",
+            ".sqrt_xx(3, 4)",
+            ".sqrt_xx(1, 5)",
+            ".sqrt_xx(0, 5)",
+            ".cx(0, 6)"
+          ],
+          "distance_stats": []
+        },
+        "softness_2": {
+          "done": true,
+          "steps": 7,
+          "total_reward": -0.8070095777511597,
+          "final_reward": -1.1548399925231934e-06,
+          "final_value": -0.00022336095571517944,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(0, 2)",
+            ".cx(1, 3)",
+            ".sqrt_xx(3, 4)",
+            ".sqrt_xx(1, 5)",
+            ".sqrt_xx(0, 5)",
+            ".cx(0, 6)"
+          ],
+          "distance_stats": []
+        },
+        "softness_3": {
+          "done": true,
+          "steps": 7,
+          "total_reward": -0.8070095777511597,
+          "final_reward": -1.1548399925231934e-06,
+          "final_value": -0.00022336095571517944,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(0, 2)",
+            ".cx(1, 3)",
+            ".sqrt_xx(3, 4)",
+            ".sqrt_xx(1, 5)",
+            ".sqrt_xx(0, 5)",
+            ".cx(0, 6)"
+          ],
+          "distance_stats": []
+        },
+        "gf2": {
+          "done": true,
+          "steps": 7,
+          "total_reward": -0.8070030212402344,
+          "final_reward": -0.0,
+          "final_value": -0.00022336095571517944,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(0, 2)",
+            ".cx(1, 3)",
+            ".sqrt_xx(3, 4)",
+            ".sqrt_xx(1, 5)",
+            ".sqrt_xx(0, 5)",
+            ".cx(0, 6)"
+          ],
+          "distance_stats": [
+            {
+              "d": 1,
+              "error_count": 0,
+              "total_count": 21,
+              "error_count_over_total": "0/21",
+              "error_rate": 0.0
+            },
+            {
+              "d": 2,
+              "error_count": 0,
+              "total_count": 189,
+              "error_count_over_total": "0/189",
+              "error_rate": 0.0
+            }
+          ]
+        },
+        "gf2_tableau": {
+          "done": true,
+          "steps": 7,
+          "total_reward": -0.8070030212402344,
+          "final_reward": -0.0,
+          "final_value": -0.00022336095571517944,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(0, 2)",
+            ".cx(1, 3)",
+            ".sqrt_xx(3, 4)",
+            ".sqrt_xx(1, 5)",
+            ".sqrt_xx(0, 5)",
+            ".cx(0, 6)"
+          ],
+          "distance_stats": [
+            {
+              "d": 1,
+              "error_count": 0,
+              "total_count": 21,
+              "error_count_over_total": "0/21",
+              "error_rate": 0.0
+            },
+            {
+              "d": 2,
+              "error_count": 0,
+              "total_count": 189,
+              "error_count_over_total": "0/189",
+              "error_rate": 0.0
+            }
+          ]
+        }
+      },
+      "timings": {
+        "8": {
+          "softness_1": {
+            "total_seconds": 0.006140492856502533,
+            "mean_seconds_per_batched_step": 0.0001754426530429295,
+            "mean_seconds_per_env_step": 2.193033163036619e-05,
+            "env_steps_per_run": 56,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.4787892661988735,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.006703648716211319,
+            "mean_seconds_per_batched_step": 0.00019153282046318053,
+            "mean_seconds_per_env_step": 2.3941602557897566e-05,
+            "env_steps_per_run": 56,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.4759446773678064,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.006732411682605743,
+            "mean_seconds_per_batched_step": 0.00019235461950302125,
+            "mean_seconds_per_env_step": 2.4044327437877656e-05,
+            "env_steps_per_run": 56,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.491941936314106,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.02570592425763607,
+            "mean_seconds_per_batched_step": 0.000734454978789602,
+            "mean_seconds_per_env_step": 9.180687234870026e-05,
+            "env_steps_per_run": 56,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.666766731068492,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.0068801697343587875,
+            "mean_seconds_per_batched_step": 0.00019657627812453678,
+            "mean_seconds_per_env_step": 2.4572034765567098e-05,
+            "env_steps_per_run": 56,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.3423018027096987,
+            "final_done": true
+          }
+        },
+        "16": {
+          "softness_1": {
+            "total_seconds": 0.006737301126122475,
+            "mean_seconds_per_batched_step": 0.00019249431788921357,
+            "mean_seconds_per_env_step": 1.2030894868075848e-05,
+            "env_steps_per_run": 112,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.517511524260044,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.00693235918879509,
+            "mean_seconds_per_batched_step": 0.00019806740539414543,
+            "mean_seconds_per_env_step": 1.237921283713409e-05,
+            "env_steps_per_run": 112,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.4990378879010677,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.007072344422340393,
+            "mean_seconds_per_batched_step": 0.0002020669834954398,
+            "mean_seconds_per_env_step": 1.2629186468464988e-05,
+            "env_steps_per_run": 112,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.5093817841261625,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.026196299120783806,
+            "mean_seconds_per_batched_step": 0.0007484656891652516,
+            "mean_seconds_per_env_step": 4.6779105572828224e-05,
+            "env_steps_per_run": 112,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.774673528969288,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.006481057032942772,
+            "mean_seconds_per_batched_step": 0.0001851730580840792,
+            "mean_seconds_per_env_step": 1.157331613025495e-05,
+            "env_steps_per_run": 112,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.369903188198805,
+            "final_done": true
+          }
+        },
+        "32": {
+          "softness_1": {
+            "total_seconds": 0.006946554407477379,
+            "mean_seconds_per_batched_step": 0.00019847298307078224,
+            "mean_seconds_per_env_step": 6.202280720961945e-06,
+            "env_steps_per_run": 224,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.6719650626182556,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.007300103083252907,
+            "mean_seconds_per_batched_step": 0.00020857437380722592,
+            "mean_seconds_per_env_step": 6.51794918147581e-06,
+            "env_steps_per_run": 224,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.6336796805262566,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.008374424651265144,
+            "mean_seconds_per_batched_step": 0.0002392692757504327,
+            "mean_seconds_per_env_step": 7.477164867201022e-06,
+            "env_steps_per_run": 224,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.70897438749671,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.028007570654153824,
+            "mean_seconds_per_batched_step": 0.000800216304404395,
+            "mean_seconds_per_env_step": 2.5006759512637344e-05,
+            "env_steps_per_run": 224,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.9418967198580503,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.006653511896729469,
+            "mean_seconds_per_batched_step": 0.00019010033990655626,
+            "mean_seconds_per_env_step": 5.940635622079883e-06,
+            "env_steps_per_run": 224,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.5246278792619705,
+            "final_done": true
+          }
+        },
+        "64": {
+          "softness_1": {
+            "total_seconds": 0.007581789046525955,
+            "mean_seconds_per_batched_step": 0.00021662254418645585,
+            "mean_seconds_per_env_step": 3.3847272529133727e-06,
+            "env_steps_per_run": 448,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.5075671542435884,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.007985100150108337,
+            "mean_seconds_per_batched_step": 0.00022814571857452393,
+            "mean_seconds_per_env_step": 3.5647768527269364e-06,
+            "env_steps_per_run": 448,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.555411910638213,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.00785476341843605,
+            "mean_seconds_per_batched_step": 0.00022442181195531574,
+            "mean_seconds_per_env_step": 3.5065908118018084e-06,
+            "env_steps_per_run": 448,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.490098202601075,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.027532033622264862,
+            "mean_seconds_per_batched_step": 0.0007866295320647104,
+            "mean_seconds_per_env_step": 1.22910864385111e-05,
+            "env_steps_per_run": 448,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.767235364764929,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.008195165544748306,
+            "mean_seconds_per_batched_step": 0.00023414758699280875,
+            "mean_seconds_per_env_step": 3.6585560467626367e-06,
+            "env_steps_per_run": 448,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.346177477389574,
+            "final_done": true
+          }
+        },
+        "128": {
+          "softness_1": {
+            "total_seconds": 0.008067874237895012,
+            "mean_seconds_per_batched_step": 0.00023051069251128604,
+            "mean_seconds_per_env_step": 1.8008647852444222e-06,
+            "env_steps_per_run": 896,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.926731713116169,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.008072033524513245,
+            "mean_seconds_per_batched_step": 0.00023062952927180698,
+            "mean_seconds_per_env_step": 1.801793197435992e-06,
+            "env_steps_per_run": 896,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 3.0984726678580046,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.013112135231494904,
+            "mean_seconds_per_batched_step": 0.0003746324351855687,
+            "mean_seconds_per_env_step": 2.9268158998872554e-06,
+            "env_steps_per_run": 896,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.9667229000478983,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.028885971754789352,
+            "mean_seconds_per_batched_step": 0.0008253134787082672,
+            "mean_seconds_per_env_step": 6.4477615524083374e-06,
+            "env_steps_per_run": 896,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 3.186066122725606,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.008470818400382996,
+            "mean_seconds_per_batched_step": 0.00024202338286808558,
+            "mean_seconds_per_env_step": 1.8908076786569186e-06,
+            "env_steps_per_run": 896,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.779150066897273,
+            "final_done": true
+          }
+        }
+      }
+    },
+    {
+      "task_index": 3,
+      "task_number": 4,
+      "n": 8,
+      "k": 1,
+      "d": 3,
+      "graph": "All-to-All",
+      "validation": {
+        "softness_1": {
+          "done": true,
+          "steps": 7,
+          "total_reward": -0.9447877407073975,
+          "final_reward": -5.285255610942841e-07,
+          "final_value": -0.005803659558296204,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(1, 2)",
+            ".cx(0, 3)",
+            ".sqrt_xx(1, 4)",
+            ".sqrt_xx(2, 5)",
+            ".cx(0, 6)",
+            ".sqrt_xx(3, 7)"
+          ],
+          "distance_stats": []
+        },
+        "softness_2": {
+          "done": true,
+          "steps": 6,
+          "total_reward": -0.7322108149528503,
+          "final_reward": -6.705522537231445e-07,
+          "final_value": 0.0009757056832313538,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(1, 2)",
+            ".cx(0, 3)",
+            ".sqrt_xx(1, 4)",
+            ".sqrt_xx(2, 5)",
+            ".cx(0, 6)"
+          ],
+          "distance_stats": []
+        },
+        "softness_3": {
+          "done": true,
+          "steps": 6,
+          "total_reward": -0.7322108149528503,
+          "final_reward": -6.705522537231445e-07,
+          "final_value": 0.0009757056832313538,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(1, 2)",
+            ".cx(0, 3)",
+            ".sqrt_xx(1, 4)",
+            ".sqrt_xx(2, 5)",
+            ".cx(0, 6)"
+          ],
+          "distance_stats": []
+        },
+        "gf2": {
+          "done": true,
+          "steps": 6,
+          "total_reward": -0.7322075963020325,
+          "final_reward": -0.0,
+          "final_value": 0.0009757056832313538,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(1, 2)",
+            ".cx(0, 3)",
+            ".sqrt_xx(1, 4)",
+            ".sqrt_xx(2, 5)",
+            ".cx(0, 6)"
+          ],
+          "distance_stats": [
+            {
+              "d": 1,
+              "error_count": 0,
+              "total_count": 24,
+              "error_count_over_total": "0/24",
+              "error_rate": 0.0
+            },
+            {
+              "d": 2,
+              "error_count": 0,
+              "total_count": 252,
+              "error_count_over_total": "0/252",
+              "error_rate": 0.0
+            }
+          ]
+        },
+        "gf2_tableau": {
+          "done": true,
+          "steps": 6,
+          "total_reward": -0.7322075963020325,
+          "final_reward": -0.0,
+          "final_value": 0.0009757056832313538,
+          "gates": [
+            ".sqrt_xx(0, 1)",
+            ".cx(1, 2)",
+            ".cx(0, 3)",
+            ".sqrt_xx(1, 4)",
+            ".sqrt_xx(2, 5)",
+            ".cx(0, 6)"
+          ],
+          "distance_stats": [
+            {
+              "d": 1,
+              "error_count": 0,
+              "total_count": 24,
+              "error_count_over_total": "0/24",
+              "error_rate": 0.0
+            },
+            {
+              "d": 2,
+              "error_count": 0,
+              "total_count": 252,
+              "error_count_over_total": "0/252",
+              "error_rate": 0.0
+            }
+          ]
+        }
+      },
+      "timings": {
+        "8": {
+          "softness_1": {
+            "total_seconds": 0.007050050422549248,
+            "mean_seconds_per_batched_step": 0.00020143001207283565,
+            "mean_seconds_per_env_step": 2.5178751509104457e-05,
+            "env_steps_per_run": 56,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.5064699593931437,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.006917912513017654,
+            "mean_seconds_per_batched_step": 0.00023059708376725515,
+            "mean_seconds_per_env_step": 2.8824635470906894e-05,
+            "env_steps_per_run": 48,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.535060863941908,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.006692536175251007,
+            "mean_seconds_per_batched_step": 0.00022308453917503358,
+            "mean_seconds_per_env_step": 2.7885567396879198e-05,
+            "env_steps_per_run": 48,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.5223293639719486,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.025870431214571,
+            "mean_seconds_per_batched_step": 0.0008623477071523667,
+            "mean_seconds_per_env_step": 0.00010779346339404584,
+            "env_steps_per_run": 48,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.74637096747756,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.0059599727392196655,
+            "mean_seconds_per_batched_step": 0.00019866575797398885,
+            "mean_seconds_per_env_step": 2.4833219746748607e-05,
+            "env_steps_per_run": 48,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.408254511654377,
+            "final_done": true
+          }
+        },
+        "16": {
+          "softness_1": {
+            "total_seconds": 0.007078355178236961,
+            "mean_seconds_per_batched_step": 0.0002022387193781989,
+            "mean_seconds_per_env_step": 1.2639919961137431e-05,
+            "env_steps_per_run": 112,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.5224005933851004,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.0067364368587732315,
+            "mean_seconds_per_batched_step": 0.00022454789529244106,
+            "mean_seconds_per_env_step": 1.4034243455777566e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.526006553322077,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.006949830800294876,
+            "mean_seconds_per_batched_step": 0.00023166102667649587,
+            "mean_seconds_per_env_step": 1.4478814167280992e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.511901833117008,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.024668332189321518,
+            "mean_seconds_per_batched_step": 0.0008222777396440506,
+            "mean_seconds_per_env_step": 5.139235872775316e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.7556247636675835,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.006071120500564575,
+            "mean_seconds_per_batched_step": 0.0002023706833521525,
+            "mean_seconds_per_env_step": 1.2648167709509532e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.4453278686851263,
+            "final_done": true
+          }
+        },
+        "32": {
+          "softness_1": {
+            "total_seconds": 0.007545948028564453,
+            "mean_seconds_per_batched_step": 0.00021559851510184153,
+            "mean_seconds_per_env_step": 6.737453596932548e-06,
+            "env_steps_per_run": 224,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.670207943767309,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.007064526900649071,
+            "mean_seconds_per_batched_step": 0.0002354842300216357,
+            "mean_seconds_per_env_step": 7.358882188176115e-06,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.507331218570471,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.007466837763786316,
+            "mean_seconds_per_batched_step": 0.0002488945921262105,
+            "mean_seconds_per_env_step": 7.777956003944079e-06,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.4895109329372644,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.0261707603931427,
+            "mean_seconds_per_batched_step": 0.0008723586797714233,
+            "mean_seconds_per_env_step": 2.726120874285698e-05,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.9335452150553465,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.006466127932071686,
+            "mean_seconds_per_batched_step": 0.00021553759773572286,
+            "mean_seconds_per_env_step": 6.7355499292413395e-06,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.4164538867771626,
+            "final_done": true
+          }
+        },
+        "64": {
+          "softness_1": {
+            "total_seconds": 0.00791856087744236,
+            "mean_seconds_per_batched_step": 0.00022624459649835314,
+            "mean_seconds_per_env_step": 3.5350718202867678e-06,
+            "env_steps_per_run": 448,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.560925617814064,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.007767047733068466,
+            "mean_seconds_per_batched_step": 0.0002589015911022822,
+            "mean_seconds_per_env_step": 4.04533736097316e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.7305973432958126,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.008360026404261589,
+            "mean_seconds_per_batched_step": 0.00027866754680871964,
+            "mean_seconds_per_env_step": 4.354180418886244e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.747551530599594,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.027366450056433678,
+            "mean_seconds_per_batched_step": 0.0009122150018811226,
+            "mean_seconds_per_env_step": 1.425335940439254e-05,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.796684417873621,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.007080238312482834,
+            "mean_seconds_per_batched_step": 0.0002360079437494278,
+            "mean_seconds_per_env_step": 3.6876241210848094e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.6467477958649397,
+            "final_done": true
+          }
+        },
+        "128": {
+          "softness_1": {
+            "total_seconds": 0.01069612056016922,
+            "mean_seconds_per_batched_step": 0.00030560344457626344,
+            "mean_seconds_per_env_step": 2.387526910752058e-06,
+            "env_steps_per_run": 896,
+            "batched_steps_per_run": 7,
+            "repetitions": 5,
+            "warmup_seconds": 2.815220434218645,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.010429637506604195,
+            "mean_seconds_per_batched_step": 0.00034765458355347315,
+            "mean_seconds_per_env_step": 2.716051434011509e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.7900133840739727,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.012780187651515007,
+            "mean_seconds_per_batched_step": 0.00042600625505050024,
+            "mean_seconds_per_env_step": 3.328173867582033e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.7966253999620676,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.029850104823708534,
+            "mean_seconds_per_batched_step": 0.0009950034941236178,
+            "mean_seconds_per_env_step": 7.773464797840764e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 3.058475211262703,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.008769260719418526,
+            "mean_seconds_per_batched_step": 0.0002923086906472842,
+            "mean_seconds_per_env_step": 2.2836616456819076e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 6,
+            "repetitions": 5,
+            "warmup_seconds": 2.688361283391714,
+            "final_done": true
+          }
+        }
+      }
+    },
+    {
+      "task_index": 4,
+      "task_number": 5,
+      "n": 8,
+      "k": 2,
+      "d": 3,
+      "graph": "All-to-All",
+      "validation": {
+        "softness_1": {
+          "done": true,
+          "steps": 12,
+          "total_reward": -2.793020725250244,
+          "final_reward": -0.0,
+          "final_value": -0.017337996512651443,
+          "gates": [
+            ".sqrt_xx(0, 2)",
+            ".cx(0, 3)",
+            ".cx(1, 0)",
+            ".cx(2, 1)",
+            ".sqrt_xx(2, 4)",
+            ".sqrt_xx(0, 5)",
+            ".cx(1, 6)",
+            ".sqrt_xx(1, 4)",
+            ".cx(2, 7)",
+            ".sqrt_xx(5, 6)",
+            ".cx(0, 2)",
+            ".cx(1, 0)"
+          ],
+          "distance_stats": []
+        },
+        "softness_2": {
+          "done": true,
+          "steps": 12,
+          "total_reward": -2.6040635108947754,
+          "final_reward": -0.0,
+          "final_value": -0.017337996512651443,
+          "gates": [
+            ".sqrt_xx(0, 2)",
+            ".cx(0, 3)",
+            ".cx(1, 0)",
+            ".cx(2, 1)",
+            ".sqrt_xx(2, 4)",
+            ".sqrt_xx(0, 5)",
+            ".cx(1, 6)",
+            ".sqrt_xx(1, 4)",
+            ".cx(2, 7)",
+            ".sqrt_xx(5, 6)",
+            ".cx(0, 2)",
+            ".cx(1, 0)"
+          ],
+          "distance_stats": []
+        },
+        "softness_3": {
+          "done": true,
+          "steps": 12,
+          "total_reward": -2.6040635108947754,
+          "final_reward": -0.0,
+          "final_value": -0.017337996512651443,
+          "gates": [
+            ".sqrt_xx(0, 2)",
+            ".cx(0, 3)",
+            ".cx(1, 0)",
+            ".cx(2, 1)",
+            ".sqrt_xx(2, 4)",
+            ".sqrt_xx(0, 5)",
+            ".cx(1, 6)",
+            ".sqrt_xx(1, 4)",
+            ".cx(2, 7)",
+            ".sqrt_xx(5, 6)",
+            ".cx(0, 2)",
+            ".cx(1, 0)"
+          ],
+          "distance_stats": []
+        },
+        "gf2": {
+          "done": true,
+          "steps": 12,
+          "total_reward": -2.604060411453247,
+          "final_reward": -0.0,
+          "final_value": -0.017337996512651443,
+          "gates": [
+            ".sqrt_xx(0, 2)",
+            ".cx(0, 3)",
+            ".cx(1, 0)",
+            ".cx(2, 1)",
+            ".sqrt_xx(2, 4)",
+            ".sqrt_xx(0, 5)",
+            ".cx(1, 6)",
+            ".sqrt_xx(1, 4)",
+            ".cx(2, 7)",
+            ".sqrt_xx(5, 6)",
+            ".cx(0, 2)",
+            ".cx(1, 0)"
+          ],
+          "distance_stats": [
+            {
+              "d": 1,
+              "error_count": 0,
+              "total_count": 24,
+              "error_count_over_total": "0/24",
+              "error_rate": 0.0
+            },
+            {
+              "d": 2,
+              "error_count": 0,
+              "total_count": 252,
+              "error_count_over_total": "0/252",
+              "error_rate": 0.0
+            }
+          ]
+        },
+        "gf2_tableau": {
+          "done": true,
+          "steps": 12,
+          "total_reward": -2.604060411453247,
+          "final_reward": -0.0,
+          "final_value": -0.017337996512651443,
+          "gates": [
+            ".sqrt_xx(0, 2)",
+            ".cx(0, 3)",
+            ".cx(1, 0)",
+            ".cx(2, 1)",
+            ".sqrt_xx(2, 4)",
+            ".sqrt_xx(0, 5)",
+            ".cx(1, 6)",
+            ".sqrt_xx(1, 4)",
+            ".cx(2, 7)",
+            ".sqrt_xx(5, 6)",
+            ".cx(0, 2)",
+            ".cx(1, 0)"
+          ],
+          "distance_stats": [
+            {
+              "d": 1,
+              "error_count": 0,
+              "total_count": 24,
+              "error_count_over_total": "0/24",
+              "error_rate": 0.0
+            },
+            {
+              "d": 2,
+              "error_count": 0,
+              "total_count": 252,
+              "error_count_over_total": "0/252",
+              "error_rate": 0.0
+            }
+          ]
+        }
+      },
+      "timings": {
+        "8": {
+          "softness_1": {
+            "total_seconds": 0.009782351553440094,
+            "mean_seconds_per_batched_step": 0.0001630391925573349,
+            "mean_seconds_per_env_step": 2.0379899069666862e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.4536018818616867,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.009898275136947632,
+            "mean_seconds_per_batched_step": 0.00016497125228246052,
+            "mean_seconds_per_env_step": 2.0621406535307565e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.480092268437147,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.010122517123818398,
+            "mean_seconds_per_batched_step": 0.00016870861873030663,
+            "mean_seconds_per_env_step": 2.1088577341288328e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.4397486075758934,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.04472891800105572,
+            "mean_seconds_per_batched_step": 0.0007454819666842619,
+            "mean_seconds_per_env_step": 9.318524583553274e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.6823085881769657,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.00917498767375946,
+            "mean_seconds_per_batched_step": 0.00015291646122932433,
+            "mean_seconds_per_env_step": 1.911455765366554e-05,
+            "env_steps_per_run": 96,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.327505173161626,
+            "final_done": true
+          }
+        },
+        "16": {
+          "softness_1": {
+            "total_seconds": 0.010186037048697472,
+            "mean_seconds_per_batched_step": 0.00016976728414495786,
+            "mean_seconds_per_env_step": 1.0610455259059866e-05,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.4482161942869425,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.011047553271055222,
+            "mean_seconds_per_batched_step": 0.00018412588785092035,
+            "mean_seconds_per_env_step": 1.1507867990682522e-05,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.4634010661393404,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.01140221580862999,
+            "mean_seconds_per_batched_step": 0.00019003693014383317,
+            "mean_seconds_per_env_step": 1.1877308133989573e-05,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.4463121090084314,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.046186771243810654,
+            "mean_seconds_per_batched_step": 0.0007697795207301776,
+            "mean_seconds_per_env_step": 4.81112200456361e-05,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.665744248777628,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.009183911606669426,
+            "mean_seconds_per_batched_step": 0.00015306519344449043,
+            "mean_seconds_per_env_step": 9.566574590280652e-06,
+            "env_steps_per_run": 192,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.3518106173723936,
+            "final_done": true
+          }
+        },
+        "32": {
+          "softness_1": {
+            "total_seconds": 0.012071849778294563,
+            "mean_seconds_per_batched_step": 0.00020119749630490938,
+            "mean_seconds_per_env_step": 6.287421759528418e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.432212255895138,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.011454764753580093,
+            "mean_seconds_per_batched_step": 0.00019091274589300156,
+            "mean_seconds_per_env_step": 5.966023309156299e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.4118504393845797,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.010943630710244179,
+            "mean_seconds_per_batched_step": 0.0001823938451707363,
+            "mean_seconds_per_env_step": 5.69980766158551e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.451744431629777,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.04762859456241131,
+            "mean_seconds_per_batched_step": 0.0007938099093735218,
+            "mean_seconds_per_env_step": 2.4806559667922557e-05,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.6660878993570805,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.009989416226744652,
+            "mean_seconds_per_batched_step": 0.0001664902704457442,
+            "mean_seconds_per_env_step": 5.2028209514295065e-06,
+            "env_steps_per_run": 384,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.339780256152153,
+            "final_done": true
+          }
+        },
+        "64": {
+          "softness_1": {
+            "total_seconds": 0.011258663609623909,
+            "mean_seconds_per_batched_step": 0.00018764439349373181,
+            "mean_seconds_per_env_step": 2.9319436483395596e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.6760485507547855,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.01249246671795845,
+            "mean_seconds_per_batched_step": 0.00020820777863264083,
+            "mean_seconds_per_env_step": 3.253246541135013e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.6397327091544867,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.012961350381374359,
+            "mean_seconds_per_batched_step": 0.0002160225063562393,
+            "mean_seconds_per_env_step": 3.3753516618162393e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.686267049983144,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.049481101334095,
+            "mean_seconds_per_batched_step": 0.0008246850222349167,
+            "mean_seconds_per_env_step": 1.2885703472420574e-05,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.6887961011379957,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.011561116203665733,
+            "mean_seconds_per_batched_step": 0.00019268527006109556,
+            "mean_seconds_per_env_step": 3.010707344704618e-06,
+            "env_steps_per_run": 768,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.543315762653947,
+            "final_done": true
+          }
+        },
+        "128": {
+          "softness_1": {
+            "total_seconds": 0.01487821340560913,
+            "mean_seconds_per_batched_step": 0.00024797022342681885,
+            "mean_seconds_per_env_step": 1.9372673705220222e-06,
+            "env_steps_per_run": 1536,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.7885440811514854,
+            "final_done": true
+          },
+          "softness_2": {
+            "total_seconds": 0.01600857824087143,
+            "mean_seconds_per_batched_step": 0.0002668096373478572,
+            "mean_seconds_per_env_step": 2.084450291780134e-06,
+            "env_steps_per_run": 1536,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.7429398261010647,
+            "final_done": true
+          },
+          "softness_3": {
+            "total_seconds": 0.017685528844594955,
+            "mean_seconds_per_batched_step": 0.00029475881407658257,
+            "mean_seconds_per_env_step": 2.3028032349733013e-06,
+            "env_steps_per_run": 1536,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.7511241622269154,
+            "final_done": true
+          },
+          "gf2": {
+            "total_seconds": 0.053746167570352554,
+            "mean_seconds_per_batched_step": 0.0008957694595058759,
+            "mean_seconds_per_env_step": 6.998198902389655e-06,
+            "env_steps_per_run": 1536,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.9833114445209503,
+            "final_done": true
+          },
+          "gf2_tableau": {
+            "total_seconds": 0.014321370050311089,
+            "mean_seconds_per_batched_step": 0.00023868950083851814,
+            "mean_seconds_per_env_step": 1.864761725300923e-06,
+            "env_steps_per_run": 1536,
+            "batched_steps_per_run": 12,
+            "repetitions": 5,
+            "warmup_seconds": 2.6409401521086693,
+            "final_done": true
+          }
+        }
+      }
+    }
+  ],
+  "totals": {
+    "8": {
+      "softness_1": {
+        "total_seconds": 0.03542190603911877,
+        "total_env_steps": 1520,
+        "total_batched_steps": 190,
+        "mean_seconds_per_env_step": 2.330388555205182e-05,
+        "mean_seconds_per_batched_step": 0.00018643108441641456,
+        "speedup_vs_gf2": 0.2625320964173153
+      },
+      "softness_2": {
+        "total_seconds": 0.03601088002324104,
+        "total_env_steps": 1480,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 2.4331675691379084e-05,
+        "mean_seconds_per_batched_step": 0.00019465340553103267,
+        "speedup_vs_gf2": 0.26689732099377134
+      },
+      "softness_3": {
+        "total_seconds": 0.03667546063661575,
+        "total_env_steps": 1480,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 2.4780716646361994e-05,
+        "mean_seconds_per_batched_step": 0.00019824573317089595,
+        "speedup_vs_gf2": 0.27182290973749634
+      },
+      "gf2": {
+        "total_seconds": 0.13492409698665142,
+        "total_env_steps": 1480,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 9.11649303963861e-05,
+        "mean_seconds_per_batched_step": 0.0007293194431710888,
+        "speedup_vs_gf2": 1.0
+      },
+      "gf2_tableau": {
+        "total_seconds": 0.033478111028671265,
+        "total_env_steps": 1480,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 2.2620345289642748e-05,
+        "mean_seconds_per_batched_step": 0.00018096276231714198,
+        "speedup_vs_gf2": 0.24812551483656317
+      }
+    },
+    "16": {
+      "softness_1": {
+        "total_seconds": 0.036534493789076805,
+        "total_env_steps": 3040,
+        "total_batched_steps": 190,
+        "mean_seconds_per_env_step": 1.2017925588512107e-05,
+        "mean_seconds_per_batched_step": 0.00019228680941619372,
+        "speedup_vs_gf2": 0.27268641350296846
+      },
+      "softness_2": {
+        "total_seconds": 0.038309091702103615,
+        "total_env_steps": 2960,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 1.294226071017014e-05,
+        "mean_seconds_per_batched_step": 0.00020707617136272224,
+        "speedup_vs_gf2": 0.2859316699750265
+      },
+      "softness_3": {
+        "total_seconds": 0.03921744413673878,
+        "total_env_steps": 2960,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 1.3249136532682019e-05,
+        "mean_seconds_per_batched_step": 0.0002119861845229123,
+        "speedup_vs_gf2": 0.29271143731017457
+      },
+      "gf2": {
+        "total_seconds": 0.13397988304495811,
+        "total_env_steps": 2960,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 4.526347400167504e-05,
+        "mean_seconds_per_batched_step": 0.0007242155840268006,
+        "speedup_vs_gf2": 1.0
+      },
+      "gf2_tableau": {
+        "total_seconds": 0.03377952612936497,
+        "total_env_steps": 2960,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 1.1412002070731407e-05,
+        "mean_seconds_per_batched_step": 0.00018259203313170252,
+        "speedup_vs_gf2": 0.2521238663720131
+      }
+    },
+    "32": {
+      "softness_1": {
+        "total_seconds": 0.039765043184161186,
+        "total_env_steps": 6080,
+        "total_batched_steps": 190,
+        "mean_seconds_per_env_step": 6.540303155289669e-06,
+        "mean_seconds_per_batched_step": 0.0002092897009692694,
+        "speedup_vs_gf2": 0.2856210790591818
+      },
+      "softness_2": {
+        "total_seconds": 0.03892449103295803,
+        "total_env_steps": 5920,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 6.575082944756424e-06,
+        "mean_seconds_per_batched_step": 0.00021040265423220557,
+        "speedup_vs_gf2": 0.27958363025470556
+      },
+      "softness_3": {
+        "total_seconds": 0.04131010174751282,
+        "total_env_steps": 5920,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 6.978057727620408e-06,
+        "mean_seconds_per_batched_step": 0.00022329784728385306,
+        "speedup_vs_gf2": 0.29671879853179384
+      },
+      "gf2": {
+        "total_seconds": 0.13922306895256042,
+        "total_env_steps": 5920,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 2.3517410296040614e-05,
+        "mean_seconds_per_batched_step": 0.0007525571294732996,
+        "speedup_vs_gf2": 1.0
+      },
+      "gf2_tableau": {
+        "total_seconds": 0.03549518994987011,
+        "total_env_steps": 5920,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 5.9958091131537345e-06,
+        "mean_seconds_per_batched_step": 0.0001918658916209195,
+        "speedup_vs_gf2": 0.2549519287063333
+      }
+    },
+    "64": {
+      "softness_1": {
+        "total_seconds": 0.04060874506831169,
+        "total_env_steps": 12160,
+        "total_batched_steps": 190,
+        "mean_seconds_per_env_step": 3.3395349562756327e-06,
+        "mean_seconds_per_batched_step": 0.0002137302372016405,
+        "speedup_vs_gf2": 0.28163191816366356
+      },
+      "softness_2": {
+        "total_seconds": 0.042073583230376244,
+        "total_env_steps": 11840,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 3.553512097160156e-06,
+        "mean_seconds_per_batched_step": 0.00022742477421824997,
+        "speedup_vs_gf2": 0.29179094131711475
+      },
+      "softness_3": {
+        "total_seconds": 0.04341532289981842,
+        "total_env_steps": 11840,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 3.6668347043765556e-06,
+        "mean_seconds_per_batched_step": 0.00023467742108009956,
+        "speedup_vs_gf2": 0.3010962452890947
+      },
+      "gf2": {
+        "total_seconds": 0.14419084787368774,
+        "total_env_steps": 11840,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 1.2178281070412817e-05,
+        "mean_seconds_per_batched_step": 0.0007794099885064203,
+        "speedup_vs_gf2": 1.0
+      },
+      "gf2_tableau": {
+        "total_seconds": 0.037925560027360916,
+        "total_env_steps": 11840,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 3.2031722996081854e-06,
+        "mean_seconds_per_batched_step": 0.00020500302717492387,
+        "speedup_vs_gf2": 0.2630233512503095
+      }
+    },
+    "128": {
+      "softness_1": {
+        "total_seconds": 0.04877748712897301,
+        "total_env_steps": 24320,
+        "total_batched_steps": 190,
+        "mean_seconds_per_env_step": 2.0056532536584295e-06,
+        "mean_seconds_per_batched_step": 0.000256723616468279,
+        "speedup_vs_gf2": 0.32023961020381914
+      },
+      "softness_2": {
+        "total_seconds": 0.04980221949517727,
+        "total_env_steps": 23680,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 2.103134269222013e-06,
+        "mean_seconds_per_batched_step": 0.0002692011864604177,
+        "speedup_vs_gf2": 0.3269673018671638
+      },
+      "softness_3": {
+        "total_seconds": 0.059019217267632484,
+        "total_env_steps": 23680,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 2.492365594072318e-06,
+        "mean_seconds_per_batched_step": 0.0003190227960412567,
+        "speedup_vs_gf2": 0.38747980358944495
+      },
+      "gf2": {
+        "total_seconds": 0.15231559611856937,
+        "total_env_steps": 23680,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 6.432246457709855e-06,
+        "mean_seconds_per_batched_step": 0.0008233275465868615,
+        "speedup_vs_gf2": 1.0
+      },
+      "gf2_tableau": {
+        "total_seconds": 0.04651958495378494,
+        "total_env_steps": 23680,
+        "total_batched_steps": 185,
+        "mean_seconds_per_env_step": 1.96450949973754e-06,
+        "mean_seconds_per_batched_step": 0.0002514572159664051,
+        "speedup_vs_gf2": 0.3054157692267572
+      }
+    }
+  }
+}
