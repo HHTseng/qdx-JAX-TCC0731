@@ -81,6 +81,7 @@ def run_validation(
                 gates,
                 task["d"],
                 softness=base_config.get("VALIDATION_SOFTNESS"),
+                kl_method=base_config.get("KL_METHOD", "existing"),
             )
             distance_stats_text = format_distance_stats(distance_stats)
         else:
