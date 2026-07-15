@@ -7,6 +7,7 @@ which_gates:
   - h
 graph: All-to-All
 softness: 1
+kl_method: gf2_tableau
 validation_softness: 3
 p_i: 0.9
 lambda: 10

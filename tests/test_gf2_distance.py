@@ -4,6 +4,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
+from qdx.envs.code_discovery import CodeDiscovery
 from qdx.gf2_distance import (
     gf2_rref,
     gf2_row_space_mask,
@@ -16,6 +17,7 @@ from qdx.gf2_distance import (
 )
 from qdx.runtime_cache import build_s_structure
 from qdx.simulators import TableauSimulator
+from qdx.simulators.clifford_gates import CliffordGates
 
 
 def check_matrix(*paulis):
@@ -34,6 +36,20 @@ def check_matrix(*paulis):
 
 
 class GF2DistanceTest(unittest.TestCase):
+    def test_code_discovery_gf2_and_tableau_rewards_match(self):
+        n_qubits = 5
+        gates = CliffordGates(n_qubits)
+        graph = [(source, target) for source in range(n_qubits) for target in range(n_qubits) if source != target]
+        common_kwargs = dict(n_qubits_physical=n_qubits, n_qubits_logical=1, code_distance=3, gates=[gates.h, gates.cx], graph=graph, max_steps=50, lbda=10.0, pI=0.9, softness=1)
+        gf2_env = CodeDiscovery(**common_kwargs, kl_method='gf2')
+        tableau_env = CodeDiscovery(**common_kwargs, kl_method='gf2_tableau')
+        _, initial_state = gf2_env.reset(jax.random.PRNGKey(0), None)
+        params = gf2_env.default_params
+        _, gf2_state, gf2_reward, _, _ = gf2_env.step_env(jax.random.PRNGKey(1), initial_state, 0, params)
+        _, tableau_state, tableau_reward, _, _ = tableau_env.step_env(jax.random.PRNGKey(1), initial_state, 0, params)
+        np.testing.assert_array_equal(np.asarray(gf2_state.tableau), np.asarray(tableau_state.tableau))
+        np.testing.assert_allclose(np.asarray(gf2_reward), np.asarray(tableau_reward), atol=1.0e-6)
+
     def test_jax_tableau_kl_matches_rref_and_reports_weight_rates(self):
         simulator = TableauSimulator(3)
         simulator.h(0)
