@@ -9,6 +9,7 @@ from itertools import combinations, product
 from math import comb
 from qdx.action_space import ACTION_SPACE_VERSION, build_action_specs
 from qdx.runtime_cache import (
+    build_exact_weight_error_operators,
     build_error_operators_upto,
     build_s_structure,
     load_or_build_array_bundle,
@@ -30,6 +31,8 @@ class EnvState:
     tableau: jnp.array
     time: int
     pending_action_mask: jnp.array
+    progress_score: float = 0.0
+    success: bool = False
 
 # We ignore this class   
 @struct.dataclass
@@ -119,6 +122,18 @@ class CodeDiscovery(environment.Environment):
         # Initialize error operators and probabilities
         self.E_mu, self.p_mu = self.error_operators()
         self.E_mu_Omega = self.E_mu @ self.Omega
+
+        # The progress verifier includes the target weight. The physical
+        # reward above intentionally keeps using weights 1..d-1.
+        self.distance_E_mu, self.distance_weights = self._cached_distance_error_operators(
+            self.n_qubits_physical, self.d
+        )
+        self.distance_p_mu = jnp.ones(
+            self.distance_E_mu.shape[0], dtype=jnp.float32
+        )
+        self.distance_weight_values = jnp.arange(
+            1, min(self.d, self.n_qubits_physical) + 1, dtype=jnp.int32
+        )
         
         # Initialize stabilizer group structure
         self.generate_S_structure(softness) # This generates self.S_struct
@@ -198,6 +213,26 @@ class CodeDiscovery(environment.Environment):
             jnp.asarray(arrays["error_ops"]),
             jnp.asarray(arrays["probabilities"]),
         )
+
+    @staticmethod
+    @lru_cache(maxsize=None)
+    def _cached_distance_error_operators(n_qubits_physical, target_distance):
+        """Build exact-weight Pauli operators through the target distance."""
+        max_weight = min(int(target_distance), int(n_qubits_physical))
+        operators = [
+            build_exact_weight_error_operators(n_qubits_physical, weight)
+            for weight in range(1, max_weight + 1)
+        ]
+        if not operators:
+            return (
+                jnp.zeros((0, 2 * n_qubits_physical), dtype=jnp.uint8),
+                jnp.zeros((0,), dtype=jnp.int32),
+            )
+        weights = np.concatenate([
+            np.full(len(error_operators), weight, dtype=np.int32)
+            for weight, error_operators in enumerate(operators, start=1)
+        ])
+        return jnp.asarray(np.concatenate(operators, axis=0)), jnp.asarray(weights)
 
     def stabilizer_elements(self, tableau):
         # Generate the S matrix by multiplying the S structure with the tableau
@@ -391,50 +426,109 @@ class CodeDiscovery(environment.Environment):
             - jnp.dot(self.p_mu, inS_per_error)
         )
     
+    def _distance_progress(self, tableau):
+        """Return SPEC V1.6 distance, frontier score, and success."""
+        check_matrix = tableau[self.n_qubits_physical + self.n_qubits_logical:]
+        result = jax_exact_gf2_kl(
+            check_matrix,
+            self.distance_E_mu,
+            self.distance_p_mu,
+            1.0,
+            error_weights=self.distance_weights,
+            weight_values=self.distance_weight_values,
+        )
+        violations_by_weight = result.error_count_by_weight > 0
+        has_violation = jnp.any(violations_by_weight)
+        first_index = jnp.argmax(violations_by_weight)
+        current_distance = jnp.where(
+            has_violation, first_index + 1, jnp.asarray(self.d, dtype=jnp.int32)
+        )
+        lookup_index = jnp.clip(
+            current_distance - 1,
+            0,
+            self.distance_weight_values.shape[0] - 1,
+        )
+        c_dt = result.error_count_by_weight[lookup_index]
+        m_dt = result.total_count_by_weight[lookup_index]
+        c_dt_float = c_dt.astype(jnp.float32)
+        m_dt_float = m_dt.astype(jnp.float32)
+        frontier_completion = 1.0 - (
+            jnp.log1p(c_dt_float) / jnp.log1p(m_dt_float)
+        )
+        denominator = jnp.maximum(jnp.asarray(self.d - 1, dtype=jnp.float32), 1.0)
+        progress_score = jnp.where(
+            ~has_violation,
+            1.0,
+            (current_distance.astype(jnp.float32) - 1.0 + frontier_completion)
+            / denominator,
+        )
+        return progress_score, current_distance, c_dt, ~has_violation
+
     def step_env(
         self, key: chex.PRNGKey, state: EnvState, action: int, params: EnvParams
     ) -> Tuple[chex.Array, EnvState, float, bool, dict]:
-        """Performs step transitions in the environment."""
-        
-        prev_terminal = self.is_terminal(state, params)
-        
-        # Update state
+        """Apply one action and compute the SPEC V1.6 reward."""
+        new_tableau = (state.tableau @ self.actions[action]) % 2
         new_pending_action_mask = self.update_pending_action_mask(
             state.pending_action_mask,
             action,
         )
-        state = EnvState(
-            (state.tableau @ self.actions[action]) % 2,
-            state.time + 1,
-            new_pending_action_mask,
-        )
-        
-        # Update KLs
-        reward = -self.check_KL(state) 
 
-        # Evaluate termination conditions
-        done = self.is_terminal(state, params)
+        # Keep the existing physical-error reward as the base signal.
+        physical_reward = -self.check_KL(
+            EnvState(
+                tableau=new_tableau,
+                time=state.time + 1,
+                pending_action_mask=new_pending_action_mask,
+            )
+        )
+        progress_score, current_distance, c_dt, success = self._distance_progress(
+            new_tableau
+        )
+        progress_delta = 0.1 * (progress_score - state.progress_score)
+        success_bonus = jnp.where(success & ~state.success, 1.0, 0.0)
+        reward = physical_reward + progress_delta + success_bonus
+
+        next_state = EnvState(
+            tableau=new_tableau,
+            time=state.time + 1,
+            pending_action_mask=new_pending_action_mask,
+            progress_score=progress_score,
+            success=success,
+        )
+        done = self.is_terminal(next_state, params)
 
         return (
-            lax.stop_gradient(self.get_obs(state)),
-            lax.stop_gradient(state),
+            lax.stop_gradient(self.get_obs(next_state)),
+            lax.stop_gradient(next_state),
             reward,
             done,
-            {"discount": self.discount(state, params)},
+            {
+                "discount": self.discount(next_state, params),
+                "physical_reward": physical_reward,
+                "progress_score": progress_score,
+                "progress_delta": progress_delta,
+                "distance": current_distance,
+                "violations_at_distance": c_dt,
+                "success_bonus": success_bonus,
+            },
         )
 
     def reset_env(
         self, key: chex.PRNGKey, params: EnvParams
     ) -> Tuple[chex.Array, EnvState]:
-        """Performs resetting of environment."""
-        
+        """Reset and initialize P_0 from the initial circuit state."""
         tableau = TableauSimulator(self.n_qubits_physical)
         init_state = tableau.current_tableau[0]
-        
+        progress_score, _distance, _violations, success = self._distance_progress(
+            init_state
+        )
         state = EnvState(
             tableau=init_state,
             time=0,
             pending_action_mask=jnp.zeros(self.max_actions, dtype=bool),
+            progress_score=progress_score,
+            success=success,
         )
         return self.get_obs(state), state
 
@@ -445,8 +539,8 @@ class CodeDiscovery(environment.Environment):
 
     def is_terminal(self, state: EnvState, params: EnvParams) -> bool:
         """Check whether state is terminal."""
-        # Check termination criteria
-        done_encoding = self.num_KL == 0 # self.threshold
+        # Success is computed by the exact GF(2) verifier in step_env.
+        done_encoding = state.success
         
         # Check number of steps in episode termination condition
         done_steps = state.time >= self.max_steps
