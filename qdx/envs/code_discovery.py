@@ -9,7 +9,6 @@ from itertools import combinations, product
 from math import comb
 from qdx.action_space import ACTION_SPACE_VERSION, build_action_specs
 from qdx.runtime_cache import (
-    build_exact_weight_error_operators,
     build_error_operators_upto,
     build_s_structure,
     load_or_build_array_bundle,
@@ -123,16 +122,13 @@ class CodeDiscovery(environment.Environment):
         self.E_mu, self.p_mu = self.error_operators()
         self.E_mu_Omega = self.E_mu @ self.Omega
 
-        # The progress verifier includes the target weight. The physical
-        # reward above intentionally keeps using weights 1..d-1.
-        self.distance_E_mu, self.distance_weights = self._cached_distance_error_operators(
+        # The progress verifier uses the same weight-1..D-1 operators as
+        # the physical-error reward.
+        self.error_weights = self._cached_error_weights(
             self.n_qubits_physical, self.d
         )
-        self.distance_p_mu = jnp.ones(
-            self.distance_E_mu.shape[0], dtype=jnp.float32
-        )
-        self.distance_weight_values = jnp.arange(
-            1, min(self.d, self.n_qubits_physical) + 1, dtype=jnp.int32
+        self.weight_values = jnp.arange(
+            1, min(self.d - 1, self.n_qubits_physical) + 1, dtype=jnp.int32
         )
         
         # Initialize stabilizer group structure
@@ -216,23 +212,20 @@ class CodeDiscovery(environment.Environment):
 
     @staticmethod
     @lru_cache(maxsize=None)
-    def _cached_distance_error_operators(n_qubits_physical, target_distance):
-        """Build exact-weight Pauli operators through the target distance."""
-        max_weight = min(int(target_distance), int(n_qubits_physical))
-        operators = [
-            build_exact_weight_error_operators(n_qubits_physical, weight)
-            for weight in range(1, max_weight + 1)
-        ]
-        if not operators:
-            return (
-                jnp.zeros((0, 2 * n_qubits_physical), dtype=jnp.uint8),
-                jnp.zeros((0,), dtype=jnp.int32),
-            )
-        weights = np.concatenate([
-            np.full(len(error_operators), weight, dtype=np.int32)
-            for weight, error_operators in enumerate(operators, start=1)
-        ])
-        return jnp.asarray(np.concatenate(operators, axis=0)), jnp.asarray(weights)
+    def _cached_error_weights(n_qubits_physical, code_distance):
+        max_weight = min(int(code_distance) - 1, int(n_qubits_physical))
+        if max_weight < 1:
+            return jnp.zeros((0,), dtype=jnp.int32)
+        return jnp.asarray(
+            np.concatenate([
+                np.full(
+                    comb(n_qubits_physical, weight) * (3 ** weight),
+                    weight,
+                    dtype=np.int32,
+                )
+                for weight in range(1, max_weight + 1)
+            ])
+        )
 
     def stabilizer_elements(self, tableau):
         # Generate the S matrix by multiplying the S structure with the tableau
@@ -426,17 +419,29 @@ class CodeDiscovery(environment.Environment):
             - jnp.dot(self.p_mu, inS_per_error)
         )
     
-    def _distance_progress(self, tableau):
-        """Return SPEC V1.6 distance, frontier score, and success."""
-        check_matrix = tableau[self.n_qubits_physical + self.n_qubits_logical:]
-        result = jax_exact_gf2_kl(
-            check_matrix,
-            self.distance_E_mu,
-            self.distance_p_mu,
-            1.0,
-            error_weights=self.distance_weights,
-            weight_values=self.distance_weight_values,
+    def _tableau_reward_result(self, tableau):
+        return jax_tableau_kl(
+            tableau,
+            self.n_qubits_logical,
+            self.E_mu,
+            self.p_mu,
+            self.lbda,
+            error_weights=self.error_weights,
+            weight_values=self.weight_values,
         )
+
+    def _distance_progress(self, tableau, result=None):
+        """Return SPEC V1.6 distance, frontier score, and success."""
+        if result is None:
+            result = self._tableau_reward_result(tableau)
+        if self.weight_values.shape[0] == 0:
+            return (
+                jnp.asarray(1.0, dtype=jnp.float32),
+                jnp.asarray(self.d, dtype=jnp.int32),
+                jnp.asarray(0, dtype=jnp.int32),
+                jnp.asarray(True),
+            )
+
         violations_by_weight = result.error_count_by_weight > 0
         has_violation = jnp.any(violations_by_weight)
         first_index = jnp.argmax(violations_by_weight)
@@ -446,14 +451,17 @@ class CodeDiscovery(environment.Environment):
         lookup_index = jnp.clip(
             current_distance - 1,
             0,
-            self.distance_weight_values.shape[0] - 1,
+            self.weight_values.shape[0] - 1,
         )
-        c_dt = result.error_count_by_weight[lookup_index]
-        m_dt = result.total_count_by_weight[lookup_index]
-        c_dt_float = c_dt.astype(jnp.float32)
-        m_dt_float = m_dt.astype(jnp.float32)
+        c_dt = jnp.where(
+            has_violation, result.error_count_by_weight[lookup_index], 0
+        )
+        m_dt = jnp.where(
+            has_violation, result.total_count_by_weight[lookup_index], 1
+        )
         frontier_completion = 1.0 - (
-            jnp.log1p(c_dt_float) / jnp.log1p(m_dt_float)
+            jnp.log1p(c_dt.astype(jnp.float32))
+            / jnp.log1p(m_dt.astype(jnp.float32))
         )
         denominator = jnp.maximum(jnp.asarray(self.d - 1, dtype=jnp.float32), 1.0)
         progress_score = jnp.where(
@@ -474,16 +482,23 @@ class CodeDiscovery(environment.Environment):
             action,
         )
 
-        # Keep the existing physical-error reward as the base signal.
-        physical_reward = -self.check_KL(
-            EnvState(
-                tableau=new_tableau,
-                time=state.time + 1,
-                pending_action_mask=new_pending_action_mask,
+        # The tableau verifier provides both physical and per-weight
+        # logical-error information in one call for the fast path.
+        reward_result = None
+        if self.kl_method == "gf2_tableau":
+            reward_result = self._tableau_reward_result(new_tableau)
+            self.num_KL = reward_result.error_count
+            physical_reward = -reward_result.error_cost
+        else:
+            physical_reward = -self.check_KL(
+                EnvState(
+                    tableau=new_tableau,
+                    time=state.time + 1,
+                    pending_action_mask=new_pending_action_mask,
+                )
             )
-        )
         progress_score, current_distance, c_dt, success = self._distance_progress(
-            new_tableau
+            new_tableau, reward_result
         )
         progress_delta = 0.1 * (progress_score - state.progress_score)
         success_bonus = jnp.where(success & ~state.success, 1.0, 0.0)
@@ -520,8 +535,9 @@ class CodeDiscovery(environment.Environment):
         """Reset and initialize P_0 from the initial circuit state."""
         tableau = TableauSimulator(self.n_qubits_physical)
         init_state = tableau.current_tableau[0]
+        initial_result = self._tableau_reward_result(init_state)
         progress_score, _distance, _violations, success = self._distance_progress(
-            init_state
+            init_state, initial_result
         )
         state = EnvState(
             tableau=init_state,
